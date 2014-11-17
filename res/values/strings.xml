@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">TwitterClient</string>
-    <string name="hello_world">さようなら</string>
+    <string name="hello_world">こんちは</string>
     <string name="action_settings">Settings</string>
 
 </resources>
