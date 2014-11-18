@@ -4,7 +4,6 @@ package ncs2014.s06.twitterclient;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.animation.Animation;
@@ -64,16 +63,6 @@ public class Twitter_home extends Activity {
 	}
 
 
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
-		//メニューアイテム追加
-		menu.add(Menu.NONE,MENU_A,Menu.NONE,"まっさｎ");
-		menu.add(Menu.NONE,MENU_B,Menu.NONE,"ユーザ画面");
-		menu.add(Menu.NONE,MENU_C,Menu.NONE,"設定");
-		return true;
-	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
