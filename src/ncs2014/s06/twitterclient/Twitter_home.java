@@ -77,14 +77,14 @@ public class Twitter_home extends Activity implements OnClickListener{
 			if(v == bt1){
 				intent.setClass(getApplicationContext(), Twitter_user.class);
 				startActivity(intent);
-				overridePendingTransition(R.anim.right_in, R.anim.left_in);
+				overridePendingTransition(R.anim.right_in, R.anim.left_out);
 			}//if
 
 			//ツイート画面
 			if(v == bt2){
 				intent.setClass(getApplicationContext(), Twitter_tuito.class);
 				startActivity(intent);
-				overridePendingTransition(R.anim.right_in, R.anim.left_in);
+				overridePendingTransition(R.anim.right_in, R.anim.left_out);
 
 			}//if
 
