@@ -17,55 +17,26 @@
 
         <ListView
             android:id="@+id/listview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_width="281dp"
+            android:layout_height="314dp" >
         </ListView>
-
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/bt1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/linearLayout1"
-        android:layout_alignParentTop="true" >
+        android:layout_alignParentTop="true"
+        android:text="ユーザ画面へ" />
 
-        <ImageButton
-            android:id="@+id/ImageButton01"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:background="@null"
-            android:scaleType="fitXY"
-            android:src="@drawable/massan" />
-
-        <ImageButton
-            android:id="@+id/ImageButton04"
-            android:layout_width="47dp"
-            android:layout_height="42dp"
-            android:background="@null"
-            android:src="@drawable/ic_launcher" />
-
-        <ImageButton
-            android:id="@+id/ImageButton03"
-            android:layout_width="47dp"
-            android:layout_height="42dp"
-            android:background="@null"
-            android:src="@drawable/ic_launcher" />
-
-        <ImageButton
-            android:id="@+id/ImageButton02"
-            android:layout_width="47dp"
-            android:layout_height="42dp"
-            android:background="@null"
-            android:src="@drawable/ic_launcher" />
-
-        <ImageButton
-            android:id="@+id/imageButton1"
-            android:layout_width="47dp"
-            android:layout_height="42dp"
-            android:background="@null"
-            android:src="@drawable/ic_launcher" />
-
-    </LinearLayout>
+    <Button
+        android:id="@+id/bt2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/bt1"
+        android:layout_alignBottom="@+id/bt1"
+        android:layout_toRightOf="@+id/bt1"
+        android:text="ツイート画面へ" />
 
 </RelativeLayout>
