@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">TwitterClient</string>
-    <string name="hello_world">こんちわ</string>
+    <string name="app_name">Twitter</string>
+    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-
+    <string name="twitter_consumer_key">irnEXcIylpdaiO91qS8xQbV1J</string>
+    <string name="twitter_consumer_secret">1aFTk1YLNASB3lRcENcJZQca5T1PCv5nvKdyDgNmZfmWZ8104r</string>
+    <string name="twitter_callback_url">gabu://twitter</string>
+    <string name="twitter_oauth">認証開始（・。・）</string>
 </resources>
