@@ -38,13 +38,8 @@ public class Twitter_home extends Activity implements OnClickListener{
 		@Override
 		protected void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
-			setContentView(R.layout.twitterhome);
+			setContentView(R.layout.twitter_home);
 
-			//findView
-			ViewFlipper flipper = (ViewFlipper) findViewById(R.id.flipper);
-			bt1_to2 = (Button) findViewById(R.id.bt1_to2);
-			bt2_to3 = (Button) findViewById(R.id.bt2_to3);
-			bt3_to1 = (Button) findViewById(R.id.bt3_to1);
 
 			//リスナー追加
 			bt1_to2.setOnClickListener(this);
@@ -94,23 +89,8 @@ public class Twitter_home extends Activity implements OnClickListener{
 
 		@Override
 		public void onClick(View v) {
-			ViewFlipper flipper = (ViewFlipper) findViewById(R.id.flipper);
 			Animation slideInFromLeft = AnimationUtils.loadAnimation(this,R.anim.left_in);
 		    Animation slideInFromRight = AnimationUtils.loadAnimation(this,R.anim.right_out);
-		    flipper.setInAnimation(slideInFromLeft);
-		    flipper.setInAnimation(slideInFromRight);
-
-			if(v == bt1_to2){
-			    flipper.showNext(); //次のページへ
-			}//if
-
-			if(v == bt2_to3){
-			    flipper.showNext(); //次のページへ
-			}//if
-
-			if(v == bt3_to1){
-			    flipper.showNext(); //次のページへ
-			}//if
 
 
 
