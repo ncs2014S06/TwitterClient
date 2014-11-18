@@ -1,8 +1,9 @@
 package ncs2014.s06.twitterclient;
 
+
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -10,7 +11,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ViewFlipper;
 
-public class Twitter_home extends ActionBarActivity {
+public class Twitter_home extends Activity {
 
 	//メニューアイテム識別ID
 	private static final int MENU_A = 0;

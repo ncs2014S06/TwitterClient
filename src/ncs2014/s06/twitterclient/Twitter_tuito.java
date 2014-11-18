@@ -1,11 +1,11 @@
 package ncs2014.s06.twitterclient;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class Twitter_tuito extends ActionBarActivity {
+public class Twitter_tuito extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
