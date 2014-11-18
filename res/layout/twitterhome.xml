@@ -3,11 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"  >
 
-    <ViewFlipper
+<ViewFlipper
         android:id="@+id/flipper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <!-- 第1画面 -->
 	    <LinearLayout
 	        android:id="@+id/linearLayout1"
 	        android:layout_width="wrap_content"
@@ -16,17 +17,20 @@
 	        android:orientation="vertical" >
 
 	        <Button
-	            android:id="@+id/Bt1twitter"
+	            android:id="@+id/bt1_to2"
 	            android:layout_width="107dp"
 	            android:layout_height="wrap_content"
-	            android:text="ツイート画面へ" />
+	            android:text="だい２画面へ" />
 
 	        <ListView
 	            android:id="@+id/listview"
 	            android:layout_width="match_parent"
 	            android:layout_height="wrap_content" >
 	        </ListView>
+
 	    </LinearLayout>
+
+		<!-- 第2画面 -->
 
 
 	    <LinearLayout
@@ -37,25 +41,43 @@
 	        android:layout_alignParentTop="true"
 	        android:orientation="vertical" >
 
-	    	<ImageView
-		        android:id="@+id/imageView1"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_below="@+id/linearLayout1"
-		        android:layout_toRightOf="@+id/linearLayout1"
-		        android:src="@drawable/ic_launcher" />
+	    	<TextView
+	    	    android:id="@+id/textView1"
+	    	    android:layout_width="wrap_content"
+	    	    android:layout_height="wrap_content"
+	    	    android:text="だいにがめん" />
 
-	    	<ListView
-		        android:id="@+id/aaa"
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
-		        android:layout_alignLeft="@+id/imageView1"
-		        android:layout_below="@+id/imageView1" >
-	    	</ListView>
+	    	<Button
+	            android:id="@+id/bt2_to3"
+	            android:layout_width="107dp"
+	            android:layout_height="wrap_content"
+	            android:text="だいさんがめん" />
 		</LinearLayout>
 
+	    <!-- 第3画面 -->
+	    <LinearLayout
+	        android:id="@+id/linearLayout3"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentTop="true"
+	        android:orientation="vertical" >
+
+	    	<TextView
+	    	    android:id="@+id/textView2"
+	    	    android:layout_width="wrap_content"
+	    	    android:layout_height="wrap_content"
+	    	    android:text="だいさんがめん" />
+
+	    	<Button
+	            android:id="@+id/bt3_to1"
+	            android:layout_width="107dp"
+	            android:layout_height="wrap_content"
+	            android:text="だいいちがめん" />
+		</LinearLayout>
 
     </ViewFlipper>
+
 
 </RelativeLayout>
 
