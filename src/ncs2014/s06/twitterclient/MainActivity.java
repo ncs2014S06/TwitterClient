@@ -6,17 +6,19 @@ import android.os.Bundle;
 
 public class MainActivity extends Activity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.twitter_home);
+	String s;
 
-        if (!TwitterUtils.hasAccessToken(this)) {
-            Intent intent = new Intent(this, TwitterOAuthActivity.class);
-            startActivity(intent);
-            finish();
-        }
-    }
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.twitter_home);
 
+
+		if (!TwitterUtils.hasAccessToken(this)) {
+			Intent intent = new Intent(this, TwitterOAuthActivity.class);
+			startActivity(intent);
+			finish();
+			}
+		}
 
 }
