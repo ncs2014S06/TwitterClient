@@ -15,6 +15,10 @@
         android:label="@string/app_name" >
 
         <activity
+    	android:name=".TweetTest"
+    	android:windowSoftInputMode="adjustResize" />
+
+        <activity
             	android:name=".Twitter_tuito"
             	android:label="@string/app_name">
         </activity>
