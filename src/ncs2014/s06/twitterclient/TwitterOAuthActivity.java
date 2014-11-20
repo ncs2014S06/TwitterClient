@@ -109,7 +109,7 @@ public class TwitterOAuthActivity extends Activity {
 
     private void successOAuth(AccessToken accessToken) {
         TwitterUtils.storeAccessToken(this, accessToken);
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, Twitter_home.class);
         startActivity(intent);
         finish();
     }
