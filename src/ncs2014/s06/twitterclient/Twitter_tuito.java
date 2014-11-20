@@ -16,7 +16,7 @@ public class Twitter_tuito extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.test_tweet);
+        setContentView(R.layout.twitter_tweet);
 
         mTwitter = TwitterUtils.getTwitterInstance(this);
 
