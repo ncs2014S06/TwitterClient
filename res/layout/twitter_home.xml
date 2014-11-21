@@ -16,7 +16,7 @@
         android:orientation="vertical" >
 
         <ListView
-            android:id="@+id/listview"
+            android:id="@+id/tllist"
             android:layout_width="281dp"
             android:layout_height="314dp" >
         </ListView>
