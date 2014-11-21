@@ -1,7 +1,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/neet"
     android:padding="8dp" >
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/massan" />
 
     <Button
         android:id="@+id/action_tweet"
@@ -9,6 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:background="@drawable/blee"
         android:text="つぶやく" />
 
     <EditText
@@ -16,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/action_tweet"
+        android:layout_below="@+id/imageView1"
         android:layout_marginBottom="8dp"
         android:ems="10"
         android:gravity="left|top"
