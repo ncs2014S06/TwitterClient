@@ -17,8 +17,8 @@
 
         <ListView
             android:id="@+id/tllist"
-            android:layout_width="281dp"
-            android:layout_height="314dp" >
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
         </ListView>
 
     </LinearLayout>
