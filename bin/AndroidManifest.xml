@@ -47,6 +47,7 @@
             </intent-filter>
         </activity>
 <activity android:name="TweetTest"></activity>
+<activity android:name="Twitter_Client_DM"></activity>
 
 
 

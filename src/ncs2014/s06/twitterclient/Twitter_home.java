@@ -145,7 +145,7 @@ public class Twitter_home extends Activity implements OnClickListener{
 
 		//ツイート画面
 		if(v == bt2){
-			intent.setClass(getApplicationContext(), Twitter_tuito.class);
+			intent.setClass(getApplicationContext(), Twitter_Client_DM.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.right_in, R.anim.left_out);
 
