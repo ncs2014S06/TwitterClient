@@ -20,23 +20,30 @@
             android:layout_width="281dp"
             android:layout_height="314dp" >
         </ListView>
+
     </LinearLayout>
 
-    <Button
-        android:id="@+id/bt1"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/linearLayout1"
-        android:layout_alignParentTop="true"
-        android:text="ユーザ画面へ" />
+        android:layout_alignLeft="@+id/linearLayout1" >
 
-    <Button
-        android:id="@+id/bt2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/bt1"
-        android:layout_alignBottom="@+id/bt1"
-        android:layout_toRightOf="@+id/bt1"
-        android:text="ツイート画面へ" />
+        <Button
+            android:id="@+id/bt1"
+            android:layout_width="0dp"
+             android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_button"
+            android:text="ユーザ画面へ" />
+
+        <Button
+            android:id="@+id/bt2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/shape_button"
+            android:text="ツイート画面へ" />
+
+    </LinearLayout>
 
 </RelativeLayout>
