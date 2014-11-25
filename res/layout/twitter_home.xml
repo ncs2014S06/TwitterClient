@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:background="@drawable/neet"
+    android:background="@android:color/black"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
@@ -34,8 +34,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/blee"
-            android:text="ユーザ画面へ" />
+            android:background="@drawable/shape_button"
+            android:textColor="@android:color/white"
+            android:text="ユーザ画面" />
 
         <Button
             android:id="@+id/space"
@@ -49,8 +50,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/blee"
-            android:text="ツイート画面へ" />
+            android:background="@drawable/shape_button"
+            android:text="ツイート画面"
+            android:textColor="@android:color/white" />
 
     </LinearLayout>
 

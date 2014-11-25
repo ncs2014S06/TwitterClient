@@ -7,7 +7,7 @@
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/neet"
+    android:background="@android:color/black"
     android:padding="8dp" >
 
     <ImageView
@@ -22,7 +22,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/blee"
+        android:background="@drawable/shape_button"
+        android:textColor="@android:color/white"
         android:text="つぶやく" />
 
     <EditText
