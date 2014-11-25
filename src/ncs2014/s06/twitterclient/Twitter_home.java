@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -102,11 +103,31 @@ public class Twitter_home extends Activity implements OnClickListener{
 	}
 
 
+
+	/**
+	 *  メニュー
+	 */
+	public boolean onCreateOptionsMenu(Menu menu){
+
+	    menu.add(0, MENU_A, 0, "ツイート画面");
+	    menu.add(0, MENU_B, 0, "ユーザ画面");
+	    menu.add(0, MENU_C, 0, "DM画面");
+
+	    return true;
+	}
+
+
+
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		//押したときの処理
 		switch (item.getItemId()) {
 			case MENU_A:
+					startActivity(new Intent(
+						Twitter_home.this,
+						Twitter_tuito.class)
+					);
 			return true;
 
 			case MENU_B:
@@ -117,6 +138,10 @@ public class Twitter_home extends Activity implements OnClickListener{
 			return true;
 
 			case MENU_C:
+					startActivity(new Intent(
+						Twitter_home.this,
+						Twitter_Client_DM.class)
+					);
 			return true;
 
 			default:
