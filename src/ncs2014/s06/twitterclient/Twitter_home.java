@@ -28,9 +28,10 @@ import com.loopj.android.image.SmartImageView;
 public class Twitter_home extends Activity implements OnClickListener{
 
 	//メニューアイテム識別ID
-	private static final int MENU_A = 0;
-	private static final int MENU_B = 1;
-	private static final int MENU_C = 2;
+	private static final int tuito = 0;
+	private static final int user = 1;
+	private static final int DM = 2;
+	private static final int update = 3;
 	//変数
 	private Button bt1;
 	private Button bt2;
@@ -108,11 +109,12 @@ public class Twitter_home extends Activity implements OnClickListener{
 	 */
 	public boolean onCreateOptionsMenu(Menu menu){
 
-	    menu.add(0, MENU_A, 0, "ツイート画面");
-	    menu.add(0, MENU_B, 0, "ユーザ画面");
-	    menu.add(0, MENU_C, 0, "DM画面");
+		menu.add(0, update, 0, "更新");
+		menu.add(0, tuito, 0, "ツイート画面");
+		menu.add(0, user, 0, "ユーザ画面");
+		menu.add(0, DM, 0, "DM画面");
 
-	    return true;
+		return true;
 	}
 
 
@@ -122,25 +124,29 @@ public class Twitter_home extends Activity implements OnClickListener{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		//押したときの処理
 		switch (item.getItemId()) {
-			case MENU_A:
+			case tuito:
 					startActivity(new Intent(
 						Twitter_home.this,
 						Twitter_tuito.class)
 					);
 			return true;
 
-			case MENU_B:
+			case user:
 					startActivity(new Intent(
 						Twitter_home.this,
 						Twitter_user.class)
 					);
 			return true;
 
-			case MENU_C:
+			case DM:
 					startActivity(new Intent(
 						Twitter_home.this,
 						Twitter_Client_DM.class)
 					);
+			return true;
+
+			case update:
+				reloadTimeLine();
 			return true;
 
 			default:
@@ -169,7 +175,7 @@ public class Twitter_home extends Activity implements OnClickListener{
 
 		//ツイート画面
 		if(v == bt2){
-			intent.setClass(getApplicationContext(), Twitter_Client_DM.class);
+			intent.setClass(getApplicationContext(), Twitter_tuito.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.right_in, R.anim.left_out);
 
