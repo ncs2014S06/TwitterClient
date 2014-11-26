@@ -17,7 +17,7 @@
         android:orientation="vertical" >
     </LinearLayout>
 
-    <ImageView
+    <com.loopj.android.image.SmartImageView
         android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

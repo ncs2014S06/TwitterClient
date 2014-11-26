@@ -1,70 +1,57 @@
 package ncs2014.s06.twitterclient;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.widget.ImageView;
+import android.util.Log;
+
+import com.loopj.android.image.SmartImageView;
 
 public class ImageGet extends Activity{
-	private ImageView view;
-	private int id;
-	private String name;
 	private Twitter mTwitter;
+	private User user;
+	private SmartImageView view;
 
 
-	public ImageGet(ImageView view,int id,String name,Twitter mTwitter) {
-		this.view =view;
-		this.id = id;
-		this.name = name;
+	public ImageGet(Twitter mTwitter) {
 		this.mTwitter = mTwitter;
 	}
 
-	public void imageSet() {
 
-		AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
+	public void setImage(SmartImageView view1){
+		this.view = view1;
+		AsyncTask<Void, Void, User> task = new AsyncTask<Void,Void,User>(){
 
 			@Override
-			protected Void doInBackground(Void... params) {
+			protected User doInBackground(Void... params) {
+				// TODO 自動生成されたメソッド・スタブ
 				try {
-					User user = mTwitter.showUser(name);
-					URL imageURL = new URL(user.getProfileImageURL());
-					Bitmap profile = null;
-					view = (ImageView) findViewById(id);
-					try {
-						profile = BitmapFactory.decodeStream(imageURL.openConnection().getInputStream());
-						if(profile != null){
-							view.setImageBitmap(profile);
-						}
-					} catch (IOException e) {
-						// TODO 自動生成された catch ブロック
-						view.setId(R.drawable.ic_launcher);
-					}
-				} catch (MalformedURLException e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
+					User test = mTwitter.showUser(mTwitter.getScreenName());
+					return test;
 				} catch (TwitterException e) {
 					// TODO 自動生成された catch ブロック
 					e.printStackTrace();
+					Log.d("test","error");
 				}
 				return null;
 			}
 
+			@Override
+			protected void onPostExecute(User result) {
+				// TODO 自動生成されたメソッド・スタブ
+				if(result != null){
+					user = result;
+					view.setImageUrl(user.getProfileImageURL());
+					Log.d("test",user.getScreenName());
+				}else{
+					Log.d("test","null1");
+				}
+			}
 		};
 		task.execute();
-
-
-
-
 	}
-
 
 
 }
