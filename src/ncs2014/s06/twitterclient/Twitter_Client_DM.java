@@ -1,28 +1,33 @@
 package ncs2014.s06.twitterclient;
-import java.util.ArrayList;
-import java.util.List;
-
 import twitter4j.DirectMessage;
 import twitter4j.Paging;
 import twitter4j.ResponseList;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.loopj.android.image.SmartImageView;
 
 public class Twitter_Client_DM extends FragmentActivity {
 
 	 private Twitter mTwitter;
 	private TweetAdapter tAdapter;
+	private ImageGet ig;
 	private ListView list;
+	private DirectMessage item;
+	private TextView name;
 
 	Intent intent = new Intent();
 
@@ -40,7 +45,9 @@ public class Twitter_Client_DM extends FragmentActivity {
 			finish();
 		}else{
 			tAdapter = new TweetAdapter(this);
+			list.setAdapter(tAdapter);
 			mTwitter = TwitterUtils.getTwitterInstance(this);
+			ig = new ImageGet(mTwitter);
 		}
 
 
@@ -76,41 +83,24 @@ public class Twitter_Client_DM extends FragmentActivity {
 
 	//送信
 	private void sentDM(){
-		AsyncTask<Void, Void, List<String>> task = new AsyncTask<Void, Void, List<String>>(){
+		AsyncTask<Void, Void, ResponseList<DirectMessage>> task = new AsyncTask<Void, Void, ResponseList<DirectMessage>>(){
 			@Override
-			protected List<String> doInBackground(Void... params) {
+			protected ResponseList<DirectMessage> doInBackground(Void... params) {
 				// TODO 自動生成されたメソッド・スタブ
 				try {
 					Paging paging = new Paging(1);
-					ResponseList<DirectMessage> messages;
-					ArrayList<String> list = new ArrayList<String>();
-					do {
-						messages = mTwitter.getSentDirectMessages(paging);
-						for (DirectMessage message : messages) {
-
-							System.out.println("From: @" + message.getSenderScreenName() + " id:" + message.getId() + " - "
-		                            + message.getText());
-
-
-
-
-							Log.d("dm", message.getText());
-							list.add(message.getText());
-						}
-						paging.setPage(paging.getPage() + 1);
-					} while (messages.size() > 0 && paging.getPage() < 10);
-					return list;
+					return mTwitter.getSentDirectMessages(paging);
 				} catch (TwitterException te) {
 					te.printStackTrace();
 				}
 				return null;
 			}
 			@Override
-			protected void onPostExecute(List<String> result) {
+			protected void onPostExecute(ResponseList<DirectMessage> result) {
 				// TODO 自動生成されたメソッド・スタブ
 				if(result != null){
 					tAdapter.clear();
-					for(String status:result){
+					for(DirectMessage status:result){
 						tAdapter.add(status);
 					}
 				}else{
@@ -121,36 +111,27 @@ public class Twitter_Client_DM extends FragmentActivity {
 		task.execute();
 	}
 
-	//受信
+
+
 	private void reloadDM(){
-		AsyncTask<Void, Void, List<String>> task = new AsyncTask<Void, Void, List<String>>(){
+		AsyncTask<Void, Void, ResponseList<DirectMessage>> task = new AsyncTask<Void, Void, ResponseList<DirectMessage>>(){
 			@Override
-			protected List<String> doInBackground(Void... params) {
+			protected ResponseList<DirectMessage> doInBackground(Void... params) {
 				// TODO 自動生成されたメソッド・スタブ
 				try {
 					Paging paging = new Paging(1);
-					ResponseList<DirectMessage> messages;
-					ArrayList<String> list = new ArrayList<String>();
-					do {
-						messages = mTwitter.getDirectMessages(paging);
-						for (DirectMessage message : messages) {
-							Log.d("dm", message.getText());
-							list.add(message.getText());
-						}
-						paging.setPage(paging.getPage() + 1);
-					} while (messages.size() > 0 && paging.getPage() < 10);
-					return list;
+					return mTwitter.getDirectMessages(paging);
 				} catch (TwitterException te) {
 					te.printStackTrace();
 				}
 				return null;
 			}
 			@Override
-			protected void onPostExecute(List<String> result) {
+			protected void onPostExecute(ResponseList<DirectMessage> result) {
 				// TODO 自動生成されたメソッド・スタブ
 				if(result != null){
 					tAdapter.clear();
-					for(String status:result){
+					for(DirectMessage status:result){
 						tAdapter.add(status);
 					}
 				}else{
@@ -160,15 +141,79 @@ public class Twitter_Client_DM extends FragmentActivity {
 		};
 		task.execute();
 	}
+
+
 
 	private void showToast(String text){
 		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
 	}
 
 
-	private class TweetAdapter extends ArrayAdapter<String>{
-		public TweetAdapter(Context context){
-			super(context,android.R.layout.simple_list_item_1);
+
+	//表示定義クラス
+	public class TweetAdapter extends ArrayAdapter<DirectMessage> {
+
+		private LayoutInflater mInflater;
+
+		public TweetAdapter(Context context) {
+			super(context, android.R.layout.simple_list_item_1);
+			mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+
 		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			// TODO 自動生成されたメソッド・スタブ
+
+			if(convertView == null){
+				convertView = mInflater.inflate(R.layout.list_item_tweet, null);
+			}
+
+			item = getItem(position);
+			SmartImageView icon = (SmartImageView) convertView.findViewById(R.id.icon);
+			ig.setImage(icon, item.getSenderScreenName());
+			name = (TextView) convertView.findViewById(R.id.name);
+
+
+			getName();
+
+
+			TextView screenName = (TextView) convertView.findViewById(R.id.screen_name);
+			screenName.setText("@" + item.getSenderScreenName());
+			TextView text = (TextView) convertView.findViewById(R.id.text);
+			text.setText(item.getText());
+			return convertView;
+		}
+
+	}//TweetAdapter
+
+	private void getName(){
+
+		AsyncTask<Void, Void, String> task = new AsyncTask<Void, Void, String>(){
+
+			@Override
+			protected String doInBackground(Void... params) {
+				// TODO 自動生成されたメソッド・スタブ
+				try {
+					return mTwitter.showUser(item.getSenderScreenName()).getName();
+				} catch (TwitterException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+				}
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(String result) {
+				// TODO 自動生成されたメソッド・スタブ
+				name.setText(result);
+			}
+
+		};
+		task.execute();
+
 	}
+
+
+
 }

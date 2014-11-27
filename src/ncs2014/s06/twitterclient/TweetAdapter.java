@@ -42,4 +42,5 @@ public class TweetAdapter extends ArrayAdapter<twitter4j.Status> {
 		text.setText(item.getText());
 		return convertView;
 	}
+
 }//TweetAdapter
