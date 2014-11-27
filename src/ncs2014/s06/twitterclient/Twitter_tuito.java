@@ -8,10 +8,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.loopj.android.image.SmartImageView;
+
 public class Twitter_tuito extends FragmentActivity {
 
     private EditText mInputText;
     private Twitter mTwitter;
+    private SmartImageView view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,11 +22,15 @@ public class Twitter_tuito extends FragmentActivity {
         setContentView(R.layout.twitter_tweet);
 
         mTwitter = TwitterUtils.getTwitterInstance(this);
-
         mInputText = (EditText) findViewById(R.id.input_text);
 
+        ImageGet ig = new ImageGet(mTwitter);
+        view = (SmartImageView) findViewById(R.id.icon);
+        ig.setImage(view);
+
         findViewById(R.id.action_tweet).setOnClickListener(new View.OnClickListener() {
-            @Override
+
+        	@Override
             public void onClick(View v) {
                 tweet();
             }
@@ -35,6 +42,9 @@ public class Twitter_tuito extends FragmentActivity {
             @Override
             protected Boolean doInBackground(String... params) {
                 try {
+            		//view = (SmartImageView) findViewById(R.id.imageView1);
+            		//ig.setImage(view);
+
                     mTwitter.updateStatus(params[0]);
                     return true;
                 } catch (TwitterException e) {
