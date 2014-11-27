@@ -23,12 +23,11 @@ public class Twitter_tuito extends FragmentActivity {
 
         mTwitter = TwitterUtils.getTwitterInstance(this);
         mInputText = (EditText) findViewById(R.id.input_text);
-
         ImageGet ig = new ImageGet(mTwitter);
         view = (SmartImageView) findViewById(R.id.icon);
         ig.setImage(view);
 
-        findViewById(R.id.action_tweet).setOnClickListener(new View.OnClickListener() {
+		findViewById(R.id.action_tweet).setOnClickListener(new View.OnClickListener() {
 
         	@Override
             public void onClick(View v) {
@@ -42,8 +41,6 @@ public class Twitter_tuito extends FragmentActivity {
             @Override
             protected Boolean doInBackground(String... params) {
                 try {
-            		//view = (SmartImageView) findViewById(R.id.imageView1);
-            		//ig.setImage(view);
 
                     mTwitter.updateStatus(params[0]);
                     return true;

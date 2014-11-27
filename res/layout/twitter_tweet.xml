@@ -33,10 +33,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+        android:layout_alignRight="@+id/input_text"
         android:background="@drawable/shape_button"
-        android:textColor="@android:color/white"
-        android:text="つぶやく" />
+        android:text="つぶやく"
+        android:textColor="@android:color/white" />
 
 </RelativeLayout>
 </ScrollView>
