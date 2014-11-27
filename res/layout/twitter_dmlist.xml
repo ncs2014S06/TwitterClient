@@ -29,18 +29,23 @@
         android:layout_alignLeft="@+id/linearLayout1"
         android:layout_alignParentTop="true" >
 
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="DM一覧(・。・)"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
         <Button
             android:id="@+id/button1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="更新" />
+            android:text="受信BOX" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="送信BOX" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="新規作成" />
 
     </LinearLayout>
 
