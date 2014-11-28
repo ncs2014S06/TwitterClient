@@ -8,4 +8,5 @@
     <string name="twitter_consumer_secret">1aFTk1YLNASB3lRcENcJZQca5T1PCv5nvKdyDgNmZfmWZ8104r</string>
     <string name="twitter_callback_url">gabu://twitter</string>
     <string name="twitter_oauth">認証開始（・。・）</string>
+    <string name="title">TwitterClient</string>
 </resources>
