@@ -15,7 +15,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Twitter_home extends Activity implements OnClickListener{
@@ -28,9 +30,12 @@ public class Twitter_home extends Activity implements OnClickListener{
 	//変数
 	private Button bt1;
 	private Button bt2;
+	private ImageButton bt_menu;
+	private TextView title;
 	private TweetAdapter tAdapter;
 	private Twitter mTwitter;
 	private ListView list;
+	private Menu me;
 
 	//intent
 	Intent intent = new Intent();
@@ -39,21 +44,20 @@ public class Twitter_home extends Activity implements OnClickListener{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//タイトルバーのカスタマイズ
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-
 		setContentView(R.layout.twitter_home);
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);
-
 
 		//findview
 		bt1 = (Button) findViewById(R.id.bt1);
 		bt2 = (Button) findViewById(R.id.bt2);
+		bt_menu = (ImageButton) findViewById(R.id.menu_bt);
 		list = (ListView) findViewById(R.id.tllist);
 
 		//リスナー
 		bt1.setOnClickListener(this);
 		bt2.setOnClickListener(this);
+		bt_menu.setOnClickListener(this);
 
 		if (!TwitterUtils.hasAccessToken(this)) {
 			Intent intent = new Intent(this, TwitterOAuthActivity.class);
@@ -176,12 +180,14 @@ public class Twitter_home extends Activity implements OnClickListener{
 			intent.setClass(getApplicationContext(), Twitter_tuito.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.right_in, R.anim.left_out);
-
 		}//if
 
+		if(v == bt_menu){
+			openOptionsMenu();
 
 
-	}
+		}//if
+	}//on
 
 
 }
