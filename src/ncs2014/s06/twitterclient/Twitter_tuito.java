@@ -3,10 +3,7 @@ import java.io.File;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.conf.Configuration;
-import twitter4j.conf.ConfigurationBuilder;
 import twitter4j.media.ImageUpload;
-import twitter4j.media.ImageUploadFactory;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
@@ -43,7 +40,6 @@ public class Twitter_tuito extends FragmentActivity {
         setContentView(R.layout.twitter_tweet);
 
         mTwitter = TwitterUtils.getTwitterInstance(this);
-     //mInputText = (EditText) findViewById(R.id.input_text);
         ImageGet ig = new ImageGet(mTwitter);
         view = (SmartImageView) findViewById(R.id.icon);
         ig.setImage(view);
@@ -54,12 +50,11 @@ public class Twitter_tuito extends FragmentActivity {
             public void onClick(View v) {
 
 
-        		Intent intent = new Intent(Intent.ACTION_PICK);
-        		intent.setType("image/*");
-        		startActivityForResult(intent, REQUEST_PICK);
+        		//Intent intent = new Intent(Intent.ACTION_PICK);
+        		//intent.setType("image/*");
+        		//startActivityForResult(intent, REQUEST_PICK);
 
-
-                //tweet();
+                tweet();
             }
         });
     }
@@ -100,6 +95,10 @@ public class Twitter_tuito extends FragmentActivity {
 	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
+		AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
+
+			@Override
+			protected Void doInBackground(Void... params) {
 				if (requestCode == REQUEST_PICK && resultCode == RESULT_OK) {
 					Uri uri = data.getData();
 					ContentResolver cr = getContentResolver();
@@ -109,33 +108,15 @@ public class Twitter_tuito extends FragmentActivity {
 					c.moveToFirst();
 					File path = new File(c.getString(0));
 
-					//パスがない場合
-					if (!path.exists())
-						return;
-
-
-					ConfigurationBuilder builder = new ConfigurationBuilder();
-					builder.setOAuthConsumerKey(CONSUMER_KEY);
-					builder.setOAuthConsumerSecret(CONSUMER_SECRET);
-					builder.setOAuthAccessToken(ACCESS_TOKEN);
-					builder.setOAuthAccessTokenSecret(ACCESS_TOKEN_SECRET);
-
-					// ここでMediaProviderをTWITTERにする
-					builder.setMediaProvider("TWITTER");
-
-					Configuration conf = builder.build();
-					ImageUpload imageUpload = new ImageUploadFactory(conf).getInstance();
 					EditText textTweet = (EditText) findViewById(R.id.input_text);
 					String tweet = textTweet.getText().toString();
-					//ImageUp(imageUpload, path, tweet);
+
 					c.close();
 
-	//			return null;
-	//		}
-	//			return null;
 
-
-
+				return null;
+			}
+				return null;
 /*
 			@Override
 			protected void onPostExecute(String tweet) {
@@ -151,7 +132,8 @@ public class Twitter_tuito extends FragmentActivity {
 */
 	//	};
 
-		};
+		}};
+		task.execute();
 	}
 
 	private void ImageUp(ImageUpload imageUpload,File path,String tweet){
