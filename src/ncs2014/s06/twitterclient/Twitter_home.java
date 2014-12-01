@@ -15,7 +15,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,8 +30,10 @@ public class Twitter_home extends Activity implements OnClickListener{
 	private static final int menu_update = 3;
 
 	//変数
-	private Button bt1;
-	private Button bt2;
+	private ImageButton bt_update;
+	private ImageButton bt_tuito;
+	private ImageButton bt_user;
+	private ImageButton bt_dm;
 	private ImageButton bt_menu;
 	private TextView title;
 	private TweetAdapter tAdapter;
@@ -56,10 +57,18 @@ public class Twitter_home extends Activity implements OnClickListener{
 
 
 		//findview
+		bt_update = (ImageButton) findViewById(R.id.bt_update);
+		bt_tuito = (ImageButton) findViewById(R.id.bt_tuito);
+		bt_user = (ImageButton) findViewById(R.id.bt_user);
+		bt_dm = (ImageButton) findViewById(R.id.bt_dm);
 		bt_menu = (ImageButton) findViewById(R.id.menu_bt);
 		list = (ListView) findViewById(R.id.tllist);
 
 		//リスナー
+		bt_update.setOnClickListener(this);
+		bt_tuito.setOnClickListener(this);
+		bt_user.setOnClickListener(this);
+		bt_dm.setOnClickListener(this);
 		bt_menu.setOnClickListener(this);
 
 		if (!TwitterUtils.hasAccessToken(this)) {
@@ -113,14 +122,8 @@ public class Twitter_home extends Activity implements OnClickListener{
 	 *  メニュー
 	 */
 	public boolean onCreateOptionsMenu(Menu menu){
-
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.menu, menu);
-
-
-
-
-
 		return true;
 	}
 
@@ -173,16 +176,25 @@ public class Twitter_home extends Activity implements OnClickListener{
 
 	@Override
 	public void onClick(View v) {
-		/**ユーザ画面
-		if(v == bt1){
+		if(v == bt_update){
+			reloadTimeLine();
+		}//if
+
+		//ツイート画面
+		if(v == bt_tuito){
+			intent.setClass(getApplicationContext(), Twitter_tuito.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.right_in, R.anim.left_out);
+		}//if
+
+		if(v == bt_user){
 			intent.setClass(getApplicationContext(), Twitter_user.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.right_in, R.anim.left_out);
 		}//if
 
-		//ツイート画面
-		if(v == bt2){
-			intent.setClass(getApplicationContext(), Twitter_tuito.class);
+		if(v == bt_dm){
+			intent.setClass(getApplicationContext(), Twitter_Client_DM.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.right_in, R.anim.left_out);
 		}//if
@@ -190,7 +202,7 @@ public class Twitter_home extends Activity implements OnClickListener{
 		if(v == bt_menu){
 			openOptionsMenu();
 		}//if
-	*/
+
 	}//on
 
 

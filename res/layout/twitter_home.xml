@@ -9,13 +9,9 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.mytwitter.MainActivity" >
 
-    <LinearLayout
-        android:id="@+id/linearLayout1"
+    <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="50dp"
-        android:orientation="vertical" >
+        android:layout_height="fill_parent" >
 
         <ListView
             android:id="@+id/tllist"
@@ -23,43 +19,49 @@
             android:layout_height="fill_parent" >
         </ListView>
 
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:background="#00FF0000"
+            android:gravity="center"
+            android:orientation="horizontal" >
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/linearLayout1"
-        android:layout_alignParentBottom="true" >
+            <ImageButton
+                android:id="@+id/bt_update"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="#00FF0000"
+                android:src="@android:drawable/ic_menu_rotate" />
 
-        <Button
-            android:id="@+id/bt_update"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="10dp"
-            android:text="更新" />
+            <ImageButton
+                android:id="@+id/bt_tuito"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="#00FF0000"
+                android:src="@android:drawable/ic_menu_call" />
 
-        <Button
-            android:id="@+id/bt_tuito"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="ツイート" />
+            <ImageButton
+                android:id="@+id/bt_user"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="#00000000"
+                android:src="@android:drawable/ic_menu_preferences" />
 
-        <Button
-            android:id="@+id/bt_user"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="ユーザ" />
+            <ImageButton
+                android:id="@+id/bt_dm"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="#00000000"
+                android:src="@android:drawable/ic_dialog_email" />
 
-        <Button
-            android:id="@+id/bt_dm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="DM" />
+        </LinearLayout>
 
-    </LinearLayout>
+    </FrameLayout>
 
 </RelativeLayout>
