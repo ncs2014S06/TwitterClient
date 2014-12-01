@@ -9,12 +9,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.mytwitter.MainActivity" >
 
-
     <LinearLayout
         android:id="@+id/linearLayout1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="50dp"
         android:orientation="vertical" >
 
         <ListView
@@ -28,34 +28,37 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/linearLayout1" >
-
-
+        android:layout_alignLeft="@+id/linearLayout1"
+        android:layout_alignParentBottom="true" >
 
         <Button
-            android:id="@+id/bt1"
-            android:layout_width="0dp"
+            android:id="@+id/bt_update"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/shape_button"
-            android:textColor="@android:color/white"
-            android:text="ユーザ画面" />
+            android:textSize="10dp"
+            android:text="更新" />
 
         <Button
-            android:id="@+id/space"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="0.1"
-            android:text="" />
-
-        <Button
-            android:id="@+id/bt2"
-            android:layout_width="0dp"
+            android:id="@+id/bt_tuito"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/shape_button"
-            android:text="ツイート画面"
-            android:textColor="@android:color/white" />
+            android:text="ツイート" />
+
+        <Button
+            android:id="@+id/bt_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="ユーザ" />
+
+        <Button
+            android:id="@+id/bt_dm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="DM" />
 
     </LinearLayout>
 

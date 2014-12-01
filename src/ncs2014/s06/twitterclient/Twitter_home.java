@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,13 +21,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 public class Twitter_home extends Activity implements OnClickListener{
 
 	//メニューアイテム識別ID
-	private static final int tuito = 0;
-	private static final int user = 1;
-	private static final int DM = 2;
-	private static final int update = 3;
+	private static final int menu_tuito = 0;
+	private static final int menu_user = 1;
+	private static final int menu_dm = 2;
+	private static final int menu_update = 3;
+
 	//変数
 	private Button bt1;
 	private Button bt2;
@@ -36,6 +39,7 @@ public class Twitter_home extends Activity implements OnClickListener{
 	private Twitter mTwitter;
 	private ListView list;
 	private Menu me;
+
 
 	//intent
 	Intent intent = new Intent();
@@ -48,15 +52,14 @@ public class Twitter_home extends Activity implements OnClickListener{
 		setContentView(R.layout.twitter_home);
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);
 
+
+
+
 		//findview
-		bt1 = (Button) findViewById(R.id.bt1);
-		bt2 = (Button) findViewById(R.id.bt2);
 		bt_menu = (ImageButton) findViewById(R.id.menu_bt);
 		list = (ListView) findViewById(R.id.tllist);
 
 		//リスナー
-		bt1.setOnClickListener(this);
-		bt2.setOnClickListener(this);
 		bt_menu.setOnClickListener(this);
 
 		if (!TwitterUtils.hasAccessToken(this)) {
@@ -111,10 +114,12 @@ public class Twitter_home extends Activity implements OnClickListener{
 	 */
 	public boolean onCreateOptionsMenu(Menu menu){
 
-		menu.add(0, update, 0, "更新");
-		menu.add(0, tuito, 0, "ツイート画面");
-		menu.add(0, user, 0, "ユーザ画面");
-		menu.add(0, DM, 0, "DM画面");
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu, menu);
+
+
+
+
 
 		return true;
 	}
@@ -126,28 +131,28 @@ public class Twitter_home extends Activity implements OnClickListener{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		//押したときの処理
 		switch (item.getItemId()) {
-			case tuito:
+			case R.id.menu_tuito:
 					startActivity(new Intent(
 						Twitter_home.this,
 						Twitter_tuito.class)
 					);
 			return true;
 
-			case user:
+			case R.id.menu_user:
 					startActivity(new Intent(
 						Twitter_home.this,
 						Twitter_user.class)
 					);
 			return true;
 
-			case DM:
+			case R.id.menu_dm:
 					startActivity(new Intent(
 						Twitter_home.this,
 						Twitter_Client_DM.class)
 					);
 			return true;
 
-			case update:
+			case menu_update:
 				reloadTimeLine();
 			return true;
 
@@ -168,7 +173,7 @@ public class Twitter_home extends Activity implements OnClickListener{
 
 	@Override
 	public void onClick(View v) {
-		//ユーザ画面
+		/**ユーザ画面
 		if(v == bt1){
 			intent.setClass(getApplicationContext(), Twitter_user.class);
 			startActivity(intent);
@@ -184,9 +189,8 @@ public class Twitter_home extends Activity implements OnClickListener{
 
 		if(v == bt_menu){
 			openOptionsMenu();
-
-
 		}//if
+	*/
 	}//on
 
 
