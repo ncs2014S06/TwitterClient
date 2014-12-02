@@ -2,42 +2,46 @@ package ncs2014.s06.twitterclient;
 
 import java.util.List;
 
-import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.view.Window;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.loopj.android.image.SmartImageView;
-
-public class Twitter_home extends Activity implements OnClickListener{
+public class Twitter_home extends Activity implements OnClickListener, OnRefreshListener{
 
 	//メニューアイテム識別ID
-	private static final int tuito = 0;
-	private static final int user = 1;
-	private static final int DM = 2;
-	private static final int update = 3;
+	private static final int menu_tuito = 0;
+	private static final int menu_user = 1;
+	private static final int menu_dm = 2;
+	private static final int menu_update = 3;
+
 	//変数
-	private Button bt1;
-	private Button bt2;
+	private ImageButton bt_update;
+	private ImageButton bt_tuito;
+	private ImageButton bt_user;
+	private ImageButton bt_dm;
+	private ImageButton bt_menu;
+	private TextView title;
 	private TweetAdapter tAdapter;
 	private Twitter mTwitter;
+	private SwipeRefreshLayout swipeRefreshLayout;
 	private ListView list;
+	private Menu me;
 
 	//intent
 	Intent intent = new Intent();
@@ -46,16 +50,28 @@ public class Twitter_home extends Activity implements OnClickListener{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//タイトルバーのカスタマイズ
+		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+
 		setContentView(R.layout.twitter_home);
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);
+
 
 		//findview
-		bt1 = (Button) findViewById(R.id.bt1);
-		bt2 = (Button) findViewById(R.id.bt2);
+		bt_update = (ImageButton) findViewById(R.id.bt_update);
+		bt_tuito = (ImageButton) findViewById(R.id.bt_tuito);
+		bt_user = (ImageButton) findViewById(R.id.bt_user);
+		bt_dm = (ImageButton) findViewById(R.id.bt_dm);
+		bt_menu = (ImageButton) findViewById(R.id.menu_bt);
+		swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
 		list = (ListView) findViewById(R.id.tllist);
 
 		//リスナー
-		bt1.setOnClickListener(this);
-		bt2.setOnClickListener(this);
+		bt_update.setOnClickListener(this);
+		bt_tuito.setOnClickListener(this);
+		bt_user.setOnClickListener(this);
+		bt_dm.setOnClickListener(this);
+		bt_menu.setOnClickListener(this);
 
 		if (!TwitterUtils.hasAccessToken(this)) {
 			Intent intent = new Intent(this, TwitterOAuthActivity.class);
@@ -64,10 +80,18 @@ public class Twitter_home extends Activity implements OnClickListener{
 		}else{
 			tAdapter = new TweetAdapter(this);
 			mTwitter = TwitterUtils.getTwitterInstance(this);
+			createSwipeRefreshLayout();
 			reloadTimeLine();
 			list.setAdapter(tAdapter);
 		}
 	}//onCreate
+
+	public void createSwipeRefreshLayout(){
+
+		swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
+
+		swipeRefreshLayout.setOnRefreshListener(this);
+		}
 
 
 	private void reloadTimeLine() {
@@ -89,10 +113,12 @@ public class Twitter_home extends Activity implements OnClickListener{
 					for (twitter4j.Status status : result) {
 						tAdapter.add(status);
 					}
+					showToast("タイムラインの取得に成功しました");
 					//la.getListView().setSelection(0);
 				} else {
-					showToast("タイムラインの取得に失敗しました。。。");
+					showToast("タイムラインの取得に失敗しました");
 				}
+				swipeRefreshLayout.setRefreshing(false);
 			}
 		};
 		task.execute();
@@ -108,12 +134,8 @@ public class Twitter_home extends Activity implements OnClickListener{
 	 *  メニュー
 	 */
 	public boolean onCreateOptionsMenu(Menu menu){
-
-		menu.add(0, update, 0, "更新");
-		menu.add(0, tuito, 0, "ツイート画面");
-		menu.add(0, user, 0, "ユーザ画面");
-		menu.add(0, DM, 0, "DM画面");
-
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu, menu);
 		return true;
 	}
 
@@ -124,28 +146,28 @@ public class Twitter_home extends Activity implements OnClickListener{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		//押したときの処理
 		switch (item.getItemId()) {
-			case tuito:
+			case R.id.menu_tuito:
 					startActivity(new Intent(
 						Twitter_home.this,
 						Twitter_tuito.class)
 					);
 			return true;
 
-			case user:
+			case R.id.menu_user:
 					startActivity(new Intent(
 						Twitter_home.this,
 						Twitter_user.class)
 					);
 			return true;
 
-			case DM:
+			case R.id.menu_dm:
 					startActivity(new Intent(
 						Twitter_home.this,
 						Twitter_Client_DM.class)
 					);
 			return true;
 
-			case update:
+			case menu_update:
 				reloadTimeLine();
 			return true;
 
@@ -166,55 +188,39 @@ public class Twitter_home extends Activity implements OnClickListener{
 
 	@Override
 	public void onClick(View v) {
-		//ユーザ画面
-		if(v == bt1){
+		if(v == bt_update){
+			reloadTimeLine();
+		}//if
+
+		//ツイート画面
+		if(v == bt_tuito){
+			intent.setClass(getApplicationContext(), Twitter_tuito.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.right_in, R.anim.left_out);
+		}//if
+
+		if(v == bt_user){
 			intent.setClass(getApplicationContext(), Twitter_user.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.right_in, R.anim.left_out);
 		}//if
 
-		//ツイート画面
-		if(v == bt2){
-			intent.setClass(getApplicationContext(), Twitter_tuito.class);
+		if(v == bt_dm){
+			intent.setClass(getApplicationContext(), Twitter_Client_DM.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.right_in, R.anim.left_out);
-
 		}//if
 
+		if(v == bt_menu){
+			openOptionsMenu();
+		}//if
 
+	}//on
 
+	@Override
+	public void onRefresh() {
+		reloadTimeLine();
 	}
-	//表示定義クラス
-	private class TweetAdapter extends ArrayAdapter<twitter4j.Status> {
-
-		private LayoutInflater mInflater;
-
-		public TweetAdapter(Context context) {
-			super(context, android.R.layout.simple_list_item_1);
-			mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			// TODO 自動生成されたメソッド・スタブ
-
-			if(convertView == null){
-				convertView = mInflater.inflate(R.layout.list_item_tweet, null);
-			}
-
-			Status item = getItem(position);
-			SmartImageView icon = (SmartImageView) convertView.findViewById(R.id.icon);
-			icon.setImageUrl(item.getUser().getProfileImageURL());
-			TextView name = (TextView) convertView.findViewById(R.id.name);
-			name.setText(item.getUser().getName());
-			TextView screenName = (TextView) convertView.findViewById(R.id.screen_name);
-			screenName.setText("@" + item.getUser().getScreenName());
-			TextView text = (TextView) convertView.findViewById(R.id.text);
-			text.setText(item.getText());
-			return convertView;
-		}
-	}//TweetAdapter
 
 
 }

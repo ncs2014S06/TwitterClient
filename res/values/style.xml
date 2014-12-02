@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+	<style name="window">
+		<item name="android:windowTitleBackgroundStyle">@style/color</item>
+	</style>
+
+	<style name="color">
+		<item name="android:background">#c1e4e9</item>
+	</style>
+
+	<style name="Theme.Light.iOS" parent="@android:style/Theme.Black">
+        <item name="android:windowTitleSize">44dp</item>
+    </style>
+
+
+</resources>
