@@ -20,7 +20,7 @@ public class Twitter_user extends Activity {
 		mTwitter = TwitterUtils.getTwitterInstance(this);
 		ImageGet ig = new ImageGet(mTwitter);
 		Log.d("test","test");
-		setContentView(R.layout.twitteruser);
+		setContentView(R.layout.twitter_user);
 		ListView listView = (ListView) findViewById(R.id.aaa);
 		view = (SmartImageView) findViewById(R.id.imageView1);
 
