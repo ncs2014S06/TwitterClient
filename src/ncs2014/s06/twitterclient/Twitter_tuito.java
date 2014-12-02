@@ -1,9 +1,9 @@
 package ncs2014.s06.twitterclient;
 import java.io.File;
 
+import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.media.ImageUpload;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
@@ -12,14 +12,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.loopj.android.image.SmartImageView;
 
-public class Twitter_tuito extends FragmentActivity {
+public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 
 
 	private  static int REQUEST_PICK = 1;
@@ -32,6 +33,9 @@ public class Twitter_tuito extends FragmentActivity {
     private EditText mInputText;
     private Twitter mTwitter;
     private SmartImageView view;
+    private Button tweet;
+    private Button imageTweet;
+
 
 
     @Override
@@ -44,19 +48,14 @@ public class Twitter_tuito extends FragmentActivity {
         view = (SmartImageView) findViewById(R.id.icon);
         ig.setImage(view);
 
-		findViewById(R.id.action_tweet).setOnClickListener(new View.OnClickListener() {
+        mTwitter = TwitterUtils.getTwitterInstance(this);
+        mInputText = (EditText) findViewById(R.id.input_text);
 
-        	@Override
-            public void onClick(View v) {
+        tweet = (Button) findViewById(R.id.action_tweet);
+        imageTweet = (Button) findViewById(R.id.image_plus);
 
-
-        		//Intent intent = new Intent(Intent.ACTION_PICK);
-        		//intent.setType("image/*");
-        		//startActivityForResult(intent, REQUEST_PICK);
-
-                tweet();
-            }
-        });
+        tweet.setOnClickListener(this);
+        imageTweet.setOnClickListener(this);
     }
 
     private void tweet() {
@@ -64,7 +63,6 @@ public class Twitter_tuito extends FragmentActivity {
             @Override
             protected Boolean doInBackground(String... params) {
                 try {
-
                     mTwitter.updateStatus(params[0]);
                     return true;
                 } catch (TwitterException e) {
@@ -86,20 +84,15 @@ public class Twitter_tuito extends FragmentActivity {
         task.execute(mInputText.getText().toString());
     }
 
-
-
-
-
-
     @Override
 	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
-		AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
-
+		AsyncTask<String, Void, Boolean> task = new AsyncTask<String, Void, Boolean>() {
 			@Override
-			protected Void doInBackground(Void... params) {
+			protected Boolean doInBackground(String... params) {
 				if (requestCode == REQUEST_PICK && resultCode == RESULT_OK) {
+					Boolean result = false;
+
 					Uri uri = data.getData();
 					ContentResolver cr = getContentResolver();
 					String[] columns = { MediaStore.Images.Media.DATA };
@@ -111,61 +104,45 @@ public class Twitter_tuito extends FragmentActivity {
 					EditText textTweet = (EditText) findViewById(R.id.input_text);
 					String tweet = textTweet.getText().toString();
 
-					c.close();
+					try {
+						twitter4j.Status status = mTwitter.updateStatus(
+					            new StatusUpdate(tweet).media(path));
+						result = true;
+					} catch (Exception e) {
+						result = false;
+						e.printStackTrace();
+					}finally{
+						c.close();
+					}
 
-
-				return null;
+				if (result) {
+                    //showToast("ツイートが完了しました！");
+                    finish();
+                } else {
+                   // showToast("ツイートに失敗しました。。。");
+                }
+				return true;
+			}else{
+				return false;
 			}
-				return null;
-/*
-			@Override
-			protected void onPostExecute(String tweet) {
-				try {
-					imageUpload.upload(path, tweet);
-				} catch (TwitterException e) {
-					e.printStackTrace();
-				}
-				if(result != null){
-				}else{
-				}
-			}
-*/
-	//	};
-
-		}};
-		task.execute();
 	}
-
-	private void ImageUp(ImageUpload imageUpload,File path,String tweet){
-		final ImageUpload imageUpload1 = imageUpload;
-		final File path1 = path;
-		final String tweet1 = tweet;
-
-		AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
-
-			@Override
-			protected Void doInBackground(Void... params) {
-				// TODO 自動生成されたメソッド・スタブ
-				try {
-					imageUpload1.upload(path1, tweet1);
-				} catch (TwitterException e) {
-					// TODO 自動生成された catch ブロック
-					Log.d("test","e");
-					e.printStackTrace();
-				}
-				return null;
-			}
-
 		};
-		task.execute();
-    }
-
-
-
-
-
+	task.execute(mInputText.getText().toString());
+	}
 
     private void showToast(String text) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
+
+	@Override
+	public void onClick(View v) {
+		if(v == tweet){
+			tweet();
+		}else{
+			Intent intent = new Intent(Intent.ACTION_PICK);
+    		intent.setType("image/*");
+    		startActivityForResult(intent, REQUEST_PICK);
+		}
+
+	}
 }
