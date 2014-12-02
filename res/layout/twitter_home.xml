@@ -1,59 +1,59 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:background="@android:color/black"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.mytwitter.MainActivity" >
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:paddingBottom="@dimen/activity_vertical_margin"
+	android:background="@android:color/black"
+	android:paddingLeft="@dimen/activity_horizontal_margin"
+	android:paddingRight="@dimen/activity_horizontal_margin"
+	android:paddingTop="@dimen/activity_vertical_margin"
+	tools:context="com.example.mytwitter.MainActivity" >
 
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:orientation="vertical" >
+	<android.support.v4.widget.SwipeRefreshLayout
+		android:id="@+id/swipeRefreshLayout"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="44dp"
+		android:orientation="vertical" >
 
-        <ListView
-            android:id="@+id/tllist"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
-        </ListView>
+		<ListView
+			android:id="@+id/tllist"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent" >
+		</ListView>
 
-    </LinearLayout>
+	</android.support.v4.widget.SwipeRefreshLayout>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/linearLayout1" >
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignLeft="@+id/linearLayout1" >
 
-        <Button
-            android:id="@+id/bt1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/shape_button"
-            android:textColor="@android:color/white"
-            android:text="ユーザ画面" />
+		<Button
+			android:id="@+id/bt1"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:background="@drawable/shape_button"
+			android:textColor="@android:color/white"
+			android:text="ユーザ画面" />
 
-        <Button
-            android:id="@+id/space"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="0.1"
-            android:text="" />
+		<Button
+			android:id="@+id/space"
+			android:layout_width="0dp"
+			android:layout_height="0dp"
+			android:layout_weight="0.1"
+			android:text="" />
 
-        <Button
-            android:id="@+id/bt2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/shape_button"
-            android:text="ツイート画面"
-            android:textColor="@android:color/white" />
+		<Button
+			android:id="@+id/bt2"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:background="@drawable/shape_button"
+			android:text="ツイート画面"
+			android:textColor="@android:color/white" />
 
-    </LinearLayout>
+	</LinearLayout>
 
 </RelativeLayout>

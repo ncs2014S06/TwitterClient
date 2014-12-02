@@ -8,6 +8,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -18,7 +20,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class Twitter_home extends Activity implements OnClickListener{
+public class Twitter_home extends Activity implements OnClickListener, OnRefreshListener{
 
 	//メニューアイテム識別ID
 	private static final int tuito = 0;
@@ -30,6 +32,7 @@ public class Twitter_home extends Activity implements OnClickListener{
 	private Button bt2;
 	private TweetAdapter tAdapter;
 	private Twitter mTwitter;
+	private SwipeRefreshLayout swipeRefreshLayout;
 	private ListView list;
 
 	//intent
@@ -49,6 +52,7 @@ public class Twitter_home extends Activity implements OnClickListener{
 		//findview
 		bt1 = (Button) findViewById(R.id.bt1);
 		bt2 = (Button) findViewById(R.id.bt2);
+		swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
 		list = (ListView) findViewById(R.id.tllist);
 
 		//リスナー
@@ -62,10 +66,18 @@ public class Twitter_home extends Activity implements OnClickListener{
 		}else{
 			tAdapter = new TweetAdapter(this);
 			mTwitter = TwitterUtils.getTwitterInstance(this);
+			createSwipeRefreshLayout();
 			reloadTimeLine();
 			list.setAdapter(tAdapter);
 		}
 	}//onCreate
+
+	public void createSwipeRefreshLayout(){
+
+		swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
+
+		swipeRefreshLayout.setOnRefreshListener(this);
+		}
 
 
 	private void reloadTimeLine() {
@@ -87,10 +99,12 @@ public class Twitter_home extends Activity implements OnClickListener{
 					for (twitter4j.Status status : result) {
 						tAdapter.add(status);
 					}
+					showToast("タイムラインの取得に成功しました");
 					//la.getListView().setSelection(0);
 				} else {
-					showToast("タイムラインの取得に失敗しました。。。");
+					showToast("タイムラインの取得に失敗しました");
 				}
+				swipeRefreshLayout.setRefreshing(false);
 			}
 		};
 		task.execute();
@@ -181,6 +195,11 @@ public class Twitter_home extends Activity implements OnClickListener{
 
 
 
+	}
+
+	@Override
+	public void onRefresh() {
+		reloadTimeLine();
 	}
 
 
