@@ -12,7 +12,8 @@
         android:text="@string/title"
         android:textColor="@android:color/white"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        />
 
     <ImageButton
         android:id="@+id/menu_bt"
