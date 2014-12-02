@@ -15,6 +15,7 @@ public class MainActivity extends Activity {
 
 		if (!TwitterUtils.hasAccessToken(this)) {
 			Intent intent = new Intent(this, TwitterOAuthActivity.class);
+		//	Intent intent = new Intent(this, Twitter_tuito.class);
 			startActivity(intent);
 			finish();
 			}

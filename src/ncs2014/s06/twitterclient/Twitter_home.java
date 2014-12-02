@@ -8,6 +8,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,8 +22,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-public class Twitter_home extends Activity implements OnClickListener{
+public class Twitter_home extends Activity implements OnClickListener, OnRefreshListener{
 
 	//メニューアイテム識別ID
 	private static final int menu_tuito = 0;
@@ -38,9 +39,9 @@ public class Twitter_home extends Activity implements OnClickListener{
 	private TextView title;
 	private TweetAdapter tAdapter;
 	private Twitter mTwitter;
+	private SwipeRefreshLayout swipeRefreshLayout;
 	private ListView list;
 	private Menu me;
-
 
 	//intent
 	Intent intent = new Intent();
@@ -49,11 +50,11 @@ public class Twitter_home extends Activity implements OnClickListener{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//タイトルバーのカスタマイズ
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+
 		setContentView(R.layout.twitter_home);
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);
-
-
 
 
 		//findview
@@ -62,6 +63,7 @@ public class Twitter_home extends Activity implements OnClickListener{
 		bt_user = (ImageButton) findViewById(R.id.bt_user);
 		bt_dm = (ImageButton) findViewById(R.id.bt_dm);
 		bt_menu = (ImageButton) findViewById(R.id.menu_bt);
+		swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
 		list = (ListView) findViewById(R.id.tllist);
 
 		//リスナー
@@ -78,10 +80,18 @@ public class Twitter_home extends Activity implements OnClickListener{
 		}else{
 			tAdapter = new TweetAdapter(this);
 			mTwitter = TwitterUtils.getTwitterInstance(this);
+			createSwipeRefreshLayout();
 			reloadTimeLine();
 			list.setAdapter(tAdapter);
 		}
 	}//onCreate
+
+	public void createSwipeRefreshLayout(){
+
+		swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
+
+		swipeRefreshLayout.setOnRefreshListener(this);
+		}
 
 
 	private void reloadTimeLine() {
@@ -103,10 +113,12 @@ public class Twitter_home extends Activity implements OnClickListener{
 					for (twitter4j.Status status : result) {
 						tAdapter.add(status);
 					}
+					showToast("タイムラインの取得に成功しました");
 					//la.getListView().setSelection(0);
 				} else {
-					showToast("タイムラインの取得に失敗しました。。。");
+					showToast("タイムラインの取得に失敗しました");
 				}
+				swipeRefreshLayout.setRefreshing(false);
 			}
 		};
 		task.execute();
@@ -207,6 +219,11 @@ public class Twitter_home extends Activity implements OnClickListener{
 		}//if
 
 	}//on
+
+	@Override
+	public void onRefresh() {
+		reloadTimeLine();
+	}
 
 
 }
