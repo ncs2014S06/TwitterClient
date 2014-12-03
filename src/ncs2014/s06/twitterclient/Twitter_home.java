@@ -210,7 +210,10 @@ public class Twitter_home extends Activity implements OnClickListener, OnRefresh
 	@Override
 	public void onClick(View v) {
 		if(v == bt_update){
-			reloadTimeLine();
+			//reloadTimeLine();
+			intent.setClass(getApplicationContext(), test.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.right_in, R.anim.left_out);
 		}//if
 
 		//ツイート画面

@@ -35,15 +35,17 @@
                 android:layout_width="100dp"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:background="#00FF0000"
+                android:alpha="0.5"
+                android:background="#00000000"
                 android:src="@android:drawable/ic_menu_rotate" />
 
             <ImageButton
                 android:id="@+id/bt_tuito"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
-			android:layout_weight="1"
-                android:background="#00FF0000"
+                android:layout_weight="1"
+                android:alpha="0.5"
+                android:background="#00000000"
                 android:src="@android:drawable/ic_menu_call" />
 
             <ImageButton
@@ -51,6 +53,7 @@
                 android:layout_width="100dp"
                 android:layout_height="40dp"
                 android:layout_weight="1"
+                android:alpha="0.5"
                 android:background="#00000000"
                 android:src="@android:drawable/ic_menu_preferences" />
 
@@ -58,7 +61,8 @@
                 android:id="@+id/bt_dm"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
-			android:layout_weight="1"
+                android:layout_weight="1"
+                android:alpha="0.5"
                 android:background="#00000000"
                 android:src="@android:drawable/ic_dialog_email" />
 

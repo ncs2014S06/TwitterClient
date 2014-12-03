@@ -1,17 +1,42 @@
 package ncs2014.s06.twitterclient;
+import java.io.File;
+
+import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class Twitter_tuito extends FragmentActivity {
+import com.loopj.android.image.SmartImageView;
+
+public class Twitter_tuito extends FragmentActivity implements OnClickListener{
+
+
+	private  static int REQUEST_PICK = 1;
+	private static String CONSUMER_KEY = "rnEXcIylpdaiO91qS8xQbV1J";
+	private static String CONSUMER_SECRET = "1aFTk1YLNASB3lRcENcJZQca5T1PCv5nvKdyDgNmZfmWZ8104r";
+	private static String ACCESS_TOKEN = "2882966317-gRwWjwwR1W3W09eKLrISoPKLmabNvsYIa98m0l";
+	private static String ACCESS_TOKEN_SECRET = "t85YjUlwu6PRUqSMr91C3aeC3oBdN00h9x7HyTe5jupd0";
+
 
     private EditText mInputText;
     private Twitter mTwitter;
+    private SmartImageView view;
+    private Button tweet;
+    private Button imageTweet;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,15 +44,18 @@ public class Twitter_tuito extends FragmentActivity {
         setContentView(R.layout.twitter_tweet);
 
         mTwitter = TwitterUtils.getTwitterInstance(this);
+        ImageGet ig = new ImageGet(mTwitter);
+        view = (SmartImageView) findViewById(R.id.icon);
+        ig.setImage(view);
 
+        mTwitter = TwitterUtils.getTwitterInstance(this);
         mInputText = (EditText) findViewById(R.id.input_text);
 
-        findViewById(R.id.action_tweet).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tweet();
-            }
-        });
+        tweet = (Button) findViewById(R.id.action_tweet);
+        imageTweet = (Button) findViewById(R.id.image_plus);
+
+        tweet.setOnClickListener(this);
+        imageTweet.setOnClickListener(this);
     }
 
     private void tweet() {
@@ -56,7 +84,65 @@ public class Twitter_tuito extends FragmentActivity {
         task.execute(mInputText.getText().toString());
     }
 
+    @Override
+	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		AsyncTask<String, Void, Boolean> task = new AsyncTask<String, Void, Boolean>() {
+			@Override
+			protected Boolean doInBackground(String... params) {
+				if (requestCode == REQUEST_PICK && resultCode == RESULT_OK) {
+					Boolean result = false;
+
+					Uri uri = data.getData();
+					ContentResolver cr = getContentResolver();
+					String[] columns = { MediaStore.Images.Media.DATA };
+					Cursor c = cr.query(uri, columns, null, null, null);
+
+					c.moveToFirst();
+					File path = new File(c.getString(0));
+
+					EditText textTweet = (EditText) findViewById(R.id.input_text);
+					String tweet = textTweet.getText().toString();
+
+					try {
+						twitter4j.Status status = mTwitter.updateStatus(
+					            new StatusUpdate(tweet).media(path));
+						result = true;
+					} catch (Exception e) {
+						result = false;
+						e.printStackTrace();
+					}finally{
+						c.close();
+					}
+
+				if (result) {
+                    //showToast("ツイートが完了しました！");
+                    finish();
+                } else {
+                   // showToast("ツイートに失敗しました。。。");
+                }
+				return true;
+			}else{
+				return false;
+			}
+	}
+		};
+	task.execute(mInputText.getText().toString());
+	}
+
     private void showToast(String text) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
+
+	@Override
+	public void onClick(View v) {
+		if(v == tweet){
+			tweet();
+		}else{
+			Intent intent = new Intent(Intent.ACTION_PICK);
+    		intent.setType("image/*");
+    		startActivityForResult(intent, REQUEST_PICK);
+		}
+
+	}
 }
