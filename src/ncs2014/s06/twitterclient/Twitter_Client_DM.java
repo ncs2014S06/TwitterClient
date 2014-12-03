@@ -10,9 +10,11 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -51,6 +53,24 @@ public class Twitter_Client_DM extends FragmentActivity {
 		}
 
 
+		list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+	        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+	        	DirectMessage msg = (DirectMessage)list.getItemAtPosition(position);
+
+				intent.setClass(getApplicationContext(), Twitter_createDM.class);
+				String msg2 = msg.getSenderScreenName();
+
+					Log.d("test2", msg2 + "");
+
+				intent.putExtra("id", msg2);
+				startActivity(intent);
+				overridePendingTransition(R.anim.right_in, R.anim.left_out);
+				return false;
+	        }
+	    });
+
+
+
 		//受信
 		findViewById(R.id.button1).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -59,6 +79,9 @@ public class Twitter_Client_DM extends FragmentActivity {
 				list.setAdapter(tAdapter);
 			}
 		});
+
+
+
 
 		//送信
 		findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
