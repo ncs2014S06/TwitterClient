@@ -44,7 +44,7 @@ public class Twitter_user extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		if(v == myTweet){
-			tweetGet();
+
 		}
 
 		if(v == follow){
@@ -69,7 +69,6 @@ public class Twitter_user extends Activity implements OnClickListener {
 	}
 
 	public void followGet(){
-
 	}
 
 	public void followerGet(){
@@ -79,8 +78,6 @@ public class Twitter_user extends Activity implements OnClickListener {
 	public void favGet(){
 
 	}
-
-
 
 
 }
