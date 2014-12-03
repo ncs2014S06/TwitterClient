@@ -1,7 +1,10 @@
 package ncs2014.s06.twitterclient;
 
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
+import twitter4j.RateLimitStatus;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import android.app.Activity;
@@ -114,11 +117,29 @@ public class Twitter_home extends Activity implements OnClickListener, OnRefresh
 						tAdapter.add(status);
 					}
 					showToast("タイムラインの取得に成功しました");
+
 					//la.getListView().setSelection(0);
 				} else {
 					showToast("タイムラインの取得に失敗しました");
 				}
 				swipeRefreshLayout.setRefreshing(false);
+				ApiLimit api = new ApiLimit(mTwitter);
+				api.execute();
+				Map<String, RateLimitStatus> map = null;
+				try {
+					map = api.get();
+				} catch (InterruptedException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+				} catch (ExecutionException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+				}
+				RateLimitStatus TLlimit = map.get("/statuses/home_timeline");
+				int i = TLlimit.getSecondsUntilReset();
+				String m = i / 60 + "分";
+				String S = i % 60 + "秒";
+				showToast("残り読み込み回数" + TLlimit.getRemaining() + "回\nAPIリセットまで" + m + S);
 			}
 		};
 		task.execute();
