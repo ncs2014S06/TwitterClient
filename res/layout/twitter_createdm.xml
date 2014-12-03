@@ -49,7 +49,10 @@
             android:layout_marginBottom="8dp"
             android:layout_weight="1.82"
             android:gravity="left|top"
-            android:inputType="textMultiLine" />
+
+            android:inputType="textMultiLine">
+            <requestFocus/>
+           </EditText>
 
         <Button
             android:id="@+id/action_tweet"

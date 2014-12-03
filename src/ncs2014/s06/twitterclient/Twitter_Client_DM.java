@@ -1,6 +1,10 @@
 package ncs2014.s06.twitterclient;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+
 import twitter4j.DirectMessage;
 import twitter4j.Paging;
+import twitter4j.RateLimitStatus;
 import twitter4j.ResponseList;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -97,6 +101,7 @@ public class Twitter_Client_DM extends FragmentActivity {
 			@Override
 			public void onClick(View v) {
 				intent.setClass(getApplicationContext(), Twitter_createDM.class);
+				intent.putExtra("id", "");
 				startActivity(intent);
 				overridePendingTransition(R.anim.right_in, R.anim.left_out);
 			}
@@ -141,13 +146,24 @@ public class Twitter_Client_DM extends FragmentActivity {
 			@Override
 			protected ResponseList<DirectMessage> doInBackground(Void... params) {
 				// TODO 自動生成されたメソッド・スタブ
+
 				try {
 					Paging paging = new Paging(1);
+					paging.setPage(paging.getPage() + 1);
 					return mTwitter.getDirectMessages(paging);
+
 				} catch (TwitterException te) {
 					te.printStackTrace();
 				}
-				return null;
+
+
+
+
+
+
+
+
+			return null;
 			}
 			@Override
 			protected void onPostExecute(ResponseList<DirectMessage> result) {
@@ -158,7 +174,23 @@ public class Twitter_Client_DM extends FragmentActivity {
 						tAdapter.add(status);
 					}
 				}else{
-					showToast("DMの取得に失敗しました");
+					ApiLimit api = new ApiLimit(mTwitter);
+					api.execute();
+					Map<String,RateLimitStatus> map = null;
+					try {
+						map = api.get();
+					} catch (InterruptedException e) {
+						// TODO 自動生成された catch ブロック
+						e.printStackTrace();
+					} catch (ExecutionException e) {
+						// TODO 自動生成された catch ブロック
+						e.printStackTrace();
+					}
+					RateLimitStatus DMlimit = map.get("/direct_messages/show");
+					int i = DMlimit.getSecondsUntilReset();
+					String m = i/60 + "分";
+					String s = i % 60 + "秒";
+					showToast("DMの取得に失敗しました\n" + DMlimit.getRemaining() + "回\nAPIリセットまで" + m + s);
 				}
 			}
 		};
@@ -175,13 +207,10 @@ public class Twitter_Client_DM extends FragmentActivity {
 
 	//表示定義クラス
 	public class TweetAdapter extends ArrayAdapter<DirectMessage> {
-
 		private LayoutInflater mInflater;
-
 		public TweetAdapter(Context context) {
 			super(context, android.R.layout.simple_list_item_1);
 			mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-
 		}
 
 		@Override
@@ -197,9 +226,7 @@ public class Twitter_Client_DM extends FragmentActivity {
 			ig.setImage(icon, item.getSenderScreenName());
 			name = (TextView) convertView.findViewById(R.id.name);
 
-
 			getName();
-
 
 			TextView screenName = (TextView) convertView.findViewById(R.id.screen_name);
 			screenName.setText("@" + item.getSenderScreenName());
