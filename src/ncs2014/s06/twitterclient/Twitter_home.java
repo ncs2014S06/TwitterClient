@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import twitter4j.Paging;
 import twitter4j.RateLimitStatus;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -20,12 +21,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Twitter_home extends Activity implements OnClickListener, OnRefreshListener{
+public class Twitter_home extends Activity implements OnClickListener, OnRefreshListener,OnScrollListener{
 
 	//メニューアイテム識別ID
 	private static final int menu_tuito = 0;
@@ -34,6 +37,7 @@ public class Twitter_home extends Activity implements OnClickListener, OnRefresh
 	private static final int menu_update = 3;
 
 	//変数
+	private TimeLine timeLine;
 	private ImageButton bt_update;
 	private ImageButton bt_tuito;
 	private ImageButton bt_user;
@@ -45,6 +49,8 @@ public class Twitter_home extends Activity implements OnClickListener, OnRefresh
 	private SwipeRefreshLayout swipeRefreshLayout;
 	private ListView list;
 	private Menu me;
+	private Paging paging;
+	private int page;
 
 	//intent
 	Intent intent = new Intent();
@@ -82,10 +88,13 @@ public class Twitter_home extends Activity implements OnClickListener, OnRefresh
 			finish();
 		}else{
 			tAdapter = new TweetAdapter(this);
+			paging = new Paging(1);
+			list.setAdapter(tAdapter);
 			mTwitter = TwitterUtils.getTwitterInstance(this);
+			timeLine = new TimeLine(this, mTwitter, tAdapter, swipeRefreshLayout);
+			list.setOnScrollListener(this);
 			createSwipeRefreshLayout();
 			reloadTimeLine();
-			list.setAdapter(tAdapter);
 		}
 	}//onCreate
 
@@ -241,6 +250,21 @@ public class Twitter_home extends Activity implements OnClickListener, OnRefresh
 	@Override
 	public void onRefresh() {
 		reloadTimeLine();
+	}
+
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
+	@Override
+	public void onScroll(AbsListView view, int iTop,
+			int iVisible, int iTotal) {
+		boolean bLast = iTotal == iTop + iVisible;
+		if(bLast){
+			timeLine.reloadTimeLine(paging);
+		}
 	}
 
 
