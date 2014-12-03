@@ -72,7 +72,7 @@ public class Twitter_Client_DM extends FragmentActivity {
 
 
 		//受信
-		findViewById(R.id.button1).setOnClickListener(new View.OnClickListener() {
+		findViewById(R.id.bt_tweet).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				reloadDM();
@@ -93,7 +93,7 @@ public class Twitter_Client_DM extends FragmentActivity {
 		});
 
 		//新規作成
-		findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
+		findViewById(R.id.bt_follower).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				intent.setClass(getApplicationContext(), Twitter_createDM.class);
