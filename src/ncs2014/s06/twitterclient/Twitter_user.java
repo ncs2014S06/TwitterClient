@@ -4,15 +4,20 @@ import twitter4j.Twitter;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 import com.loopj.android.image.SmartImageView;
 
-public class Twitter_user extends Activity {
+public class Twitter_user extends Activity implements OnClickListener {
 
 	private SmartImageView view;
 	private Twitter mTwitter;
+	private Button myTweet;
+	private Button follow;
+	private Button follower;
+	private Button fav;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -20,20 +25,62 @@ public class Twitter_user extends Activity {
 		mTwitter = TwitterUtils.getTwitterInstance(this);
 		ImageGet ig = new ImageGet(mTwitter);
 		Log.d("test","test");
-		setContentView(R.layout.twitter_user);
-		ListView listView = (ListView) findViewById(R.id.aaa);
-		view = (SmartImageView) findViewById(R.id.imageView1);
-
+		setContentView(R.layout.twitter_user_status);
+		view = (SmartImageView) findViewById(R.id.user_image);
 		ig.setImage(view);
 
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
+		myTweet = (Button) findViewById(R.id.bt_tweet);
+		follow = (Button) findViewById(R.id.bt_follow);
+		follower = (Button) findViewById(R.id.bt_follower);
+		fav = (Button) findViewById(R.id.bt_favorite);
 
-		 adapter.add("a");
-		 adapter.add("b");
-		 adapter.add("c");
+		myTweet.setOnClickListener(this);
+		follow.setOnClickListener(this);
+		follower.setOnClickListener(this);
+		fav.setOnClickListener(this);
 
-		 listView.setAdapter(adapter);
 	}
+
+	@Override
+	public void onClick(View v) {
+		if(v == myTweet){
+			tweetGet();
+		}
+
+		if(v == follow){
+			followGet();
+		}
+
+		if(v == follower){
+			followerGet();
+		}
+
+		if(v == fav){
+			favGet();
+		}
+
+	}
+
+	public void tweetGet(){
+
+
+
+
+	}
+
+	public void followGet(){
+
+	}
+
+	public void followerGet(){
+
+	}
+
+	public void favGet(){
+
+	}
+
+
 
 
 }

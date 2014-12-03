@@ -15,12 +15,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-        <ImageView
+        <com.loopj.android.image.SmartImageView
             android:id="@+id/user_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
-            android:src="@drawable/massan" />
+            android:src="@drawable/ic_launcher" />
 
         <TextView
             android:id="@+id/text_username"
