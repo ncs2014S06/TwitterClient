@@ -36,7 +36,7 @@
             android:text="受信BOX" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="送信BOX" />

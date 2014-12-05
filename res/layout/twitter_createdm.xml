@@ -34,7 +34,7 @@
     </EditText>
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/tweet_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/imageView1"
@@ -46,7 +46,7 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/editText1"
+        android:layout_above="@+id/tweet_text"
         android:layout_toRightOf="@+id/imageView1"
         android:text="宛先" />
 

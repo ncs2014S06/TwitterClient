@@ -61,7 +61,7 @@ public class Twitter_Client_DM extends FragmentActivity {
 		});
 
 		//送信
-		findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
+		findViewById(R.id.send).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				sentDM();

@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -36,12 +37,18 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
     private Button tweet;
     private Button imageTweet;
 
+  //intent
+  	Intent intent = new Intent();
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.twitter_tweet);
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_tuito);
+
 
         mTwitter = TwitterUtils.getTwitterInstance(this);
         ImageGet ig = new ImageGet(mTwitter);

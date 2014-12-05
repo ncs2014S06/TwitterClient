@@ -1,0 +1,74 @@
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:layout_weight="1">
+
+
+
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="22dp" >
+
+        <com.loopj.android.image.SmartImageView
+        	android:id="@+id/icon"
+       		android:layout_width="50dp"
+        	android:layout_height="50dp"
+        	android:src="@drawable/ic_launcher" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_marginTop="29dp"
+        android:gravity="center" >
+
+    <EditText
+        android:id="@+id/input_text"
+        android:layout_width="match_parent"
+        android:layout_height="275dp"
+        android:layout_above="@+id/action_tweet"
+        android:layout_below="@+id/icon"
+        android:ems="10"
+        android:gravity="left|top"
+        android:inputType="textMultiLine" >
+
+            <requestFocus />
+        </EditText>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/image_plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/action_tweet"
+        android:layout_alignBottom="@+id/action_tweet"
+        android:layout_toLeftOf="@+id/action_tweet"
+        android:background="@android:drawable/ic_menu_camera" />
+
+    <Button
+        android:id="@+id/action_tweet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/linearLayout2"
+        android:background="@android:drawable/ic_media_play"
+        android:textColor="@android:color/white" />
+
+</RelativeLayout>
+
+</ScrollView>
+

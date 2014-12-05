@@ -94,6 +94,7 @@ public class Twitter_home extends Activity implements OnClickListener, OnRefresh
 		}
 
 
+
 	private void reloadTimeLine() {
 		AsyncTask<Void, Void, List<twitter4j.Status>> task = new AsyncTask<Void, Void, List<twitter4j.Status>>() {
 			@Override
