@@ -84,9 +84,6 @@ public class Twitter_Client_DM extends FragmentActivity {
 			}
 		});
 
-
-
-
 		//送信
 		findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -106,7 +103,6 @@ public class Twitter_Client_DM extends FragmentActivity {
 				overridePendingTransition(R.anim.right_in, R.anim.left_out);
 			}
 		});
-
 	}
 
 	//送信
@@ -114,15 +110,17 @@ public class Twitter_Client_DM extends FragmentActivity {
 		AsyncTask<Void, Void, ResponseList<DirectMessage>> task = new AsyncTask<Void, Void, ResponseList<DirectMessage>>(){
 			@Override
 			protected ResponseList<DirectMessage> doInBackground(Void... params) {
-				// TODO 自動生成されたメソッド・スタブ
-				try {
-					Paging paging = new Paging(1);
-					return mTwitter.getSentDirectMessages(paging);
-				} catch (TwitterException te) {
-					te.printStackTrace();
+					// TODO 自動生成されたメソッド・スタブ
+					try {
+						Paging paging = new Paging(1);
+						return mTwitter.getDirectMessages(paging);
+					} catch (TwitterException te) {
+						te.printStackTrace();
+					}
+					return null;
 				}
-				return null;
-			}
+
+
 			@Override
 			protected void onPostExecute(ResponseList<DirectMessage> result) {
 				// TODO 自動生成されたメソッド・スタブ
@@ -139,8 +137,6 @@ public class Twitter_Client_DM extends FragmentActivity {
 		task.execute();
 	}
 
-
-
 	private void reloadDM(){
 		AsyncTask<Void, Void, ResponseList<DirectMessage>> task = new AsyncTask<Void, Void, ResponseList<DirectMessage>>(){
 			@Override
@@ -149,20 +145,10 @@ public class Twitter_Client_DM extends FragmentActivity {
 
 				try {
 					Paging paging = new Paging(1);
-					paging.setPage(paging.getPage() + 1);
 					return mTwitter.getDirectMessages(paging);
-
 				} catch (TwitterException te) {
 					te.printStackTrace();
 				}
-
-
-
-
-
-
-
-
 			return null;
 			}
 			@Override
@@ -204,16 +190,17 @@ public class Twitter_Client_DM extends FragmentActivity {
 	}
 
 
-
 	//表示定義クラス
 	public class TweetAdapter extends ArrayAdapter<DirectMessage> {
+
 		private LayoutInflater mInflater;
+
 		public TweetAdapter(Context context) {
 			super(context, android.R.layout.simple_list_item_1);
 			mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+
 		}
 
-		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			// TODO 自動生成されたメソッド・スタブ
 
@@ -221,15 +208,13 @@ public class Twitter_Client_DM extends FragmentActivity {
 				convertView = mInflater.inflate(R.layout.list_item_tweet, null);
 			}
 
-			item = getItem(position);
+			DirectMessage item = getItem(position);
 			SmartImageView icon = (SmartImageView) convertView.findViewById(R.id.icon);
-			ig.setImage(icon, item.getSenderScreenName());
-			name = (TextView) convertView.findViewById(R.id.name);
-
-			getName();
-
+			icon.setImageUrl(item.getSender().getProfileImageURL());
+			TextView name = (TextView) convertView.findViewById(R.id.name);
+			name.setText(item.getSender().getName());
 			TextView screenName = (TextView) convertView.findViewById(R.id.screen_name);
-			screenName.setText("@" + item.getSenderScreenName());
+			screenName.setText("@" + item.getSender().getScreenName());
 			TextView text = (TextView) convertView.findViewById(R.id.text);
 			text.setText(item.getText());
 			return convertView;
