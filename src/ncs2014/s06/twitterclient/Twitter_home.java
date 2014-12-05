@@ -23,12 +23,14 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Twitter_home extends Activity implements OnClickListener, OnRefreshListener,OnScrollListener{
+public class Twitter_home extends Activity implements OnItemClickListener,OnClickListener, OnRefreshListener,OnScrollListener{
 
 	//メニューアイテム識別ID
 	private static final int menu_tuito = 0;
@@ -81,6 +83,7 @@ public class Twitter_home extends Activity implements OnClickListener, OnRefresh
 		bt_user.setOnClickListener(this);
 		bt_dm.setOnClickListener(this);
 		bt_menu.setOnClickListener(this);
+		list.setOnItemClickListener(this);
 
 		if (!TwitterUtils.hasAccessToken(this)) {
 			Intent intent = new Intent(this, TwitterOAuthActivity.class);
@@ -268,6 +271,13 @@ public class Twitter_home extends Activity implements OnClickListener, OnRefresh
 		if(bLast){
 			timeLine.reloadTimeLine(paging);
 		}
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+
+
 	}
 
 
