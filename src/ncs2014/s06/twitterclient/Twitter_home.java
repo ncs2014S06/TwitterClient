@@ -102,12 +102,9 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	}//onCreate
 
 	public void createSwipeRefreshLayout(){
-
 		swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
-
 		swipeRefreshLayout.setOnRefreshListener(this);
-		}
-
+	}
 
 	private void reloadTimeLine() {
 		AsyncTask<Void, Void, List<twitter4j.Status>> task = new AsyncTask<Void, Void, List<twitter4j.Status>>() {

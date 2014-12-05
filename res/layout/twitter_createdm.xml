@@ -1,53 +1,69 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:fillViewport="true" >
+
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/neet"
+    android:background="@android:color/black"
     android:padding="8dp" >
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/massan" />
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/action_tweet"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/blee"
-        android:text="つぶやく" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
 
-    <EditText
-        android:id="@+id/input_text"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/action_tweet"
-        android:layout_below="@+id/imageView1"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:gravity="left|top"
-        android:inputType="textMultiLine" >
+            <com.loopj.android.image.SmartImageView
+                android:id="@+id/DM_MyImage"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_launcher" />
 
-        <requestFocus />
-    </EditText>
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="To." />
 
-    <EditText
-        android:id="@+id/editText1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageView1"
-        android:layout_alignRight="@+id/input_text"
-        android:layout_marginBottom="27dp"
-        android:ems="10" />
+            <EditText
+                android:id="@+id/editText1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="29dp"
+                android:layout_marginLeft="40dp"
+                android:layout_weight="1"
+                android:ems="10" />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/editText1"
-        android:layout_toRightOf="@+id/imageView1"
-        android:text="宛先" />
+        <EditText
+            android:id="@+id/input_text"
+            android:layout_width="fill_parent"
+            android:layout_height="203dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="1.82"
+            android:gravity="left|top"
+
+            android:inputType="textMultiLine">
+            <requestFocus/>
+           </EditText>
+
+        <Button
+            android:id="@+id/action_tweet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18dp"
+            android:background="@drawable/shape_button"
+            android:text="送信"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
 
 </RelativeLayout>
+
+</ScrollView>
