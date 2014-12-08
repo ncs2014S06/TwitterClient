@@ -106,6 +106,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 		swipeRefreshLayout.setOnRefreshListener(this);
 	}
 
+
 	private void reloadTimeLine() {
 		AsyncTask<Void, Void, List<twitter4j.Status>> task = new AsyncTask<Void, Void, List<twitter4j.Status>>() {
 			@Override
@@ -157,8 +158,6 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	private void showToast(String text) {
 		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
 	}
-
-
 
 	/**
 	 *  メニュー
@@ -219,10 +218,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	@Override
 	public void onClick(View v) {
 		if(v == bt_update){
-			//reloadTimeLine();
-			intent.setClass(getApplicationContext(), test.class);
-			startActivity(intent);
-			overridePendingTransition(R.anim.right_in, R.anim.left_out);
+			reloadTimeLine();
 		}//if
 
 		//ツイート画面

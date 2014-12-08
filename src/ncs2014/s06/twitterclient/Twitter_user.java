@@ -4,8 +4,6 @@ import twitter4j.Twitter;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import com.loopj.android.image.SmartImageView;
 
@@ -20,19 +18,20 @@ public class Twitter_user extends Activity {
 		mTwitter = TwitterUtils.getTwitterInstance(this);
 		ImageGet ig = new ImageGet(mTwitter);
 		Log.d("test","test");
-		setContentView(R.layout.twitter_user);
-		ListView listView = (ListView) findViewById(R.id.aaa);
-		view = (SmartImageView) findViewById(R.id.imageView1);
+		setContentView(R.layout.twitter_user_status);
+		//ListView listView = (ListView) findViewById(R.id.aaa);
+		view = (SmartImageView) findViewById(R.id.image_user);
 
 		ig.setImage(view);
 
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
+		/**ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
 
 		 adapter.add("a");
 		 adapter.add("b");
 		 adapter.add("c");
 
 		 listView.setAdapter(adapter);
+		 */
 	}
 
 
