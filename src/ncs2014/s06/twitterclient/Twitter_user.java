@@ -2,7 +2,7 @@ package ncs2014.s06.twitterclient;
 
 import java.util.List;
 
-import twitter4j.IDs;
+import twitter4j.PagableResponseList;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import android.app.Activity;
@@ -26,11 +26,13 @@ public class Twitter_user extends Activity implements OnClickListener {
 	private Button fav;
 	private TweetAdapter tAdapter;
 	private ListView list;
+	private PagableResponseList<twitter4j.User> rawData;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mTwitter = TwitterUtils.getTwitterInstance(this);
+		rawData = null;
 		ImageGet ig = new ImageGet(mTwitter);
 		Log.d("test","test");
 		setContentView(R.layout.twitter_user_status);
@@ -106,8 +108,7 @@ public class Twitter_user extends Activity implements OnClickListener {
 			@Override
 			protected List<twitter4j.Status> doInBackground(Void... params) {
 				try {
-					IDs followId = mTwitter.getFriendsIDs(mTwitter.getId());
-					List<twitter4j.Status> foList = (List<twitter4j.Status>) followId;
+					//rawData = mTwitter.getFriendsIDs(mTwitter.getScreenName());
 
 					//ツイート数カウント用変数
 					int i = mTwitter.showUser(mTwitter.getId()).getStatusesCount();
