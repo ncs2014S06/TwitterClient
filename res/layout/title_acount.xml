@@ -9,11 +9,10 @@
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
         android:gravity="center_vertical"
-        android:text="@string/title_tuito"
+        android:text="@string/title_acount"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:textStyle="bold"
         />
-
 
 </RelativeLayout>
