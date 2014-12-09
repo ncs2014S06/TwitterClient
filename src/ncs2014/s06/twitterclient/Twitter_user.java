@@ -27,6 +27,8 @@ public class Twitter_user extends Activity implements OnClickListener {
 	private TweetAdapter tAdapter;
 	private ListView list;
 	private PagableResponseList<twitter4j.User> rawData;
+	private long cursor = -1;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +110,7 @@ public class Twitter_user extends Activity implements OnClickListener {
 			@Override
 			protected List<twitter4j.Status> doInBackground(Void... params) {
 				try {
-					//rawData = mTwitter.getFriendsIDs(mTwitter.getScreenName());
+					rawData = mTwitter.getFriendsList(mTwitter.getScreenName(),cursor);
 
 					//ツイート数カウント用変数
 					int i = mTwitter.showUser(mTwitter.getId()).getStatusesCount();
