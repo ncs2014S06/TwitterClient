@@ -2,9 +2,9 @@ package ncs2014.s06.twitterclient;
 
 import java.util.List;
 
-import twitter4j.PagableResponseList;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
+import twitter4j.User;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -37,8 +37,9 @@ public class Twitter_user extends Activity implements OnClickListener {
 	private Button fav;
 	private TweetAdapter tAdapter;
 	private ListView list;
-	private PagableResponseList<twitter4j.User> rawData;
-	private long cursor = -1;
+	private String followerName;
+	private SmartImageView followerImg;
+	private User u;
 
 
 	@Override
@@ -47,15 +48,20 @@ public class Twitter_user extends Activity implements OnClickListener {
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 
 		setContentView(R.layout.twitter_user_status);
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_acount);
 
 		//findview
 		bt_update = (ImageButton) findViewById(R.id.bt_update);
 		bt_tuito = (ImageButton) findViewById(R.id.bt_tuito);
 		bt_user = (ImageButton) findViewById(R.id.bt_user);
 		bt_dm = (ImageButton) findViewById(R.id.bt_dm);
+		list = (ListView) findViewById(R.id.user_list);
+
+		myTweet = (Button) findViewById(R.id.myTweet);
+		follow = (Button) findViewById(R.id.follow);
+		follower = (Button) findViewById(R.id.follower);
 
 		//リスナー
+
 		bt_update.setOnClickListener(this);
 		bt_tuito.setOnClickListener(this);
 		bt_user.setOnClickListener(this);
@@ -63,28 +69,23 @@ public class Twitter_user extends Activity implements OnClickListener {
 		myTweet.setOnClickListener(this);
 		follow.setOnClickListener(this);
 		follower.setOnClickListener(this);
-		fav.setOnClickListener(this);
 
-
-
-
-
-
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_acount);
 		mTwitter = TwitterUtils.getTwitterInstance(this);
-		rawData = null;
 		ImageGet ig = new ImageGet(mTwitter);
 		Log.d("test","test");
 
-		setContentView(R.layout.twitter_user_status);
 		view = (SmartImageView) findViewById(R.id.image_user);
 		ig.setImage(view);
 
+		//ボタンに各種値をセット
+		tweetGet();
+		followGet();
+		followerGet();
 
 
 		tAdapter = new TweetAdapter(this);
-		myTweet = (Button) findViewById(R.id.bt_tweet);
-		follow = (Button) findViewById(R.id.bt_follow);
-		follower = (Button) findViewById(R.id.bt_follower);
+
 
 	}
 
@@ -93,8 +94,9 @@ public class Twitter_user extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		if(v == myTweet){
-			setContentView(R.layout.twitter_mytweet);
-			list = (ListView) findViewById(R.id.tllist);
+			Log.d("tweet","tddddddd");
+			//setContentView(R.layout.twitter_mytweet);
+			//list = (ListView) findViewById(R.id.tllist);
 			tweetGet();
 			list.setAdapter(tAdapter);
 		}
@@ -162,40 +164,55 @@ public class Twitter_user extends Activity implements OnClickListener {
 	};
 	task.execute();
 
-    }
+	try {
+		User user = mTwitter.verifyCredentials();
+		int count =user.getStatusesCount();
+		String a = String.valueOf(count);
+
+
+		myTweet.setText("ツイート\n" + a);
+
+
+		Log.d("aa",a);
+
+	} catch (TwitterException e) {
+		e.printStackTrace();
+	}
+
+    }//tweetGet
 
 	public void followGet(){
-		AsyncTask<Void, Void, List<twitter4j.Status>> task = new AsyncTask<Void, Void, List<twitter4j.Status>>() {
-			@Override
-			protected List<twitter4j.Status> doInBackground(Void... params) {
-				try {
-					rawData = mTwitter.getFriendsList(mTwitter.getScreenName(),cursor);
+		try {
+			User user = mTwitter.verifyCredentials();
+			int count =user.getFriendsCount();
+			String a = String.valueOf(count);
 
-					//ツイート数カウント用変数
-					int i = mTwitter.showUser(mTwitter.getId()).getStatusesCount();
+			follow.setText("フォロー\n" + a);
 
-					return mTwitter.getUserTimeline(mTwitter.getId());
-				} catch (TwitterException e) {
-					e.printStackTrace();
-				}
-				return null;
-			}
 
-			@Override
-			protected void onPostExecute(List<twitter4j.Status> result) {
-				if (result != null) {
-					tAdapter.clear();
-					for (twitter4j.Status status : result) {
-						tAdapter.add(status);
-					}
-				}
-			}
-		};
-		task.execute();
+			Log.d("aa",a);
 
+		} catch (TwitterException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void followerGet(){
+		try {
+			User user = mTwitter.verifyCredentials();
+			int count =user.getFollowersCount();
+			String a = String.valueOf(count);
+
+			follower.setText("フォロワー\n" + a);
+
+
+			Log.d("aa",a);
+
+		} catch (TwitterException e) {
+			e.printStackTrace();
+		}
+
+
 	}
 
 	public void favGet(){

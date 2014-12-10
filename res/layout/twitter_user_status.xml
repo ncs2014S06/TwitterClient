@@ -11,7 +11,7 @@
 
     <!-- 第1レイアウト -->
 
-    <LinearLayout
+   <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -24,6 +24,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:src="@drawable/ic_launcher" />
+
+
 
         <TextView
             android:id="@+id/text_username"
@@ -50,9 +52,8 @@
             android:textColor="#ffffff" />
     </LinearLayout>
 
-    <!-- 第5レイアウト -->
-
-    <!-- 第6レイアウト -->
+<!-- 第１ -->
+<!-- 第２ -->
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -61,35 +62,38 @@
         android:layout_below="@+id/linearLayout3" >
 
         <Button
-            android:id="@+id/bt_tweet"
+            android:id="@+id/myTweet"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/tweet_button"
-            android:text="ツイート"
+            android:text=""
             android:textColor="#1a1a1a"
-            android:textSize="12dp" />
+            android:textSize="15dp" />
 
         <Button
-            android:id="@+id/bt_follow"
+            android:id="@+id/follow"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/tweet_button"
-            android:text="フォロー"
+            android:text=""
             android:textColor="#1a1a1a"
-            android:textSize="12dp" />
+            android:textSize="15dp" />
 
         <Button
-            android:id="@+id/bt_follower"
+            android:id="@+id/follower"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/tweet_button"
-            android:text="フォロワー"
+            android:text=""
             android:textColor="#1a1a1a"
-            android:textSize="12dp" />
+            android:textSize="14dp" />
+
     </LinearLayout>
+    <!-- 第２ -->
+    <!-- 第３ -->
 
     <LinearLayout
         android:id="@+id/linearLayout1"
@@ -136,9 +140,10 @@
             android:contentDescription="a"
             android:src="@android:drawable/ic_dialog_email" />
     </LinearLayout>
+<!-- 第３ -->
 
     <ListView
-        android:id="@+id/listView1"
+        android:id="@+id/user_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/linearLayout2"
