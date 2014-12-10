@@ -11,6 +11,7 @@ import twitter4j.TwitterException;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.widget.Toast;
 
 public class TimeLine {
@@ -28,11 +29,12 @@ public class TimeLine {
 		this.swipeRefreshLayout = swipeRefreshLayout;
 	}
 
-	public void reloadTimeLine() {
+	public synchronized void reloadTimeLine() {
 		AsyncTask<Void, Void, List<twitter4j.Status>> task = new AsyncTask<Void, Void, List<twitter4j.Status>>() {
 			@Override
 			protected List<twitter4j.Status> doInBackground(Void... params) {
 				try {
+					Log.d("scroll","TL呼び出し！");
 					return mTwitter.getHomeTimeline();
 				} catch (TwitterException e) {
 					e.printStackTrace();
@@ -76,14 +78,27 @@ public class TimeLine {
 		task.execute();
 	}
 
-	public void reloadTimeLine(Paging paging1) {
+	/**
+	 *
+	 * @param paging1
+	 * @param mode 新規 0 追加 1
+	 */
+	public synchronized void reloadTimeLine(Paging paging1,final int mode) {
 		this.paging = paging1;
-		paging.setPage(paging.getPage() + 1);
+		if(mode == 1){
+			paging.setPage(paging.getPage() + 1);
+		}
 		AsyncTask<Void, Void, List<twitter4j.Status>> task = new AsyncTask<Void, Void, List<twitter4j.Status>>() {
 			@Override
 			protected List<twitter4j.Status> doInBackground(Void... params) {
 				try {
-					return mTwitter.getHomeTimeline(paging);
+					if(mode == 1){
+						Log.d("scroll","addTL呼び出し！");
+						return mTwitter.getHomeTimeline(paging);
+					}
+					Log.d("scroll","TL呼び出し！");
+					return mTwitter.getHomeTimeline();
+
 				} catch (TwitterException e) {
 					e.printStackTrace();
 				}
@@ -93,7 +108,9 @@ public class TimeLine {
 			@Override
 			protected void onPostExecute(List<twitter4j.Status> result) {
 				if (result != null) {
-				//	tAdapter.clear();
+					if(mode == 0){
+						tAdapter.clear();
+					}
 					for (twitter4j.Status status : result) {
 						tAdapter.add(status);
 					}

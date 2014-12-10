@@ -1,19 +1,13 @@
 package ncs2014.s06.twitterclient;
 
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
-
 import twitter4j.Paging;
-import twitter4j.RateLimitStatus;
 import twitter4j.Twitter;
-import twitter4j.TwitterException;
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -91,13 +85,13 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 			finish();
 		}else{
 			tAdapter = new TweetAdapter(this);
-			paging = new Paging(1);
 			list.setAdapter(tAdapter);
+			paging = new Paging(1);
 			mTwitter = TwitterUtils.getTwitterInstance(this);
 			timeLine = new TimeLine(this, mTwitter, tAdapter, swipeRefreshLayout);
 			list.setOnScrollListener(this);
 			createSwipeRefreshLayout();
-			reloadTimeLine();
+			timeLine.reloadTimeLine(paging,0);
 		}
 	}//onCreate
 
@@ -106,54 +100,6 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 		swipeRefreshLayout.setOnRefreshListener(this);
 	}
 
-
-	private void reloadTimeLine() {
-		AsyncTask<Void, Void, List<twitter4j.Status>> task = new AsyncTask<Void, Void, List<twitter4j.Status>>() {
-			@Override
-			protected List<twitter4j.Status> doInBackground(Void... params) {
-				try {
-					return mTwitter.getHomeTimeline();
-				} catch (TwitterException e) {
-					e.printStackTrace();
-				}
-				return null;
-			}
-
-			@Override
-			protected void onPostExecute(List<twitter4j.Status> result) {
-				if (result != null) {
-					tAdapter.clear();
-					for (twitter4j.Status status : result) {
-						tAdapter.add(status);
-					}
-					showToast("タイムラインの取得に成功しました");
-
-					//la.getListView().setSelection(0);
-				} else {
-					showToast("タイムラインの取得に失敗しました");
-				}
-				swipeRefreshLayout.setRefreshing(false);
-				ApiLimit api = new ApiLimit(mTwitter);
-				api.execute();
-				Map<String, RateLimitStatus> map = null;
-				try {
-					map = api.get();
-				} catch (InterruptedException e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
-				} catch (ExecutionException e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
-				}
-				RateLimitStatus TLlimit = map.get("/statuses/home_timeline");
-				int i = TLlimit.getSecondsUntilReset();
-				String m = i / 60 + "分";
-				String S = i % 60 + "秒";
-				showToast("残り読み込み回数" + TLlimit.getRemaining() + "回\nAPIリセットまで" + m + S);
-			}
-		};
-		task.execute();
-	}
 
 	private void showToast(String text) {
 		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
@@ -197,7 +143,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 			return true;
 
 			case menu_update:
-				reloadTimeLine();
+				timeLine.reloadTimeLine(paging,0);
 			return true;
 
 			default:
@@ -218,7 +164,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	@Override
 	public void onClick(View v) {
 		if(v == bt_update){
-			reloadTimeLine();
+			timeLine.reloadTimeLine(paging,0);
 		}//if
 
 		//ツイート画面
@@ -248,7 +194,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 
 	@Override
 	public void onRefresh() {
-		reloadTimeLine();
+		timeLine.reloadTimeLine(paging,0);
 	}
 
 	@Override
@@ -262,7 +208,15 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 			int iVisible, int iTotal) {
 		boolean bLast = iTotal == iTop + iVisible;
 		if(bLast){
-			timeLine.reloadTimeLine(paging);
+			Log.d("scroll","最後尾だよ");
+			timeLine.reloadTimeLine(paging,1);
+			try{
+				Log.d("scroll","スリープ！");
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+			}
 		}
 	}
 
