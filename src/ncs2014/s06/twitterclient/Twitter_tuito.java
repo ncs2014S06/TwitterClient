@@ -126,7 +126,7 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
                     //showToast("ツイートが完了しました！");
                     finish();
                 } else {
-                   // showToast("ツイートに失敗しました。。。");
+                    //showToast("ツイートに失敗しました。。。");
                 }
 				return true;
 			}else{

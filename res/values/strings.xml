@@ -10,4 +10,5 @@
     <string name="twitter_oauth">認証開始（・。・）</string>
     <string name="title">TwitterClient</string>
     <string name="title_tuito">New tweet</string>
+    <string name="title_acount">アカウント</string>
 </resources>
