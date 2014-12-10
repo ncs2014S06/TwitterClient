@@ -95,8 +95,6 @@ public class Twitter_user extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		if(v == myTweet){
 			Log.d("tweet","tddddddd");
-			//setContentView(R.layout.twitter_mytweet);
-			//list = (ListView) findViewById(R.id.tllist);
 			tweetGet();
 			list.setAdapter(tAdapter);
 		}
@@ -168,13 +166,7 @@ public class Twitter_user extends Activity implements OnClickListener {
 		User user = mTwitter.verifyCredentials();
 		int count =user.getStatusesCount();
 		String a = String.valueOf(count);
-
-
 		myTweet.setText("ツイート\n" + a);
-
-
-		Log.d("aa",a);
-
 	} catch (TwitterException e) {
 		e.printStackTrace();
 	}
@@ -186,12 +178,7 @@ public class Twitter_user extends Activity implements OnClickListener {
 			User user = mTwitter.verifyCredentials();
 			int count =user.getFriendsCount();
 			String a = String.valueOf(count);
-
 			follow.setText("フォロー\n" + a);
-
-
-			Log.d("aa",a);
-
 		} catch (TwitterException e) {
 			e.printStackTrace();
 		}
@@ -202,12 +189,8 @@ public class Twitter_user extends Activity implements OnClickListener {
 			User user = mTwitter.verifyCredentials();
 			int count =user.getFollowersCount();
 			String a = String.valueOf(count);
-
 			follower.setText("フォロワー\n" + a);
-
-
 			Log.d("aa",a);
-
 		} catch (TwitterException e) {
 			e.printStackTrace();
 		}
