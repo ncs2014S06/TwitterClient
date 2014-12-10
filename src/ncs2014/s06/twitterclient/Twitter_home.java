@@ -14,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -97,7 +98,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 			timeLine = new TimeLine(this, mTwitter, tAdapter, swipeRefreshLayout);
 			list.setOnScrollListener(this);
 			createSwipeRefreshLayout();
-			reloadTimeLine();
+			timeLine.reloadTimeLine();
 		}
 	}//onCreate
 
@@ -106,12 +107,13 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 		swipeRefreshLayout.setOnRefreshListener(this);
 	}
 
-
-	private void reloadTimeLine() {
+	synchronized  void reloadTimeLine() {
+//	private void reloadTimeLine() {
 		AsyncTask<Void, Void, List<twitter4j.Status>> task = new AsyncTask<Void, Void, List<twitter4j.Status>>() {
 			@Override
 			protected List<twitter4j.Status> doInBackground(Void... params) {
 				try {
+					Log.d("scroll","TL呼び出し！");
 					return mTwitter.getHomeTimeline();
 				} catch (TwitterException e) {
 					e.printStackTrace();
@@ -262,7 +264,15 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 			int iVisible, int iTotal) {
 		boolean bLast = iTotal == iTop + iVisible;
 		if(bLast){
+			Log.d("scroll","最後尾だよ");
 			timeLine.reloadTimeLine(paging);
+			try{
+				Log.d("scroll","スリープ！");
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+			}
 		}
 	}
 
