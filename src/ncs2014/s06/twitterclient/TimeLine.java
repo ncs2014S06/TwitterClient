@@ -21,6 +21,7 @@ public class TimeLine {
 	private SwipeRefreshLayout swipeRefreshLayout;
 	private Context context;
 	private Paging paging;
+	private AsyncTask<Void, Void, List<twitter4j.Status>> task;
 
 	public TimeLine(Context context,Twitter mTwitter,TweetAdapter tAdapter,SwipeRefreshLayout swipeRefreshLayout) {
 		this.context = context;
@@ -28,56 +29,6 @@ public class TimeLine {
 		this.tAdapter = tAdapter;
 		this.swipeRefreshLayout = swipeRefreshLayout;
 	}
-
-	public synchronized void reloadTimeLine() {
-		AsyncTask<Void, Void, List<twitter4j.Status>> task = new AsyncTask<Void, Void, List<twitter4j.Status>>() {
-			@Override
-			protected List<twitter4j.Status> doInBackground(Void... params) {
-				try {
-					Log.d("scroll","TL呼び出し！");
-					return mTwitter.getHomeTimeline();
-				} catch (TwitterException e) {
-					e.printStackTrace();
-				}
-				return null;
-			}
-
-			@Override
-			protected void onPostExecute(List<twitter4j.Status> result) {
-				if (result != null) {
-					tAdapter.clear();
-					for (twitter4j.Status status : result) {
-						tAdapter.add(status);
-					}
-					showToast("タイムラインの取得に成功しました");
-
-					//la.getListView().setSelection(0);
-				} else {
-					showToast("タイムラインの取得に失敗しました");
-				}
-				swipeRefreshLayout.setRefreshing(false);
-				ApiLimit api = new ApiLimit(mTwitter);
-				api.execute();
-				Map<String, RateLimitStatus> map = null;
-				try {
-					map = api.get();
-				} catch (InterruptedException e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
-				} catch (ExecutionException e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
-				}
-				RateLimitStatus TLlimit = map.get("/statuses/home_timeline");
-				int i = TLlimit.getSecondsUntilReset();
-				String m = i / 60 + "分";
-				String S = i % 60 + "秒";
-				showToast("残り読み込み回数" + TLlimit.getRemaining() + "回\nAPIリセットまで" + m + S);
-			}
-		};
-		task.execute();
-	}
-
 	/**
 	 *
 	 * @param paging1
@@ -88,7 +39,7 @@ public class TimeLine {
 		if(mode == 1){
 			paging.setPage(paging.getPage() + 1);
 		}
-		AsyncTask<Void, Void, List<twitter4j.Status>> task = new AsyncTask<Void, Void, List<twitter4j.Status>>() {
+		task = new AsyncTask<Void, Void, List<twitter4j.Status>>() {
 			@Override
 			protected List<twitter4j.Status> doInBackground(Void... params) {
 				try {
@@ -111,8 +62,11 @@ public class TimeLine {
 					if(mode == 0){
 						tAdapter.clear();
 					}
+					int i = 0;
 					for (twitter4j.Status status : result) {
 						tAdapter.add(status);
+						Log.d("count", i + "");
+						i++;
 					}
 					showToast("タイムラインの取得に成功しました");
 
@@ -140,6 +94,7 @@ public class TimeLine {
 				showToast("残り読み込み回数" + TLlimit.getRemaining() + "回\nAPIリセットまで" + m + S);
 			}
 		};
+		Log.d("task","name " + task.getStatus().name());
 		task.execute();
 	}
 
@@ -147,5 +102,11 @@ public class TimeLine {
 		Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
 	}
 
+	public boolean taskRunning(){
+		if(task.getStatus().name().equals("RUNNING")){
+			return true;
+		}
+		return false;
+	}
 
 }

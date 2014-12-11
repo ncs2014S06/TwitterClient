@@ -89,9 +89,9 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 			paging = new Paging(1);
 			mTwitter = TwitterUtils.getTwitterInstance(this);
 			timeLine = new TimeLine(this, mTwitter, tAdapter, swipeRefreshLayout);
-			list.setOnScrollListener(this);
 			createSwipeRefreshLayout();
 			timeLine.reloadTimeLine(paging,0);
+			list.setOnScrollListener(this);
 		}
 	}//onCreate
 
@@ -208,14 +208,11 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 			int iVisible, int iTotal) {
 		boolean bLast = iTotal == iTop + iVisible;
 		if(bLast){
-			Log.d("scroll","最後尾だよ");
-			timeLine.reloadTimeLine(paging,1);
-			try{
-				Log.d("scroll","スリープ！");
-				Thread.sleep(10000);
-			} catch (InterruptedException e) {
-				// TODO 自動生成された catch ブロック
-				e.printStackTrace();
+			if(list.getCount() != 0){
+				if(!timeLine.taskRunning()){
+					Log.d("scroll","最後尾だよ");
+					timeLine.reloadTimeLine(paging,1);
+				}
 			}
 		}
 	}
