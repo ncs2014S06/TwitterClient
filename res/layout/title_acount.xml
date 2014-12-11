@@ -9,20 +9,10 @@
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
         android:gravity="center_vertical"
-        android:text="@string/title"
+        android:text="@string/title_acount"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:textStyle="bold"
         />
-
-    <ImageButton
-        android:id="@+id/menu_bt"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/title"
-        android:src="@android:drawable/ic_menu_info_details" />
-
 
 </RelativeLayout>

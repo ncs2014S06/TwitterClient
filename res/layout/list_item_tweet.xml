@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
+	android:background="@android:color/white"
 	android:padding="8dp" >
 
 	<com.loopj.android.image.SmartImageView
@@ -19,6 +20,7 @@
 		android:layout_alignTop="@+id/icon"
 		android:layout_marginLeft="8dp"
 		android:layout_toRightOf="@+id/icon"
+		android:textColor="#1e90ff"
 		android:text="名前入ります" />
 
 	<TextView
@@ -28,6 +30,7 @@
 		android:layout_alignTop="@+id/name"
 		android:layout_marginLeft="8dp"
 		android:layout_toRightOf="@+id/name"
+		android:textColor="#00bfff"
 		android:text="\uFF20gabu" />
 
 	<TextView
@@ -36,6 +39,7 @@
 		android:layout_height="wrap_content"
 		android:layout_alignLeft="@+id/name"
 		android:layout_below="@+id/name"
+		android:textColor="#1a1a1a"
 		android:text="本文本文本文本文本文本文本文本文本文本文" />
 
 </RelativeLayout>

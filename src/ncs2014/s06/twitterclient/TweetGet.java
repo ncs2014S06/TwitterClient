@@ -19,7 +19,7 @@ public class TweetGet extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO 自動生成されたメソッド・スタブ
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.twitter_mytweet);
+		setContentView(R.layout.twitter_home);
 		mTwitter = TwitterUtils.getTwitterInstance(this);
 		tAdapter = new TweetAdapter(this);
 		list = (ListView) findViewById(R.id.tllist);

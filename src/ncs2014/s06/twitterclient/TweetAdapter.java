@@ -31,13 +31,15 @@ public class TweetAdapter extends ArrayAdapter<twitter4j.Status> {
 			convertView = mInflater.inflate(R.layout.list_item_tweet, null);
 		}
 
+
+
 		Status item = getItem(position);
 		SmartImageView icon = (SmartImageView) convertView.findViewById(R.id.icon);
 		icon.setImageUrl(item.getUser().getProfileImageURL());
 		TextView name = (TextView) convertView.findViewById(R.id.name);
 		name.setText(item.getUser().getName());
 		TextView screenName = (TextView) convertView.findViewById(R.id.screen_name);
-		screenName.setText("@" + item.getUser().getScreenName());
+		screenName.setText("@"+ item.getUser().getScreenName());
 		TextView text = (TextView) convertView.findViewById(R.id.text);
 		text.setText(item.getText());
 		return convertView;
