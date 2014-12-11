@@ -55,6 +55,7 @@
 <activity android:name="Twitter_createDM"></activity>
 <activity android:name="test">
 </activity>
+<activity android:name="TweetGet"></activity>
 
 
 
