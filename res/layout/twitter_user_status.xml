@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="まっさん"
+            android:text="username"
             android:textColor="#ffffff" />
 
         <TextView
@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="名古屋市　幸田出身"
+            android:text="userscreenname"
             android:textColor="#ffffff" />
 
         <TextView
@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="まっさんです。僕はホモです＾＾\nガチムチだいすきです。"
+            android:text="context"
             android:textColor="#ffffff" />
     </LinearLayout>
 

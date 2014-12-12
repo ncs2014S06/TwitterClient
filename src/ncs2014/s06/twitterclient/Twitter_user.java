@@ -16,6 +16,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.loopj.android.image.SmartImageView;
 
@@ -35,6 +36,9 @@ public class Twitter_user extends Activity implements OnClickListener {
 	private Button follow;
 	private Button follower;
 	private Button fav;
+	private TextView text_username;
+	private TextView text_userfrom;
+	private TextView text_context;
 	private TweetAdapter tAdapter;
 	private ListView list;
 	private String followerName;
@@ -60,6 +64,12 @@ public class Twitter_user extends Activity implements OnClickListener {
 		follow = (Button) findViewById(R.id.follow);
 		follower = (Button) findViewById(R.id.follower);
 
+		text_username = (TextView) findViewById(R.id.text_username);
+		text_userfrom = (TextView) findViewById(R.id.text_userfrom);
+		text_context = (TextView) findViewById(R.id.text_context);
+
+
+
 		//リスナー
 
 		bt_update.setOnClickListener(this);
@@ -73,15 +83,12 @@ public class Twitter_user extends Activity implements OnClickListener {
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_acount);
 		mTwitter = TwitterUtils.getTwitterInstance(this);
 		ImageGet ig = new ImageGet(mTwitter);
-		Log.d("test","test");
 
 		view = (SmartImageView) findViewById(R.id.image_user);
 		ig.setImage(view);
 
 		//ボタンに各種値をセット
-		tweetGet();
-		followGet();
-		followerGet();
+		userStatusGet();
 
 
 		tAdapter = new TweetAdapter(this);
@@ -162,14 +169,6 @@ public class Twitter_user extends Activity implements OnClickListener {
 	};
 	task.execute();
 
-	try {
-		User user = mTwitter.verifyCredentials();
-		int count =user.getStatusesCount();
-		String a = String.valueOf(count);
-		myTweet.setText("ツイート\n" + a);
-	} catch (TwitterException e) {
-		e.printStackTrace();
-	}
 
     }//tweetGet
 
@@ -177,8 +176,8 @@ public class Twitter_user extends Activity implements OnClickListener {
 		try {
 			User user = mTwitter.verifyCredentials();
 			int count =user.getFriendsCount();
-			String a = String.valueOf(count);
-			follow.setText("フォロー\n" + a);
+			String b= String.valueOf(count);
+			follow.setText("フォロー\n" + b);
 		} catch (TwitterException e) {
 			e.printStackTrace();
 		}
@@ -188,9 +187,8 @@ public class Twitter_user extends Activity implements OnClickListener {
 		try {
 			User user = mTwitter.verifyCredentials();
 			int count =user.getFollowersCount();
-			String a = String.valueOf(count);
-			follower.setText("フォロワー\n" + a);
-			Log.d("aa",a);
+			String c = String.valueOf(count);
+			follower.setText("フォロワー\n" + c);
 		} catch (TwitterException e) {
 			e.printStackTrace();
 		}
@@ -199,6 +197,36 @@ public class Twitter_user extends Activity implements OnClickListener {
 	}
 
 	public void favGet(){
+	}
+
+	public void userStatusGet(){
+		try {
+			User user = mTwitter.verifyCredentials();
+
+			//変数宣言
+			String userName = user.getName();
+			String userFrom = user.getScreenName();
+			String userContext = user.getDescription();
+			int a = user.getFollowersCount();
+			int b =user.getFriendsCount();
+			int c =user.getFollowersCount();
+			String mytweet = String.valueOf(a);
+			String follow= String.valueOf(b);
+			String follower = String.valueOf(c);
+
+			//文字セット
+			text_username.setText(userName);
+			text_userfrom.setText("@" + userFrom);
+			text_context.setText(userContext);
+			myTweet.setText("ツイート\n" + mytweet);
+			this.follow.setText("フォロー\n" + follow);
+			this.follower.setText("フォロワー\n" + follower);
+
+
+
+		} catch (TwitterException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
