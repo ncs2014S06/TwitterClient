@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import twitter4j.PagableResponseList;
+import twitter4j.Paging;
 import twitter4j.RateLimitStatus;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -17,6 +18,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,12 +27,13 @@ import android.widget.Toast;
 
 import com.loopj.android.image.SmartImageView;
 
-public class FollowGet extends Activity {
+public class FollowGet extends Activity implements OnScrollListener{
 
 	private Twitter mTwitter;
 	private ListView list;
 	private ArrayAdapter<User> uAdapter;
 	private ArrayList<User> List;
+	private Paging paging;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,15 +41,21 @@ public class FollowGet extends Activity {
 		setContentView(R.layout.twitter_follow);
 		mTwitter = TwitterUtils.getTwitterInstance(this);
 		uAdapter = new userAdapter(this);
+		paging = new Paging(1);
 		list = (ListView) findViewById(R.id.tllist);
 		List = new ArrayList<User>();
-		followGet();
+		followGet(paging,0);
 		list.setAdapter(uAdapter);
 
 
 	}
 
-	public void followGet(){
+	public void followGet(Paging paging1,final int mode){
+		this.paging = paging1;
+		if(mode == 1){
+			paging.setPage(paging.getPage() + 1);
+		}
+
 		AsyncTask<Void, Void, ArrayList<User>> task = new AsyncTask<Void, Void, ArrayList<User>>(){
 
 			@Override
@@ -54,20 +64,25 @@ public class FollowGet extends Activity {
 				long i = -1;
 				int j = 0;
 
-
 				try {
 					Log.d("test","try");
 					PagableResponseList<User> user = mTwitter.getFriendsList(mTwitter.getId(), i);
 					do{
-				//	while(j <= 300){
 						for(User u :user){
 							Log.d("Friends",u.getName());
 							List.add(u);
 							Log.d("test","User for");
 						}
+
 						user = mTwitter.getFriendsList(mTwitter.getId(), user.getNextCursor());
 						Log.d("test","Long i2 " + i);
+
+						if(!user.hasNext()){
+							List.add((User)user);
+						}
+
 					}while(user.hasNext());
+
 					Log.d("test","for1後");
 				} catch (IllegalStateException e) {
 					// TODO 自動生成された catch ブロック
@@ -84,7 +99,9 @@ public class FollowGet extends Activity {
 			protected void onPostExecute(ArrayList<User> result) {
 				// TODO 自動生成されたメソッド・スタブ
 				super.onPostExecute(result);
+				if(mode == 0){
 				uAdapter.clear();
+				}
 				for(User u:result){
 					uAdapter.add(u);
 				}
@@ -121,7 +138,6 @@ public class FollowGet extends Activity {
 		public userAdapter(Context context) {
 			super(context, android.R.layout.simple_list_item_1);
 			mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-
 		}
 
 		@Override
@@ -131,8 +147,6 @@ public class FollowGet extends Activity {
 			if(convertView == null){
 				convertView = mInflater.inflate(R.layout.list_item_user, null);
 			}
-
-
 
 			User item = getItem(position);
 			SmartImageView icon = (SmartImageView) convertView.findViewById(R.id.icon);
@@ -147,5 +161,23 @@ public class FollowGet extends Activity {
 		}
 
 	}//TweetAdapter
+
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
+	@Override
+	public void onScroll(AbsListView view, int iTop,
+			int iVisible, int iTotal) {
+		boolean bLast = iTotal == iTop + iVisible;
+		if(bLast){
+			if(list.getCount() != 0){
+				Log.d("scroll","Follow最後尾だよ");
+				followGet(paging,1);
+			}
+		}
+	}
 
 }
