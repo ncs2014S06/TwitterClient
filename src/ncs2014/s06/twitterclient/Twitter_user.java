@@ -36,6 +36,8 @@ public class Twitter_user extends Activity implements OnClickListener {
 	private Button follow;
 	private Button follower;
 	private Button fav;
+	private Button bt_menu_time;
+	private Button bt_menu_user;
 	private TextView text_username;
 	private TextView text_userfrom;
 	private TextView text_context;
@@ -52,6 +54,7 @@ public class Twitter_user extends Activity implements OnClickListener {
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 
 		setContentView(R.layout.twitter_user_status);
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_user);
 
 		//findview
 		bt_update = (ImageButton) findViewById(R.id.bt_update);
@@ -63,10 +66,12 @@ public class Twitter_user extends Activity implements OnClickListener {
 		myTweet = (Button) findViewById(R.id.myTweet);
 		follow = (Button) findViewById(R.id.follow);
 		follower = (Button) findViewById(R.id.follower);
+		bt_menu_time = (Button) findViewById(R.id.bt_menu_time);
 
 		text_username = (TextView) findViewById(R.id.text_username);
 		text_userfrom = (TextView) findViewById(R.id.text_userfrom);
 		text_context = (TextView) findViewById(R.id.text_context);
+
 
 
 
@@ -76,11 +81,13 @@ public class Twitter_user extends Activity implements OnClickListener {
 		bt_tuito.setOnClickListener(this);
 		bt_user.setOnClickListener(this);
 		bt_dm.setOnClickListener(this);
+		bt_menu_time.setOnClickListener(this);
+
+
 		myTweet.setOnClickListener(this);
 		follow.setOnClickListener(this);
 		follower.setOnClickListener(this);
 
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_acount);
 		mTwitter = TwitterUtils.getTwitterInstance(this);
 		ImageGet ig = new ImageGet(mTwitter);
 
@@ -89,7 +96,6 @@ public class Twitter_user extends Activity implements OnClickListener {
 
 		//ボタンに各種値をセット
 		userStatusGet();
-
 
 		tAdapter = new TweetAdapter(this);
 
@@ -125,6 +131,8 @@ public class Twitter_user extends Activity implements OnClickListener {
 
 		}//if
 
+
+
 		//ツイート画面
 		if(v == bt_tuito){
 			intent.setClass(getApplicationContext(), Twitter_tuito.class);
@@ -143,6 +151,14 @@ public class Twitter_user extends Activity implements OnClickListener {
 			startActivity(intent);
 			overridePendingTransition(R.anim.right_in, R.anim.left_out);
 		}//if
+
+		if(v == bt_menu_time){
+			intent.setClass(getApplicationContext(), Twitter_home.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.right_in, R.anim.left_out);
+		}//if
+
+
 	}
 
 	private void tweetGet() {
@@ -184,15 +200,6 @@ public class Twitter_user extends Activity implements OnClickListener {
 	}
 
 	public void followerGet(){
-		try {
-			User user = mTwitter.verifyCredentials();
-			int count =user.getFollowersCount();
-			String c = String.valueOf(count);
-			follower.setText("フォロワー\n" + c);
-		} catch (TwitterException e) {
-			e.printStackTrace();
-		}
-
 
 	}
 
@@ -214,6 +221,10 @@ public class Twitter_user extends Activity implements OnClickListener {
 			String follow= String.valueOf(b);
 			String follower = String.valueOf(c);
 
+
+
+
+
 			//文字セット
 			text_username.setText(userName);
 			text_userfrom.setText("@" + userFrom);
@@ -221,6 +232,7 @@ public class Twitter_user extends Activity implements OnClickListener {
 			myTweet.setText("ツイート\n" + mytweet);
 			this.follow.setText("フォロー\n" + follow);
 			this.follower.setText("フォロワー\n" + follower);
+
 
 
 

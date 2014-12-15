@@ -11,12 +11,12 @@
             android:layout_alignParentTop="true" >
 
             <Button
-                android:id="@+id/bt_menu_time"
+                android:id="@+id/bt_menu_user"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/title_menu_action"
-                android:text="タイムライン"
+                android:background="@null"
+                android:text=""
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
                 android:textStyle="bold" />
@@ -24,22 +24,21 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="5dp"
                 android:layout_weight="2"
-                android:text="@string/title_tuito"
+                android:layout_marginTop="5dp"
+                android:text="@string/title_user"
                 android:textColor="@android:color/white"
                 android:textSize="28sp"
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/bt_menu_tweet"
+                android:id="@+id/bt_menu_time"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@null"
-                android:text="ツイート"
-                android:textColor="#00bfff"
+                android:text="タイムライン"
+                android:background="@drawable/title_menu_action"
+                android:textColor="@android:color/white"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 

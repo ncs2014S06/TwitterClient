@@ -17,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.image.SmartImageView;
@@ -36,6 +37,8 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
     private SmartImageView view;
     private Button tweet;
     private Button imageTweet;
+    private Button bt_menu_time;
+    private TextView tv_username;
 
   //intent
   	Intent intent = new Intent();
@@ -49,20 +52,34 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
         setContentView(R.layout.twitter_tweet);
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_tuito);
 
-
         mTwitter = TwitterUtils.getTwitterInstance(this);
         ImageGet ig = new ImageGet(mTwitter);
+
+        //findView
         view = (SmartImageView) findViewById(R.id.icon);
-        ig.setImage(view);
-
-        mTwitter = TwitterUtils.getTwitterInstance(this);
         mInputText = (EditText) findViewById(R.id.input_text);
-
         tweet = (Button) findViewById(R.id.action_tweet);
         imageTweet = (Button) findViewById(R.id.image_plus);
+        tv_username = (TextView) findViewById(R.id.tv_usename);
 
+
+        //リスナーセット
+        ig.setImage(view);
+        mTwitter = TwitterUtils.getTwitterInstance(this);
         tweet.setOnClickListener(this);
         imageTweet.setOnClickListener(this);
+
+        try {
+			twitter4j.User user = mTwitter.verifyCredentials();
+			tv_username.setText("@" + user.getScreenName());
+		} catch (TwitterException e) {
+			e.printStackTrace();
+		}
+
+
+
+        bt_menu_time = (Button) findViewById(R.id.bt_menu_time);
+        bt_menu_time.setOnClickListener(this);
     }
 
     private void tweet() {
@@ -150,6 +167,12 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
     		intent.setType("image/*");
     		startActivityForResult(intent, REQUEST_PICK);
 		}
+
+		if(v == bt_menu_time){
+			intent.setClass(getApplicationContext(), Twitter_home.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.left_in, R.anim.right_out);
+		}//if
 
 	}
 }
