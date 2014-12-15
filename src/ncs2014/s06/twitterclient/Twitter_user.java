@@ -40,7 +40,6 @@ public class Twitter_user extends Activity implements OnClickListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		TweetGet tg = new TweetGet();
 		super.onCreate(savedInstanceState);
 		mTwitter = TwitterUtils.getTwitterInstance(this);
 		ImageGet ig = new ImageGet(mTwitter);
@@ -90,6 +89,7 @@ public class Twitter_user extends Activity implements OnClickListener {
 		}
 
 		if(v == follow){
+			startActivity(new Intent(Twitter_user.this,FollowGet.class));
 		}
 
 		if(v == follower){

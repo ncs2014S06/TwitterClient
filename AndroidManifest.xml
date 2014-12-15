@@ -57,6 +57,7 @@
 <activity android:name="test">
 </activity>
 <activity android:name="TweetGet"></activity>
+<activity android:name="FollowGet"></activity>
 
 
 
