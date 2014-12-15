@@ -1,4 +1,5 @@
 package ncs2014.s06.twitterclient;
+
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -18,6 +19,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -26,7 +29,7 @@ import android.widget.Toast;
 
 import com.loopj.android.image.SmartImageView;
 
-public class Twitter_Client_DM extends FragmentActivity {
+public class Twitter_Client_DM extends FragmentActivity implements OnScrollListener{
 
 	 private Twitter mTwitter;
 	private TweetAdapter tAdapter;
@@ -34,8 +37,14 @@ public class Twitter_Client_DM extends FragmentActivity {
 	private ListView list;
 	private DirectMessage item;
 	private TextView name;
-
+	private Paging paging;
+	private ResponseList<DirectMessage> messages;
 	Intent intent = new Intent();
+	private int mode = 0;
+	public static final int get = 1;		//送信リスト
+    public static final int send = 2;		//受信リスト
+
+
 
 
 
@@ -50,10 +59,12 @@ public class Twitter_Client_DM extends FragmentActivity {
 			startActivity(intent);
 			finish();
 		}else{
+            paging = new Paging(1);
 			tAdapter = new TweetAdapter(this);
 			list.setAdapter(tAdapter);
 			mTwitter = TwitterUtils.getTwitterInstance(this);
 			ig = new ImageGet(mTwitter);
+			list.setOnScrollListener(this);
 		}
 
 
@@ -79,6 +90,8 @@ public class Twitter_Client_DM extends FragmentActivity {
 		findViewById(R.id.bt_tweet).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				mode = get;
+				tAdapter.clear();
 				reloadDM();
 				list.setAdapter(tAdapter);
 			}
@@ -88,6 +101,8 @@ public class Twitter_Client_DM extends FragmentActivity {
 		findViewById(R.id.send).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				mode = send;
+				tAdapter.clear();
 				sentDM();
 				list.setAdapter(tAdapter);
 			}
@@ -112,8 +127,11 @@ public class Twitter_Client_DM extends FragmentActivity {
 			protected ResponseList<DirectMessage> doInBackground(Void... params) {
 					// TODO 自動生成されたメソッド・スタブ
 					try {
-						Paging paging = new Paging(1);
-						return mTwitter.getDirectMessages(paging);
+
+						messages = mTwitter.getDirectMessages(paging);;
+			            paging.setPage(paging.getPage() + 1);
+			            Log.d("scroll222",list.getCount()+" 送信" );
+						return messages;
 					} catch (TwitterException te) {
 						te.printStackTrace();
 					}
@@ -125,7 +143,6 @@ public class Twitter_Client_DM extends FragmentActivity {
 			protected void onPostExecute(ResponseList<DirectMessage> result) {
 				// TODO 自動生成されたメソッド・スタブ
 				if(result != null){
-					tAdapter.clear();
 					for(DirectMessage status:result){
 						tAdapter.add(status);
 					}
@@ -143,19 +160,24 @@ public class Twitter_Client_DM extends FragmentActivity {
 			protected ResponseList<DirectMessage> doInBackground(Void... params) {
 				// TODO 自動生成されたメソッド・スタブ
 
+				//tAdapter.clear();
 				try {
-					Paging paging = new Paging(1);
-					return mTwitter.getDirectMessages(paging);
+
+					messages = mTwitter.getSentDirectMessages(paging);
+					Log.d("size",messages.size() + " 受信");
+					paging.setPage(paging.getPage() + 1);
+					return messages;
+
 				} catch (TwitterException te) {
 					te.printStackTrace();
 				}
 			return null;
 			}
+
 			@Override
 			protected void onPostExecute(ResponseList<DirectMessage> result) {
 				// TODO 自動生成されたメソッド・スタブ
 				if(result != null){
-					tAdapter.clear();
 					for(DirectMessage status:result){
 						tAdapter.add(status);
 					}
@@ -222,8 +244,8 @@ public class Twitter_Client_DM extends FragmentActivity {
 
 	}//TweetAdapter
 
+	/*
 	private void getName(){
-
 		AsyncTask<Void, Void, String> task = new AsyncTask<Void, Void, String>(){
 
 			@Override
@@ -237,18 +259,44 @@ public class Twitter_Client_DM extends FragmentActivity {
 				}
 				return null;
 			}
-
 			@Override
 			protected void onPostExecute(String result) {
 				// TODO 自動生成されたメソッド・スタブ
 				name.setText(result);
 			}
-
 		};
 		task.execute();
+	}
+	*/
+
+	public void onScroll(AbsListView view, int iTop,
+			int iVisible, int iTotal) {
+		boolean bLast = iTotal == iTop + iVisible;
+		int i = 0;
+		if(bLast){
+			if(list.getCount() != 0){
+				if(messages.size() != 0 && mode == 1){
+					Log.d("scroll222",list.getCount()+" "+messages.size() +" 受信" );
+					reloadDM();
+					list.setAdapter(tAdapter);
+
+				}else if(messages.size() != 0 && mode == 2){
+					Log.d("scroll222",list.getCount()+" "+messages.size() +" 送信" );
+					sentDM();
+					list.setAdapter(tAdapter);
+				}
+				}
+			}
+		}
+		// TODO 自動生成されたメソッド・スタブ
+
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+		// TODO 自動生成されたメソッド・スタブ
 
 	}
-
-
-
 }
+
+
+
+
