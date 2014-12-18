@@ -15,7 +15,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.loopj.android.image.SmartImageView;
@@ -23,12 +23,27 @@ import com.loopj.android.image.SmartImageView;
 
 public class Twitter_user extends Activity implements OnClickListener {
 
-	private SmartImageView view;
+	//カウント用変数
+	private String userName;
+	private String userFrom;
+	private String userContext;
+	private int Count_tweet;
+	private int Count_follow ;
+	private int Count_follower;
+	private int Count_fav;
+	private String mytweet_c;
+	private String follow_c;
+	private String follower_c;
+	private String fav_c;
+	private String backImageStr;
+
+	private SmartImageView myImage;
 	private Twitter mTwitter;
 	private ImageButton bt_update;
 	private ImageButton bt_tuito;
 	private ImageButton bt_user;
 	private ImageButton bt_dm;
+	private User user;
 
 	//intent
 	Intent intent = new Intent();
@@ -41,11 +56,12 @@ public class Twitter_user extends Activity implements OnClickListener {
 	private TextView text_username;
 	private TextView text_userfrom;
 	private TextView text_context;
+	private LinearLayout layout1;
 	private TweetAdapter tAdapter;
-	private ListView list;
 	private String followerName;
 	private SmartImageView followerImg;
 	private User u;
+	private SmartImageView backImage;
 
 
 	@Override
@@ -61,43 +77,62 @@ public class Twitter_user extends Activity implements OnClickListener {
 		bt_tuito = (ImageButton) findViewById(R.id.bt_tuito);
 		bt_user = (ImageButton) findViewById(R.id.bt_user);
 		bt_dm = (ImageButton) findViewById(R.id.bt_dm);
-		list = (ListView) findViewById(R.id.user_list);
+
 
 		myTweet = (Button) findViewById(R.id.myTweet);
 		follow = (Button) findViewById(R.id.follow);
 		follower = (Button) findViewById(R.id.follower);
+		fav = (Button) findViewById(R.id.fav);
 		bt_menu_time = (Button) findViewById(R.id.bt_menu_time);
 
 		text_username = (TextView) findViewById(R.id.text_username);
 		text_userfrom = (TextView) findViewById(R.id.text_userfrom);
 		text_context = (TextView) findViewById(R.id.text_context);
 
+		layout1 = (LinearLayout) findViewById(R.id.linearLayout3);
+
+		myImage = (SmartImageView) findViewById(R.id.image_user);
+		backImage = (SmartImageView) findViewById(R.id.backimage);
+
+
 
 
 
 		//リスナー
-
 		bt_update.setOnClickListener(this);
 		bt_tuito.setOnClickListener(this);
 		bt_user.setOnClickListener(this);
 		bt_dm.setOnClickListener(this);
 		bt_menu_time.setOnClickListener(this);
 
-
 		myTweet.setOnClickListener(this);
 		follow.setOnClickListener(this);
 		follower.setOnClickListener(this);
+		fav.setOnClickListener(this);
 
 		mTwitter = TwitterUtils.getTwitterInstance(this);
+		tAdapter = new TweetAdapter(this);
 		ImageGet ig = new ImageGet(mTwitter);
 
-		view = (SmartImageView) findViewById(R.id.image_user);
-		ig.setImage(view);
+		try {
+			user = mTwitter.verifyCredentials();
+		} catch (TwitterException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+
+		//プロフィール画像変更
+		//myImage.setScaleType(SmartImageView.ScaleType.FIT_XY);
+		ig.setImage(myImage);
+
+
+		//ヘッダーの画像変更
+		backImageStr = user.getProfileBannerURL();
+		backImage.setImageUrl(backImageStr);
+		backImage.setScaleType(SmartImageView.ScaleType.FIT_XY);
 
 		//ボタンに各種値をセット
 		userStatusGet();
-
-		tAdapter = new TweetAdapter(this);
 
 
 	}
@@ -109,14 +144,11 @@ public class Twitter_user extends Activity implements OnClickListener {
 		if(v == myTweet){
 			Log.d("tweet","tddddddd");
 			tweetGet();
-			list.setAdapter(tAdapter);
 		}
 
 		if(v == follow){
 			setContentView(R.layout.twitter_follow);
-			list = (ListView) findViewById(R.id.tllist);
 			followGet();
-			list.setAdapter(tAdapter);
 		}
 
 		if(v == follower){
@@ -189,14 +221,9 @@ public class Twitter_user extends Activity implements OnClickListener {
     }//tweetGet
 
 	public void followGet(){
-		try {
-			User user = mTwitter.verifyCredentials();
-			int count =user.getFriendsCount();
-			String b= String.valueOf(count);
-			follow.setText("フォロー\n" + b);
-		} catch (TwitterException e) {
-			e.printStackTrace();
-		}
+		int count =user.getFriendsCount();
+		String b= String.valueOf(count);
+		follow.setText("フォロー\n" + b);
 	}
 
 	public void followerGet(){
@@ -207,38 +234,27 @@ public class Twitter_user extends Activity implements OnClickListener {
 	}
 
 	public void userStatusGet(){
-		try {
-			User user = mTwitter.verifyCredentials();
+		//変数宣言
+		userName = user.getName();
+		userFrom = user.getScreenName();
+		userContext = user.getDescription();
+		Count_tweet = user.getStatusesCount();
+		Count_follow =user.getFriendsCount();
+		Count_follower =user.getFollowersCount();
+		Count_fav = user.getFavouritesCount();
+		mytweet_c = String.valueOf(Count_tweet);
+		follow_c= String.valueOf(Count_follow);
+		follower_c = String.valueOf(Count_follower);
+		fav_c = String.valueOf(Count_fav);
 
-			//変数宣言
-			String userName = user.getName();
-			String userFrom = user.getScreenName();
-			String userContext = user.getDescription();
-			int a = user.getFollowersCount();
-			int b =user.getFriendsCount();
-			int c =user.getFollowersCount();
-			String mytweet = String.valueOf(a);
-			String follow= String.valueOf(b);
-			String follower = String.valueOf(c);
-
-
-
-
-
-			//文字セット
-			text_username.setText(userName);
-			text_userfrom.setText("@" + userFrom);
-			text_context.setText(userContext);
-			myTweet.setText("ツイート\n" + mytweet);
-			this.follow.setText("フォロー\n" + follow);
-			this.follower.setText("フォロワー\n" + follower);
-
-
-
-
-		} catch (TwitterException e) {
-			e.printStackTrace();
-		}
-	}
+		//文字セット
+		text_username.setText(userName);
+		text_userfrom.setText("@" + userFrom);
+		text_context.setText(userContext);
+		myTweet.setText("ツイート\n" + mytweet_c);
+		follow.setText("フォロー\n" + follow_c);
+		follower.setText("フォロワー\n" + follower_c);
+		fav.setText("お気に入り\n" + fav_c);
+	}//userStatus
 
 }
