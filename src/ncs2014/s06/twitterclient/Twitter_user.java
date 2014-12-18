@@ -93,6 +93,7 @@ public class Twitter_user extends Activity implements OnClickListener {
 		}
 
 		if(v == follower){
+			startActivity(new Intent(Twitter_user.this,FollowerGet.class));
 		}
 
 		if(v == fav){

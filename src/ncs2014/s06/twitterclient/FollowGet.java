@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import twitter4j.PagableResponseList;
-import twitter4j.Paging;
 import twitter4j.RateLimitStatus;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -32,8 +31,9 @@ public class FollowGet extends Activity implements OnScrollListener{
 	private Twitter mTwitter;
 	private ListView list;
 	private ArrayAdapter<User> uAdapter;
-	private ArrayList<User> List;
-	private Paging paging;
+	private ArrayList<User> arrayList;
+	private PagableResponseList<User> user;
+	private AsyncTask<Void, Void, ArrayList<User>> task;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,49 +41,39 @@ public class FollowGet extends Activity implements OnScrollListener{
 		setContentView(R.layout.twitter_follow);
 		mTwitter = TwitterUtils.getTwitterInstance(this);
 		uAdapter = new userAdapter(this);
-		paging = new Paging(1);
 		list = (ListView) findViewById(R.id.tllist);
-		List = new ArrayList<User>();
-		followGet(paging,0);
+		//list.setOnScrollListener(this);
+		followGet(0);
 		list.setAdapter(uAdapter);
+		list.setOnScrollListener(this);
 
 
 	}
 
-	public void followGet(Paging paging1,final int mode){
-		this.paging = paging1;
-		if(mode == 1){
-			paging.setPage(paging.getPage() + 1);
-		}
-
-		AsyncTask<Void, Void, ArrayList<User>> task = new AsyncTask<Void, Void, ArrayList<User>>(){
+	/**
+	 *
+	 * @param mode 0 新規:1 追加
+	 */
+	public void followGet(final int mode){
+		arrayList = new ArrayList<User>();
+		task = new AsyncTask<Void, Void, ArrayList<User>>(){
 
 			@Override
 			protected ArrayList<User> doInBackground(Void... params) {
-				Log.d("test","doinbackground");
 				long i = -1;
-				int j = 0;
 
 				try {
-					Log.d("test","try");
-					PagableResponseList<User> user = mTwitter.getFriendsList(mTwitter.getId(), i);
-					do{
+					if(mode == 0){
+						user = mTwitter.getFriendsList(mTwitter.getId(), i);
+					}
+
+				//	do{
 						for(User u :user){
 							Log.d("Friends",u.getName());
-							List.add(u);
-							Log.d("test","User for");
+							arrayList.add(u);
 						}
+					user = mTwitter.getFriendsList(mTwitter.getId(), user.getNextCursor());
 
-						user = mTwitter.getFriendsList(mTwitter.getId(), user.getNextCursor());
-						Log.d("test","Long i2 " + i);
-
-						if(!user.hasNext()){
-							List.add((User)user);
-						}
-
-					}while(user.hasNext());
-
-					Log.d("test","for1後");
 				} catch (IllegalStateException e) {
 					// TODO 自動生成された catch ブロック
 					e.printStackTrace();
@@ -92,7 +82,7 @@ public class FollowGet extends Activity implements OnScrollListener{
 					e.printStackTrace();
 				}
 
-				return List;
+				return arrayList;
 			}
 
 			@Override
@@ -100,11 +90,14 @@ public class FollowGet extends Activity implements OnScrollListener{
 				// TODO 自動生成されたメソッド・スタブ
 				super.onPostExecute(result);
 				if(mode == 0){
-				uAdapter.clear();
+					uAdapter.clear();
 				}
 				for(User u:result){
 					uAdapter.add(u);
 				}
+
+
+				//API取得
 				ApiLimit api = new ApiLimit(mTwitter);
 				api.execute();
 				Map<String, RateLimitStatus> map = null;
@@ -126,6 +119,14 @@ public class FollowGet extends Activity implements OnScrollListener{
 		};
 		task.execute();
 	}
+
+	public boolean taskRunning(){
+		if(task.getStatus().name().equals("RUNNING")){
+			return true;
+		}
+		return false;
+	}
+
 	private void showToast(String text) {
 		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
 	}
@@ -138,6 +139,7 @@ public class FollowGet extends Activity implements OnScrollListener{
 		public userAdapter(Context context) {
 			super(context, android.R.layout.simple_list_item_1);
 			mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+
 		}
 
 		@Override
@@ -156,6 +158,7 @@ public class FollowGet extends Activity implements OnScrollListener{
 			TextView screenName = (TextView) convertView.findViewById(R.id.screen_name);
 			screenName.setText("@"+ item.getScreenName());
 			TextView text = (TextView) convertView.findViewById(R.id.text);
+			text.setText(user.toString());
 		//	text.setText(item.getText());
 			return convertView;
 		}
@@ -174,10 +177,11 @@ public class FollowGet extends Activity implements OnScrollListener{
 		boolean bLast = iTotal == iTop + iVisible;
 		if(bLast){
 			if(list.getCount() != 0){
-				Log.d("scroll","Follow最後尾だよ");
-				followGet(paging,1);
+				if(!taskRunning()){
+					Log.d("scroll","Folloeget最後尾だよ");
+					followGet(1);
+				}
 			}
 		}
 	}
-
 }

@@ -61,7 +61,6 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 		setContentView(R.layout.twitter_home);
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);
 
-
 		//findview
 		bt_update = (ImageButton) findViewById(R.id.bt_update);
 		bt_tuito = (ImageButton) findViewById(R.id.bt_tuito);
@@ -151,7 +150,6 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 		}
 		return false;
 	}//select
-
 
 	/**
 	 * 画面がタッチされた時の動き
