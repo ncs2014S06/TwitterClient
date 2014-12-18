@@ -27,11 +27,11 @@
         </shape>
     </item>
 
-    <item android:state_focused="true">
+    <item android:state_focused="false">
         <shape android:shape="rectangle">
             <gradient
-               android:startColor="#666666"
-               android:endColor="#333333"
+               android:startColor="#1E90FF"
+               android:endColor="#00FFFF"
                android:angle="90"
                />
             <corners
@@ -40,10 +40,7 @@
                 android:topLeftRadius="10dp"
                 android:topRightRadius="10dp"
                />
-            <stroke
-                android:width="2px"
-                android:color="#FFFF00"
-               />
+
             <padding
                 android:left="7dp"
                android:top="7dp"

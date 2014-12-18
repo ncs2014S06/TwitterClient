@@ -9,6 +9,8 @@
     <string name="twitter_callback_url">gabu://twitter</string>
     <string name="twitter_oauth">認証開始（・。・）</string>
     <string name="title">TwitterClient</string>
-    <string name="title_tuito">New tweet</string>
+    <string name="title_tuito"><u>ツイート</u></string>
     <string name="title_acount">アカウント</string>
+    <string name="title_timeLine"><u>タイムライン</u></string>
+    <string name="title_user"><u>ユーザ設定</u></string>
 </resources>

@@ -19,6 +19,7 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -39,6 +40,8 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	private ImageButton bt_user;
 	private ImageButton bt_dm;
 	private ImageButton bt_menu;
+	private Button bt_menu_user;
+	private Button bt_menu_tweet;
 	private TextView title;
 	private TweetAdapter tAdapter;
 	private Twitter mTwitter;
@@ -57,7 +60,6 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 		super.onCreate(savedInstanceState);
 		//タイトルバーのカスタマイズ
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-
 		setContentView(R.layout.twitter_home);
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);
 
@@ -67,7 +69,8 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 		bt_tuito = (ImageButton) findViewById(R.id.bt_tuito);
 		bt_user = (ImageButton) findViewById(R.id.bt_user);
 		bt_dm = (ImageButton) findViewById(R.id.bt_dm);
-		bt_menu = (ImageButton) findViewById(R.id.menu_bt);
+		bt_menu_user = (Button) findViewById(R.id.bt_menu_user);
+		bt_menu_tweet = (Button) findViewById(R.id.bt_menu_tweet);
 		swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
 		list = (ListView) findViewById(R.id.tllist);
 
@@ -76,7 +79,8 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 		bt_tuito.setOnClickListener(this);
 		bt_user.setOnClickListener(this);
 		bt_dm.setOnClickListener(this);
-		bt_menu.setOnClickListener(this);
+		bt_menu_user.setOnClickListener(this);
+		bt_menu_tweet.setOnClickListener(this);
 		list.setOnItemClickListener(this);
 
 		if (!TwitterUtils.hasAccessToken(this)) {
@@ -119,37 +123,8 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		//押したときの処理
-		switch (item.getItemId()) {
-			case R.id.menu_tuito:
-					startActivity(new Intent(
-						Twitter_home.this,
-						Twitter_tuito.class)
-					);
-			return true;
-
-			case R.id.menu_user:
-					startActivity(new Intent(
-						Twitter_home.this,
-						Twitter_user.class)
-					);
-			return true;
-
-			case R.id.menu_dm:
-					startActivity(new Intent(
-						Twitter_home.this,
-						Twitter_Client_DM.class)
-					);
-			return true;
-
-			case menu_update:
-				timeLine.reloadTimeLine(paging,0);
-			return true;
-
-			default:
-			break;
-		}
 		return false;
+
 	}//select
 
 
@@ -188,6 +163,19 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 
 		if(v == bt_menu){
 			openOptionsMenu();
+		}//if
+
+		if(v == bt_menu_user){
+			intent.setClass(getApplicationContext(), Twitter_user.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.left_in, R.anim.right_out);
+			Log.d("menu user", "menu_user");
+		}//if
+
+		if(v == bt_menu_tweet){
+			intent.setClass(getApplicationContext(), Twitter_tuito.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.right_in, R.anim.left_out);
 		}//if
 
 	}//on
