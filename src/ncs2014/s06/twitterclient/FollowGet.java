@@ -158,7 +158,7 @@ public class FollowGet extends Activity implements OnScrollListener{
 			TextView screenName = (TextView) convertView.findViewById(R.id.screen_name);
 			screenName.setText("@"+ item.getScreenName());
 			TextView text = (TextView) convertView.findViewById(R.id.text);
-			text.setText(mTwitter.get);
+			text.setText("本文");
 			return convertView;
 		}
 
