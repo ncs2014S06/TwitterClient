@@ -26,7 +26,7 @@ import android.widget.Toast;
 
 import com.loopj.android.image.SmartImageView;
 
-public class FollowGet extends Activity implements OnScrollListener{
+public class FollowerGet extends Activity implements OnScrollListener{
 
 	private Twitter mTwitter;
 	private ListView list;
@@ -42,7 +42,6 @@ public class FollowGet extends Activity implements OnScrollListener{
 		mTwitter = TwitterUtils.getTwitterInstance(this);
 		uAdapter = new userAdapter(this);
 		list = (ListView) findViewById(R.id.tllist);
-		//list.setOnScrollListener(this);
 		followGet(0);
 		list.setAdapter(uAdapter);
 		list.setOnScrollListener(this);
@@ -64,7 +63,7 @@ public class FollowGet extends Activity implements OnScrollListener{
 
 				try {
 					if(mode == 0){
-						user = mTwitter.getFriendsList(mTwitter.getId(), i);
+						user = mTwitter.getFollowersList(mTwitter.getId(), i);
 					}
 
 				//	do{
@@ -72,7 +71,7 @@ public class FollowGet extends Activity implements OnScrollListener{
 							Log.d("Friends",u.getName());
 							arrayList.add(u);
 						}
-					user = mTwitter.getFriendsList(mTwitter.getId(), user.getNextCursor());
+					user = mTwitter.getFollowersList(mTwitter.getId(), user.getNextCursor());
 
 				} catch (IllegalStateException e) {
 					// TODO 自動生成された catch ブロック
@@ -110,7 +109,7 @@ public class FollowGet extends Activity implements OnScrollListener{
 					// TODO 自動生成された catch ブロック
 					e.printStackTrace();
 				}
-				RateLimitStatus TLlimit = map.get("/friends/list");
+				RateLimitStatus TLlimit = map.get("/followers/list");
 				int i = TLlimit.getSecondsUntilReset();
 				String m = i / 60 + "分";
 				String S = i % 60 + "秒";
@@ -158,7 +157,7 @@ public class FollowGet extends Activity implements OnScrollListener{
 			TextView screenName = (TextView) convertView.findViewById(R.id.screen_name);
 			screenName.setText("@"+ item.getScreenName());
 			TextView text = (TextView) convertView.findViewById(R.id.text);
-			text.setText(mTwitter.get);
+		//	text.setText(item.getText());
 			return convertView;
 		}
 

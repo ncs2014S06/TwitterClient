@@ -17,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.image.SmartImageView;
@@ -25,17 +26,14 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 
 
 	private  static int REQUEST_PICK = 1;
-	private static String CONSUMER_KEY = "rnEXcIylpdaiO91qS8xQbV1J";
-	private static String CONSUMER_SECRET = "1aFTk1YLNASB3lRcENcJZQca5T1PCv5nvKdyDgNmZfmWZ8104r";
-	private static String ACCESS_TOKEN = "2882966317-gRwWjwwR1W3W09eKLrISoPKLmabNvsYIa98m0l";
-	private static String ACCESS_TOKEN_SECRET = "t85YjUlwu6PRUqSMr91C3aeC3oBdN00h9x7HyTe5jupd0";
-
 
     private EditText mInputText;
     private Twitter mTwitter;
     private SmartImageView view;
     private Button tweet;
     private Button imageTweet;
+    private Button bt_menu_time;
+    private TextView tv_username;
 
   //intent
   	Intent intent = new Intent();
@@ -49,20 +47,47 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
         setContentView(R.layout.twitter_tweet);
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_tuito);
 
-
         mTwitter = TwitterUtils.getTwitterInstance(this);
         ImageGet ig = new ImageGet(mTwitter);
+
+        //findView
         view = (SmartImageView) findViewById(R.id.icon);
-        ig.setImage(view);
-
-        mTwitter = TwitterUtils.getTwitterInstance(this);
         mInputText = (EditText) findViewById(R.id.input_text);
-
         tweet = (Button) findViewById(R.id.action_tweet);
         imageTweet = (Button) findViewById(R.id.image_plus);
+        tv_username = (TextView) findViewById(R.id.tv_usename);
 
+
+        //リスナーセット
+        ig.setImage(view);
+        mTwitter = TwitterUtils.getTwitterInstance(this);
         tweet.setOnClickListener(this);
         imageTweet.setOnClickListener(this);
+
+
+        AsyncTask<Void, Void, twitter4j.User> task = new AsyncTask<Void, Void, twitter4j.User>() {
+
+			@Override
+			protected twitter4j.User doInBackground(Void... params) {
+				 try {
+						twitter4j.User user = mTwitter.verifyCredentials();
+						return user;
+					} catch (TwitterException e) {
+						e.printStackTrace();
+					}
+				 return null;
+			}
+
+			protected void onPostExecute(twitter4j.User result) {
+				// TODO 自動生成されたメソッド・スタブ
+				super.onPostExecute(result);
+				tv_username.setText("@" + result.getScreenName());
+			}
+        };
+        task.execute();
+
+        bt_menu_time = (Button) findViewById(R.id.bt_menu_time);
+        bt_menu_time.setOnClickListener(this);
     }
 
     private void tweet() {
@@ -150,6 +175,12 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
     		intent.setType("image/*");
     		startActivityForResult(intent, REQUEST_PICK);
 		}
+
+		if(v == bt_menu_time){
+			intent.setClass(getApplicationContext(), Twitter_home.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.left_in, R.anim.right_out);
+		}//if
 
 	}
 }
