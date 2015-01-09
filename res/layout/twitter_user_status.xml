@@ -175,11 +175,11 @@
 	            android:textSize="14dp" />
 
 	        <Button
-	            android:id="@+id/space1"
+	            android:id="@+id/list"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="1"
-	            android:background="@null"
+	            android:background="@drawable/tweet_button"
 	            android:text=""
 	            android:textColor="#1a1a1a"
 	            android:textSize="14dp" />
