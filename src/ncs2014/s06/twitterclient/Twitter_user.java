@@ -1,7 +1,5 @@
 package ncs2014.s06.twitterclient;
 
-import java.util.List;
-
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
@@ -53,6 +51,7 @@ public class Twitter_user extends Activity implements OnClickListener {
 	private String followerName;
 	private SmartImageView followerImg;
 	private SmartImageView backImage;
+	private AsyncTask<Void, Void, User> task;
 
 	//intent
 	Intent intent = new Intent();
@@ -101,26 +100,38 @@ public class Twitter_user extends Activity implements OnClickListener {
 
 		mTwitter = TwitterUtils.getTwitterInstance(this);
 		tAdapter = new TweetAdapter(this);
-		ImageGet ig = new ImageGet(mTwitter);
+		final ImageGet ig = new ImageGet(mTwitter);
 
-		try {
-			user = mTwitter.verifyCredentials();
-		} catch (TwitterException e) {
-			e.printStackTrace();
-		}//try
+		task = new AsyncTask<Void, Void, User>() {
 
-		//プロフィール画像変更
-		//myImage.setScaleType(SmartImageView.ScaleType.FIT_XY);
-		ig.setImage(myImage);
+			@Override
+			protected User doInBackground(Void... params) {
 
-		//ヘッダーの画像変更
-		backImageStr = user.getProfileBannerURL();
-		backImage.setImageUrl(backImageStr);
-		backImage.setScaleType(SmartImageView.ScaleType.FIT_XY);
+				try {
+					user = mTwitter.verifyCredentials();
+				} catch (TwitterException e) {
+					e.printStackTrace();
+				}//try
 
-		//ボタンに各種値をセット
-		userStatusGet();
+				return user;
+			}
 
+			@Override
+			protected void onPostExecute(User result) {
+				super.onPostExecute(result);
+
+				ig.setImage(myImage);
+
+				//ヘッダーの画像変更
+				backImageStr = user.getProfileBannerURL();
+				backImage.setImageUrl(backImageStr);
+				backImage.setScaleType(SmartImageView.ScaleType.FIT_XY);
+
+				//ボタンに各種値をセット
+				userStatusGet();
+			}
+		};
+		task.execute();
 	}
 
 
@@ -128,21 +139,23 @@ public class Twitter_user extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		if(v == myTweet){
-			Log.d("tweet","tddddddd");
-			tweetGet();
+			intent.setClass(getApplicationContext(), TweetGet.class);
+			startActivity(intent);
 		}//if
 
 		if(v == follow){
-			setContentView(R.layout.twitter_follow);
-			followGet();
+			intent.setClass(getApplicationContext(), FollowGet.class);
+			startActivity(intent);
 		}//if
 
 		if(v == follower){
-			followerGet();
+			intent.setClass(getApplicationContext(), FollowerGet.class);
+			startActivity(intent);
 		}//if
 
 		if(v == fav){
-			favGet();
+			intent.setClass(getApplicationContext(), FavoriteGet.class);
+			startActivity(intent);
 		}//if
 
 		if(v == bt_update){
@@ -174,46 +187,6 @@ public class Twitter_user extends Activity implements OnClickListener {
 			overridePendingTransition(R.anim.right_in, R.anim.left_out);
 		}//if
 
-	}
-
-	private void tweetGet() {
-		AsyncTask<Void, Void, List<twitter4j.Status>> task = new AsyncTask<Void, Void, List<twitter4j.Status>>() {
-		@Override
-		protected List<twitter4j.Status> doInBackground(Void... params) {
-			try {
-				return mTwitter.getUserTimeline(mTwitter.getId());
-			} catch (TwitterException e) {
-				e.printStackTrace();
-			}
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(List<twitter4j.Status> result) {
-			if (result != null) {
-				tAdapter.clear();
-				for (twitter4j.Status status : result) {
-					tAdapter.add(status);
-				}
-			}
-		}
-	};
-	task.execute();
-
-
-    }//tweetGet
-
-	public void followGet(){
-		int count =user.getFriendsCount();
-		String b= String.valueOf(count);
-		follow.setText("フォロー\n" + b);
-	}
-
-	public void followerGet(){
-
-	}
-
-	public void favGet(){
 	}
 
 	public void userStatusGet(){

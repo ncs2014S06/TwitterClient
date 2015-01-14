@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import twitter4j.PagableResponseList;
 import twitter4j.RateLimitStatus;
+import twitter4j.ResponseList;
+import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
@@ -32,8 +33,8 @@ public class FavoriteGet extends Activity implements OnScrollListener{
 	private ListView list;
 	private ArrayAdapter<User> uAdapter;
 	private ArrayList<User> arrayList;
-	private PagableResponseList<User> user;
-	private AsyncTask<Void, Void, ArrayList<User>> task;
+	private ResponseList<Status> user;
+	private AsyncTask<Void, Void, ResponseList<Status>> task;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class FavoriteGet extends Activity implements OnScrollListener{
 		uAdapter = new userAdapter(this);
 		list = (ListView) findViewById(R.id.tllist);
 		//list.setOnScrollListener(this);
-		followGet(0);
+		favoriteGet(0);
 		list.setAdapter(uAdapter);
 		list.setOnScrollListener(this);
 
@@ -54,48 +55,29 @@ public class FavoriteGet extends Activity implements OnScrollListener{
 	 *
 	 * @param mode 0 新規:1 追加
 	 */
-	public void followGet(final int mode){
+	public void favoriteGet(final int mode){
 		arrayList = new ArrayList<User>();
-		task = new AsyncTask<Void, Void, ArrayList<User>>(){
+		task = new AsyncTask<Void, Void, ResponseList<twitter4j.Status>>(){
 
 			@Override
-			protected ArrayList<User> doInBackground(Void... params) {
-				long i = -1;
+			protected ResponseList<twitter4j.Status> doInBackground(Void... params) {
 
-				try {
-					if(mode == 0){
-						user = mTwitter.getFollowersList(mTwitter.getId(), i);
-					}
-
-				//	do{
-						for(User u :user){
-							Log.d("Friends",u.getName());
-							arrayList.add(u);
+						try {
+							user = mTwitter.getFavorites();
+						} catch (TwitterException e) {
+							// TODO 自動生成された catch ブロック
+							e.printStackTrace();
 						}
-					user = mTwitter.getFollowersList(mTwitter.getId(), user.getNextCursor());
 
-				} catch (IllegalStateException e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
-				} catch (TwitterException e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
-				}
-
-				return arrayList;
+				return user;
 			}
 
 			@Override
-			protected void onPostExecute(ArrayList<User> result) {
+			protected void onPostExecute(ResponseList<twitter4j.Status> result) {
 				// TODO 自動生成されたメソッド・スタブ
 				super.onPostExecute(result);
-				if(mode == 0){
-					uAdapter.clear();
-				}
-				for(User u:result){
-					uAdapter.add(u);
-				}
-
+				uAdapter.clear();
+				uAdapter.add((User) result);
 
 				//API取得
 				ApiLimit api = new ApiLimit(mTwitter);
@@ -178,7 +160,7 @@ public class FavoriteGet extends Activity implements OnScrollListener{
 			if(list.getCount() != 0){
 				if(!taskRunning()){
 					Log.d("scroll","Folloeget最後尾だよ");
-					followGet(1);
+					favoriteGet(1);
 				}
 			}
 		}
