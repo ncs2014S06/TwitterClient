@@ -60,6 +60,7 @@
 <activity android:name="FollowGet"></activity>
 <activity android:name="FollowerGet"></activity>
 <activity android:name="FavoriteGet"></activity>
+<activity android:name="Twitter_tweet_detail"></activity>
 
 
 

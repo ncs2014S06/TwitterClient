@@ -14,7 +14,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.widget.Toast;
 
-public class TimeLine {
+public class TimeLine{
 
 	private Twitter mTwitter;
 	private TweetAdapter tAdapter;

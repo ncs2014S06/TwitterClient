@@ -1,6 +1,7 @@
 package ncs2014.s06.twitterclient;
 
 import twitter4j.Paging;
+import twitter4j.Status;
 import twitter4j.Twitter;
 import android.app.Activity;
 import android.content.Intent;
@@ -216,10 +217,14 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position,
-			long id) {
+	public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
+		Log.d("tweet_detail","view:" + parent + "  position:" + position + "  id:" + id);
+		Status item = (Status) list.getItemAtPosition(position);
 
-
+		Intent intent = new Intent(getApplication(),Twitter_tweet_detail.class);
+		intent.putExtra("mTwitter", mTwitter);
+		intent.putExtra("TweetId", item.getId());
+		startActivity(intent);
 	}
 
 

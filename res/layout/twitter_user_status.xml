@@ -35,7 +35,7 @@
 	            android:orientation="vertical" >
 
 	            <com.loopj.android.image.SmartImageView
-	                android:id="@+id/image_user"
+	                android:id="@+id/tweet_detail_usericon"
 	                android:layout_width="match_parent"
 	                android:layout_height="76dp"
 	                android:src="@drawable/ic_launcher" />

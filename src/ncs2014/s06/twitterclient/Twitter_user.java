@@ -82,7 +82,7 @@ public class Twitter_user extends Activity implements OnClickListener {
 
 		layout1 = (LinearLayout) findViewById(R.id.linearLayout3);
 
-		myImage = (SmartImageView) findViewById(R.id.image_user);
+		myImage = (SmartImageView) findViewById(R.id.tweet_detail_usericon);
 		backImage = (SmartImageView) findViewById(R.id.backimage);
 
 		//リスナー
