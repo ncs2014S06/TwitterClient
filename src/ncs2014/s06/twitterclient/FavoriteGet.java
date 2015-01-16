@@ -76,8 +76,14 @@ public class FavoriteGet extends Activity implements OnScrollListener{
 			protected void onPostExecute(ResponseList<twitter4j.Status> result) {
 				// TODO 自動生成されたメソッド・スタブ
 				super.onPostExecute(result);
-				uAdapter.clear();
-				uAdapter.add((User) result);
+				if (result != null) {
+					if(mode == 0){
+					uAdapter.clear();
+					}
+					for (twitter4j.Status u: result) {
+						uAdapter.add(result);
+					}
+				}
 
 				//API取得
 				ApiLimit api = new ApiLimit(mTwitter);
@@ -146,6 +152,10 @@ public class FavoriteGet extends Activity implements OnScrollListener{
 
 	}//TweetAdapter
 
+
+
+
+
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
 		// TODO 自動生成されたメソッド・スタブ
@@ -160,7 +170,6 @@ public class FavoriteGet extends Activity implements OnScrollListener{
 			if(list.getCount() != 0){
 				if(!taskRunning()){
 					Log.d("scroll","Folloeget最後尾だよ");
-					favoriteGet(1);
 				}
 			}
 		}
