@@ -36,7 +36,6 @@ public class Twitter_user extends Activity implements OnClickListener {
 	private ImageButton bt_user;
 	private ImageButton bt_dm;
 	private User user;
-
 	private Button myTweet;
 	private Button follow;
 	private Button follower;
@@ -74,6 +73,7 @@ public class Twitter_user extends Activity implements OnClickListener {
 		follow = (Button) findViewById(R.id.follow);
 		follower = (Button) findViewById(R.id.follower);
 		fav = (Button) findViewById(R.id.fav);
+		myList = (Button) findViewById(R.id.list);
 		bt_menu_time = (Button) findViewById(R.id.bt_menu_time);
 
 		text_username = (TextView) findViewById(R.id.text_username);
@@ -96,6 +96,7 @@ public class Twitter_user extends Activity implements OnClickListener {
 		follow.setOnClickListener(this);
 		follower.setOnClickListener(this);
 		fav.setOnClickListener(this);
+		myList.setOnClickListener(this);
 
 
 		mTwitter = TwitterUtils.getTwitterInstance(this);
@@ -186,6 +187,7 @@ public class Twitter_user extends Activity implements OnClickListener {
 			startActivity(intent);
 			overridePendingTransition(R.anim.right_in, R.anim.left_out);
 		}//if
+
 
 	}
 

@@ -1,11 +1,7 @@
 package ncs2014.s06.twitterclient;
 
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
-
 import twitter4j.DirectMessage;
 import twitter4j.Paging;
-import twitter4j.RateLimitStatus;
 import twitter4j.ResponseList;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -39,10 +35,13 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 	private TextView name;
 	private Paging paging;
 	private ResponseList<DirectMessage> messages;
+	private ResponseList<DirectMessage> getmessages;
+	private ResponseList<DirectMessage> sendmessages;
 	Intent intent = new Intent();
 	private int mode = 0;
 	public static final int get = 1;		//送信リスト
     public static final int send = 2;		//受信リスト
+    public static final int sendget = 3;	//送受信
 
 
 
@@ -91,6 +90,7 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 			@Override
 			public void onClick(View v) {
 				mode = get;
+				paging.setPage(1);
 				tAdapter.clear();
 				reloadDM();
 				list.setAdapter(tAdapter);
@@ -102,8 +102,21 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 			@Override
 			public void onClick(View v) {
 				mode = send;
+				paging.setPage(1);
 				tAdapter.clear();
 				sentDM();
+				list.setAdapter(tAdapter);
+			}
+		});
+
+		//送受信
+		findViewById(R.id.sendget).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mode = sendget;
+				paging.setPage(1);
+				tAdapter.clear();
+				sendgetDM();
 				list.setAdapter(tAdapter);
 			}
 		});
@@ -154,6 +167,7 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 		task.execute();
 	}
 
+	//受信
 	private void reloadDM(){
 		AsyncTask<Void, Void, ResponseList<DirectMessage>> task = new AsyncTask<Void, Void, ResponseList<DirectMessage>>(){
 			@Override
@@ -181,28 +195,54 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 					for(DirectMessage status:result){
 						tAdapter.add(status);
 					}
-				}else{
-					ApiLimit api = new ApiLimit(mTwitter);
-					api.execute();
-					Map<String,RateLimitStatus> map = null;
-					try {
-						map = api.get();
-					} catch (InterruptedException e) {
-						// TODO 自動生成された catch ブロック
-						e.printStackTrace();
-					} catch (ExecutionException e) {
-						// TODO 自動生成された catch ブロック
-						e.printStackTrace();
-					}
-					RateLimitStatus DMlimit = map.get("/direct_messages/show");
-					int i = DMlimit.getSecondsUntilReset();
-					String m = i/60 + "分";
-					String s = i % 60 + "秒";
-					showToast("DMの取得に失敗しました\n" + DMlimit.getRemaining() + "回\nAPIリセットまで" + m + s);
 				}
 			}
 		};
 		task.execute();
+
+
+	}
+
+
+
+	//送受信
+	private void sendgetDM(){
+		AsyncTask<Void, Void, ResponseList<DirectMessage>> task = new AsyncTask<Void, Void, ResponseList<DirectMessage>>(){
+			@Override
+			protected ResponseList<DirectMessage> doInBackground(Void... params) {
+				// TODO 自動生成されたメソッド・スタブ
+
+				//tAdapter.clear();
+				try {
+
+					getmessages = mTwitter.getDirectMessages(paging);
+					sendmessages = mTwitter.getSentDirectMessages(paging);
+					paging.setPage(paging.getPage() + 1);
+					return messages;
+
+				} catch (TwitterException te) {
+					te.printStackTrace();
+				}
+			return null;
+			}
+
+			@Override
+			protected void onPostExecute(ResponseList<DirectMessage> result) {
+				// TODO 自動生成されたメソッド・スタブ
+				if(result != null){
+					for(DirectMessage status:getmessages){
+						tAdapter.add(status);
+						for(DirectMessage status1:sendmessages){
+							tAdapter.add(status1);
+					}
+
+					}
+				}
+			}
+		};
+		task.execute();
+
+
 	}
 
 
