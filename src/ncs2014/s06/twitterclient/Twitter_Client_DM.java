@@ -3,6 +3,7 @@ package ncs2014.s06.twitterclient;
 import twitter4j.DirectMessage;
 import twitter4j.Paging;
 import twitter4j.ResponseList;
+import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import android.app.Activity;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,7 +27,7 @@ import android.widget.Toast;
 
 import com.loopj.android.image.SmartImageView;
 
-public class Twitter_Client_DM extends FragmentActivity implements OnScrollListener{
+public class Twitter_Client_DM extends FragmentActivity implements OnScrollListener,OnItemClickListener{
 
 	 private Twitter mTwitter;
 	private TweetAdapter tAdapter;
@@ -66,7 +68,7 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 			list.setOnScrollListener(this);
 		}
 
-
+		list.setOnItemClickListener(this);
 		list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 	        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 	        	DirectMessage msg = (DirectMessage)list.getItemAtPosition(position);
@@ -141,7 +143,7 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 					// TODO 自動生成されたメソッド・スタブ
 					try {
 
-						messages = mTwitter.getDirectMessages(paging);;
+						messages = mTwitter.getSentDirectMessages(paging);;
 			            paging.setPage(paging.getPage() + 1);
 			            Log.d("scroll222",list.getCount()+" 送信" );
 						return messages;
@@ -177,7 +179,7 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 				//tAdapter.clear();
 				try {
 
-					messages = mTwitter.getSentDirectMessages(paging);
+					messages = mTwitter.getDirectMessages(paging);
 					Log.d("size",messages.size() + " 受信");
 					paging.setPage(paging.getPage() + 1);
 					return messages;
@@ -334,6 +336,17 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
 		// TODO 自動生成されたメソッド・スタブ
 
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
+		Log.d("dm_detail","view:" + parent + "  position:" + position + "  id:" + id);
+		Status item = (Status) list.getItemAtPosition(position);
+
+		Intent intent = new Intent(getApplication(),Twitter_dm_detail.class);
+		intent.putExtra("mTwitter", mTwitter);
+		intent.putExtra("TweetId", item.getId());
+		startActivity(intent);
 	}
 }
 
