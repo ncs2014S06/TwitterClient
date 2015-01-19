@@ -156,11 +156,6 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 
 		if(v == bt_user){
 			startActivity(new Intent(Twitter_home.this,Twitter_user.class));
-			/*
-			intent.setClass(getApplicationContext(), Twitter_user.class);
-			startActivity(intent);
-			overridePendingTransition(R.anim.right_in, R.anim.left_out);
-			*/
 		}//if
 
 		if(v == bt_dm){
@@ -175,11 +170,6 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 
 		if(v == bt_menu_user){
 			startActivity(new Intent(Twitter_home.this,Twitter_user.class));
-			/*
-			intent.setClass(getApplicationContext(), Twitter_user.class);
-			startActivity(intent);
-			overridePendingTransition(R.anim.left_in, R.anim.right_out);
-			*/
 			Log.d("menu user", "menu_user");
 		}//if
 
@@ -217,6 +207,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	}
 
 	@Override
+
 	public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
 		Log.d("tweet_detail","view:" + parent + "  position:" + position + "  id:" + id);
 		Status item = (Status) list.getItemAtPosition(position);
@@ -226,6 +217,4 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 		intent.putExtra("TweetId", item.getId());
 		startActivity(intent);
 	}
-
-
 }

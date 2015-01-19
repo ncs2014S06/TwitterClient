@@ -15,7 +15,8 @@ import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.loopj.android.image.SmartImageView;
@@ -37,11 +38,9 @@ public class Twitter_tweet_detail extends Activity {
 		// TODO 自動生成されたメソッド・スタブ
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.twitter_tweet_detail);
-		LinearLayout layout = (LinearLayout) findViewById(R.id.tweet_detail_layout);
 		View view = this.getLayoutInflater().inflate(R.layout.twitter_twwet_detail_botans, null);
-		layout.addView(view);
-	//	RelativeLayout.LayoutParams lllp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-	//	addContentView(view, lllp);
+		RelativeLayout.LayoutParams lllp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+		addContentView(view, lllp);
 		//findview
 		tweet_detail_userIcon = (SmartImageView) findViewById(R.id.tweet_detail_usericon);
 		tweet_detail_userName = (TextView) findViewById(R.id.tweet_detail_username);
