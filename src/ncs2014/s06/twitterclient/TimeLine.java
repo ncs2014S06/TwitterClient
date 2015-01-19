@@ -81,10 +81,8 @@ public class TimeLine{
 				try {
 					map = api.get();
 				} catch (InterruptedException e) {
-					// TODO 自動生成された catch ブロック
 					e.printStackTrace();
 				} catch (ExecutionException e) {
-					// TODO 自動生成された catch ブロック
 					e.printStackTrace();
 				}
 				RateLimitStatus TLlimit = map.get("/statuses/home_timeline");

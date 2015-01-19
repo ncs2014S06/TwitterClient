@@ -37,10 +37,12 @@ public class Twitter_tweet_detail extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO 自動生成されたメソッド・スタブ
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.twitter_tweet_detail);
 		View view = this.getLayoutInflater().inflate(R.layout.twitter_twwet_detail_botans, null);
 		RelativeLayout.LayoutParams lllp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
 		addContentView(view, lllp);
+
 		//findview
 		tweet_detail_userIcon = (SmartImageView) findViewById(R.id.tweet_detail_usericon);
 		tweet_detail_userName = (TextView) findViewById(R.id.tweet_detail_username);

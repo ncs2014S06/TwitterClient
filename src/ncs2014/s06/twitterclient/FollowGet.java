@@ -42,7 +42,6 @@ public class FollowGet extends Activity implements OnScrollListener{
 		mTwitter = TwitterUtils.getTwitterInstance(this);
 		uAdapter = new userAdapter(this);
 		list = (ListView) findViewById(R.id.tllist);
-		//list.setOnScrollListener(this);
 		followGet(0);
 		list.setAdapter(uAdapter);
 		list.setOnScrollListener(this);
