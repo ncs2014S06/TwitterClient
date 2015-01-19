@@ -36,7 +36,7 @@
             android:orientation="horizontal" >
 
             <ImageButton
-                android:id="@+id/bt_update"
+                android:id="@+id/bt_reply"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
                 android:layout_weight="1"
@@ -45,7 +45,7 @@
                 android:src="@android:drawable/ic_menu_rotate" />
 
             <ImageButton
-                android:id="@+id/bt_tuito"
+                android:id="@+id/bt_retweet"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
                 android:layout_weight="1"
@@ -54,7 +54,7 @@
                 android:src="@android:drawable/ic_menu_call" />
 
             <ImageButton
-                android:id="@+id/bt_user"
+                android:id="@+id/bt_fav"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
                 android:layout_weight="1"
@@ -63,7 +63,7 @@
                 android:src="@android:drawable/ic_menu_preferences" />
 
             <ImageButton
-                android:id="@+id/bt_dm"
+                android:id="@+id/bt_more"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
                 android:layout_weight="1"
