@@ -64,10 +64,10 @@ public class Twitter_user extends Activity implements OnClickListener {
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_user);
 
 		//findview
-		bt_update = (ImageButton) findViewById(R.id.bt_update);
-		bt_tuito = (ImageButton) findViewById(R.id.bt_tuito);
-		bt_user = (ImageButton) findViewById(R.id.bt_user);
-		bt_dm = (ImageButton) findViewById(R.id.bt_dm);
+		bt_update = (ImageButton) findViewById(R.id.bt_reply);
+		bt_tuito = (ImageButton) findViewById(R.id.bt_retweet);
+		bt_user = (ImageButton) findViewById(R.id.bt_fav);
+		bt_dm = (ImageButton) findViewById(R.id.bt_more);
 
 		myTweet = (Button) findViewById(R.id.myTweet);
 		follow = (Button) findViewById(R.id.follow);

@@ -1,0 +1,61 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_gravity="bottom"
+    android:background="#00000000"
+    android:gravity="bottom"
+    tools:context="com.example.mytwitter.MainActivity" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_below="@layout/twitter_tweet_detail"
+        android:background="#00ff0000"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/bt_reply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:contentDescription="a"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_reply_white_24dp" />
+
+        <ImageButton
+            android:id="@+id/bt_retweet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:contentDescription="a"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_loop_white_24dp" />
+
+        <ImageButton
+            android:id="@+id/bt_fav"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:contentDescription="a"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_grade_white_24dp" />
+
+        <ImageButton
+            android:id="@+id/bt_more"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:contentDescription="a"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_more_horiz_white_24dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>
