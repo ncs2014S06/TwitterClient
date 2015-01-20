@@ -3,7 +3,6 @@ package ncs2014.s06.twitterclient;
 import twitter4j.DirectMessage;
 import twitter4j.Paging;
 import twitter4j.ResponseList;
-import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import android.app.Activity;
@@ -29,7 +28,7 @@ import com.loopj.android.image.SmartImageView;
 
 public class Twitter_Client_DM extends FragmentActivity implements OnScrollListener,OnItemClickListener{
 
-	 private Twitter mTwitter;
+	private Twitter mTwitter;
 	private TweetAdapter tAdapter;
 	private ImageGet ig;
 	private ListView list;
@@ -66,10 +65,11 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 			mTwitter = TwitterUtils.getTwitterInstance(this);
 			ig = new ImageGet(mTwitter);
 			list.setOnScrollListener(this);
+			list.setOnItemClickListener(this);
 		}
 
-		list.setOnItemClickListener(this);
-		list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+	/*	list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 	        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 	        	DirectMessage msg = (DirectMessage)list.getItemAtPosition(position);
 
@@ -83,7 +83,8 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 				overridePendingTransition(R.anim.right_in, R.anim.left_out);
 				return false;
 	        }
-	    });
+
+	    }*/;
 
 
 
@@ -127,7 +128,7 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 		findViewById(R.id.bt_follower).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				intent.setClass(getApplicationContext(), Twitter_createDM.class);
+				intent.setClass(getApplicationContext(), Twitter_createDM2.class);
 				intent.putExtra("id", "");
 				startActivity(intent);
 				overridePendingTransition(R.anim.right_in, R.anim.left_out);
@@ -341,12 +342,24 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
 		Log.d("dm_detail","view:" + parent + "  position:" + position + "  id:" + id);
-		Status item = (Status) list.getItemAtPosition(position);
+		DirectMessage msg = (DirectMessage)list.getItemAtPosition(position);
 
-		Intent intent = new Intent(getApplication(),Twitter_dm_detail.class);
+		intent.setClass(getApplicationContext(), Twitter_createDM.class);
+		String msg2 = msg.getSenderScreenName();
+		String msg3 = msg.getText();
+		String msg4 = msg.getSender().getProfileImageURL();
+
+			Log.d("test2", msg2 + "");
+
 		intent.putExtra("mTwitter", mTwitter);
-		intent.putExtra("TweetId", item.getId());
+		//intent.putExtra("TweetId", msg.getId());
+		intent.putExtra("id", msg2);
+		intent.putExtra("text", msg3);
+		intent.putExtra("img", msg4);
 		startActivity(intent);
+		overridePendingTransition(R.anim.right_in, R.anim.left_out);
+
+		return;
 	}
 }
 
