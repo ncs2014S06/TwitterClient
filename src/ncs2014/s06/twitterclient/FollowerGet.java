@@ -15,7 +15,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
@@ -26,7 +28,7 @@ import android.widget.Toast;
 
 import com.loopj.android.image.SmartImageView;
 
-public class FollowerGet extends Activity implements OnScrollListener{
+public class FollowerGet extends Activity implements OnScrollListener,OnTouchListener{
 
 	private Twitter mTwitter;
 	private ListView list;
@@ -44,6 +46,7 @@ public class FollowerGet extends Activity implements OnScrollListener{
 		list = (ListView) findViewById(R.id.tllist);
 		followGet(0);
 		list.setAdapter(uAdapter);
+		list.setOnTouchListener(this);
 		list.setOnScrollListener(this);
 
 
@@ -181,5 +184,11 @@ public class FollowerGet extends Activity implements OnScrollListener{
 				}
 			}
 		}
+	}
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		// TODO 自動生成されたメソッド・スタブ
+		return false;
 	}
 }
