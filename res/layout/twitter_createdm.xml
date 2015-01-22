@@ -5,16 +5,17 @@
     android:fillViewport="true" >
 
 <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/black"
-    android:padding="8dp" >
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+
+     >
 
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+         android:background="#87CEFA" >
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -30,17 +31,33 @@
                 android:id="@+id/tweet_detail_absolutetime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="To." />
+                android:text="From." />
 
-            <EditText
-                android:id="@+id/editText1"
+            <TextView
+                android:id="@+id/from"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="29dp"
-                android:layout_marginLeft="40dp"
-                android:layout_weight="1"
-                android:ems="10" />
+                android:text="TextView" />
+
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="本文" />
+
+        <TextView
+            android:id="@+id/honbun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/thorixer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="------------" />
 
         <EditText
             android:id="@+id/input_text"
