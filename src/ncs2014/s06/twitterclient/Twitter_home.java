@@ -53,6 +53,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	private Menu me;
 	private Paging paging;
 	private int page;
+	private final static int TWEET_DETAIL = 0;
 
 	//intent
 	Intent intent = new Intent();
@@ -214,7 +215,30 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 
 		Intent intent = new Intent(getApplication(),Twitter_tweet_detail.class);
 		intent.putExtra("mTwitter", mTwitter);
-		intent.putExtra("TweetId", item.getId());
-		startActivity(intent);
+		intent.putExtra("TweetStatus", item);
+		intent.putExtra("position", position);
+		startActivityForResult(intent,TWEET_DETAIL);
+	}
+
+	public void exchangeListItem(int position,Status status){
+		tAdapter.remove(tAdapter.getItem(position));
+		tAdapter.insert(status, position);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO 自動生成されたメソッド・スタブ
+		super.onActivityResult(requestCode, resultCode, data);
+		this.intent = data;
+		// startActivityForResult()の際に指定した識別コードとの比較
+		if( requestCode == TWEET_DETAIL ){
+			// 返却結果ステータスとの比較
+			if( resultCode == Activity.RESULT_OK ){
+				// 返却されてきたintentから値を取り出す
+				int position = intent.getIntExtra( "position", 0 );
+				Status tweetStatus = (Status) intent.getSerializableExtra("tweetStatus");
+				exchangeListItem(position, tweetStatus);
+			}
+		}
 	}
 }

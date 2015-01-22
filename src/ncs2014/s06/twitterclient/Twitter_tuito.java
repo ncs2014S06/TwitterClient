@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -27,45 +28,64 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 
 	private  static int REQUEST_PICK = 1;
 
-    private EditText mInputText;
-    private Twitter mTwitter;
-    private SmartImageView view;
-    private Button tweet;
-    private Button imageTweet;
-    private Button bt_menu_time;
-    private TextView tv_username;
+	private EditText mInputText;
+	private Twitter mTwitter;
+	private SmartImageView view;
+	private Button tweet;
+	private Button imageTweet;
+	private Button bt_menu_time;
+	private TextView tv_username;
+	private String replyScreenName;
 
-  //intent
-  	Intent intent = new Intent();
+	//intent
+	Intent intent = new Intent();
 
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-        setContentView(R.layout.twitter_tweet);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+		setContentView(R.layout.twitter_tweet);
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_tuito);
 
-        mTwitter = TwitterUtils.getTwitterInstance(this);
-        ImageGet ig = new ImageGet(mTwitter);
+		mTwitter = TwitterUtils.getTwitterInstance(this);
+		ImageGet ig = new ImageGet(mTwitter);
 
-        //findView
-        view = (SmartImageView) findViewById(R.id.icon);
-        mInputText = (EditText) findViewById(R.id.input_text);
-        tweet = (Button) findViewById(R.id.action_tweet);
-        imageTweet = (Button) findViewById(R.id.image_plus);
-        tv_username = (TextView) findViewById(R.id.tv_usename);
-
-
-        //リスナーセット
-        ig.setImage(view);
-        mTwitter = TwitterUtils.getTwitterInstance(this);
-        tweet.setOnClickListener(this);
-        imageTweet.setOnClickListener(this);
+		//findView
+		view = (SmartImageView) findViewById(R.id.icon);
+		mInputText = (EditText) findViewById(R.id.input_text);
+		tweet = (Button) findViewById(R.id.action_tweet);
+		imageTweet = (Button) findViewById(R.id.image_plus);
+		tv_username = (TextView) findViewById(R.id.tv_usename);
 
 
-        AsyncTask<Void, Void, twitter4j.User> task = new AsyncTask<Void, Void, twitter4j.User>() {
+		//リスナーセット
+		ig.setImage(view);
+		tweet.setOnClickListener(this);
+		imageTweet.setOnClickListener(this);
+
+		if (!TwitterUtils.hasAccessToken(this)) {
+			Intent intent = new Intent(this, TwitterOAuthActivity.class);
+			startActivity(intent);
+			finish();
+		}
+		mTwitter = TwitterUtils.getTwitterInstance(this);
+
+		intent = getIntent();
+		replyScreenName = intent.getStringExtra("screenName");
+		if(replyScreenName != null){
+			Log.d("test",replyScreenName);
+			replyScreenName = "@" + replyScreenName + " ";
+			mInputText.setText(replyScreenName);
+			mInputText.setSelection(mInputText.length());
+		}else{
+			Log.d("test","replyScreenName = null");
+		}
+
+
+
+		AsyncTask<Void, Void, twitter4j.User> task = new AsyncTask<Void, Void, twitter4j.User>() {
 
 			@Override
 			protected twitter4j.User doInBackground(Void... params) {
@@ -83,40 +103,40 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 				super.onPostExecute(result);
 				tv_username.setText("@" + result.getScreenName());
 			}
-        };
-        task.execute();
+		};
+		task.execute();
 
-        bt_menu_time = (Button) findViewById(R.id.bt_menu_time);
-        bt_menu_time.setOnClickListener(this);
-    }
+		bt_menu_time = (Button) findViewById(R.id.bt_menu_time);
+		bt_menu_time.setOnClickListener(this);
+	}
 
-    private void tweet() {
-        AsyncTask<String, Void, Boolean> task = new AsyncTask<String, Void, Boolean>() {
-            @Override
-            protected Boolean doInBackground(String... params) {
-                try {
-                    mTwitter.updateStatus(params[0]);
-                    return true;
-                } catch (TwitterException e) {
-                    e.printStackTrace();
-                    return false;
-                }
-            }
+	private void tweet() {
+		AsyncTask<String, Void, Boolean> task = new AsyncTask<String, Void, Boolean>() {
+			@Override
+			protected Boolean doInBackground(String... params) {
+				try {
+					mTwitter.updateStatus(params[0]);
+					return true;
+				} catch (TwitterException e) {
+					e.printStackTrace();
+					return false;
+				}
+			}
 
-            @Override
-            protected void onPostExecute(Boolean result) {
-                if (result) {
-                    showToast("ツイートが完了しました！");
-                    finish();
-                } else {
-                    showToast("ツイートに失敗しました。。。");
-                }
-            }
-        };
-        task.execute(mInputText.getText().toString());
-    }
+			@Override
+			protected void onPostExecute(Boolean result) {
+				if (result) {
+					showToast("ツイートが完了しました！");
+					finish();
+				} else {
+					showToast("ツイートに失敗しました。。。");
+				}
+			}
+		};
+		task.execute(mInputText.getText().toString());
+	}
 
-    @Override
+	@Override
 	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		AsyncTask<String, Void, Boolean> task = new AsyncTask<String, Void, Boolean>() {
@@ -138,7 +158,7 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 
 					try {
 						twitter4j.Status status = mTwitter.updateStatus(
-					            new StatusUpdate(tweet).media(path));
+								new StatusUpdate(tweet).media(path));
 						result = true;
 					} catch (Exception e) {
 						result = false;
@@ -148,11 +168,11 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 					}
 
 				if (result) {
-                    //showToast("ツイートが完了しました！");
-                    finish();
-                } else {
-                    //showToast("ツイートに失敗しました。。。");
-                }
+					//showToast("ツイートが完了しました！");
+					finish();
+				} else {
+					//showToast("ツイートに失敗しました。。。");
+				}
 				return true;
 			}else{
 				return false;
@@ -162,9 +182,9 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 	task.execute(mInputText.getText().toString());
 	}
 
-    private void showToast(String text) {
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
-    }
+	private void showToast(String text) {
+		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+	}
 
 	@Override
 	public void onClick(View v) {
@@ -172,8 +192,8 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 			tweet();
 		}else{
 			Intent intent = new Intent(Intent.ACTION_PICK);
-    		intent.setType("image/*");
-    		startActivityForResult(intent, REQUEST_PICK);
+			intent.setType("image/*");
+			startActivityForResult(intent, REQUEST_PICK);
 		}
 
 		if(v == bt_menu_time){
