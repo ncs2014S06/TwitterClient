@@ -5,17 +5,16 @@
     android:fillViewport="true" >
 
 <RelativeLayout
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-
-     >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:padding="8dp" >
 
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical"
-         android:background="#87CEFA" >
+        android:orientation="vertical" >
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -28,36 +27,20 @@
                 android:src="@drawable/ic_launcher" />
 
             <TextView
-                android:id="@+id/tweet_detail_absolutetime"
+                android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="From." />
+                android:text="To." />
 
-            <TextView
-                android:id="@+id/from"
+            <EditText
+                android:id="@+id/editText1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
-
+                android:layout_marginBottom="29dp"
+                android:layout_marginLeft="40dp"
+                android:layout_weight="1"
+                android:ems="10" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="本文" />
-
-        <TextView
-            android:id="@+id/honbun"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
-
-        <TextView
-            android:id="@+id/thorixer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="------------" />
 
         <EditText
             android:id="@+id/input_text"

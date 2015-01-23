@@ -143,8 +143,10 @@ public class TweetGet extends Activity implements OnScrollListener, OnItemClickL
 			long id) {
 		Status item = (Status) list.getItemAtPosition(position);
 		Intent intent = new Intent(getApplication(),Twitter_tweet_detail.class);
-		intent.putExtra("mTwitter", mTwitter);
-		intent.putExtra("TweetId", item);
+		//intent.putExtra("mTwitter", mTwitter);
+		//intent.putExtra("TweetId", item);
+		intent.putExtra("TweetStatus", item);
+		intent.putExtra("position", position);
 		startActivity(intent);
 
 	}
