@@ -89,21 +89,13 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 
 		mTwitter = TwitterUtils.getTwitterInstance(this);
 		Intent intent = getIntent();
-	//	this.mTwitter = (Twitter) intent.getSerializableExtra("mTwitter");
-		this.tweetStatus = (Status) intent.getSerializableExtra("TweetStatus");
-		this.position = intent.getIntExtra("position", 0);
+		tweetStatus = (Status) intent.getSerializableExtra("TweetStatus");
+		position = intent.getIntExtra("position", 0);
+		tweetId = tweetStatus.getId();
 
 		showTweet();
 
-		//ファボ・リツイートボタン変色
-		favFlag = tweetStatus.isFavorited();
-		retweetFlag = tweetStatus.isRetweeted();
-		if(favFlag){
-			bt_fav.setColorFilter(favColor);
-		}
-		if(retweetFlag){
-			bt_retweet.setColorFilter(retweetColor);
-		}
+		buttonColorChange();
 	}
 
 	private void showTweet(){
@@ -179,6 +171,19 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 		tweet_detail_tweet.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 
+	/**
+	 * ファボ・リツイートボタン色チェック
+	 */
+	private void buttonColorChange(){
+		favFlag = tweetStatus.isFavorited();
+		retweetFlag = tweetStatus.isRetweeted();
+		if(favFlag){
+			bt_fav.setColorFilter(favColor);
+		}
+		if(retweetFlag){
+			bt_retweet.setColorFilter(retweetColor);
+		}
+	}
 
 	@Override
 	public void onClick(View v) {
@@ -191,29 +196,30 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 		//リツートボタン
 		if(v == bt_retweet){
 			AsyncTask<Void, Void, Integer> task = new AsyncTask<Void, Void, Integer>(){
-						@Override
-						protected Integer doInBackground(Void... params) {
-							flag = 0;
-							try {
-								mTwitter.retweetStatus(tweetStatus.getId());
-							} catch (TwitterException e) {
-								// TODO 自動生成された catch ブロック
-								e.printStackTrace();
-								flag = 1;
-							}
-							return flag;
+					@Override
+					protected Integer doInBackground(Void... params) {
+						flag = 0;
+						try {
+							mTwitter.retweetStatus(tweetId);
+							tweetStatus = mTwitter.showStatus(tweetId);
+						} catch (TwitterException e) {
+							// TODO 自動生成された catch ブロック
+							e.printStackTrace();
+							flag = 1;
 						}
-						@Override
-						protected void onPostExecute(Integer result) {
-							// TODO 自動生成されたメソッド・スタブ
-							super.onPostExecute(result);
-							if(flag != 1){
-								bt_retweet.setColorFilter(retweetColor);
-								showToast("リツイートしました");
-							}else{
-								showToast("同じ内容のツイートを連続で投稿することはできません");
-							}
+						return flag;
+					}
+					@Override
+					protected void onPostExecute(Integer result) {
+						// TODO 自動生成されたメソッド・スタブ
+						super.onPostExecute(result);
+						if(flag != 1){
+							buttonColorChange();
+							showToast("リツイートしました");
+						}else{
+							showToast("同じ内容のツイートを連続で投稿することはできません");
 						}
+					}
 				};
 			task.execute();
 		}
@@ -225,16 +231,10 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 				protected Integer doInBackground(Void... params) {
 					flag = 0;
 					try {
-						tweetId = tweetStatus.getId();
 						Log.d("fav","tweetId:" + tweetId);
 						//お気に入り登録
 						tweetStatus = mTwitter.createFavorite(tweetId);
 						Log.d("fav","afterTweetId:" + tweetStatus.getId());
-						if(tweetStatus.isFavorited()){
-							Log.d("fav","favされてるよ");
-						}else{
-							Log.d("fav","favされてないよ");
-						}
 					} catch (TwitterException e) {
 						// TODO 自動生成された catch ブロック
 						e.printStackTrace();
@@ -247,7 +247,7 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 					// TODO 自動生成されたメソッド・スタブ
 					super.onPostExecute(result);
 					if(flag != 1){
-						bt_fav.setColorFilter(favColor);
+						buttonColorChange();
 						showToast("お気に入り登録しました");
 					}else{
 						showToast("すでにお気に入り登録されています");

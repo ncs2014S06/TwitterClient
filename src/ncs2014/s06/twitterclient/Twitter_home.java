@@ -214,7 +214,6 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 		Status item = (Status) list.getItemAtPosition(position);
 
 		Intent intent = new Intent(getApplication(),Twitter_tweet_detail.class);
-		intent.putExtra("mTwitter", mTwitter);
 		intent.putExtra("TweetStatus", item);
 		intent.putExtra("position", position);
 		startActivityForResult(intent,TWEET_DETAIL);
