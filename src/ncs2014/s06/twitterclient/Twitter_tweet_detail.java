@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import ncs2014.s06.twitterclient.TextLinker.OnLinkClickListener;
 import twitter4j.Status;
 import twitter4j.Twitter;
-import twitter4j.TwitterException;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -23,7 +22,7 @@ import com.loopj.android.image.SmartImageView;
 
 public class Twitter_tweet_detail extends Activity {
 	private Twitter mTwitter;
-	private Long TweetId;
+	private long TweetUser;
 	private Status item;
 	private SparseArray<String> links;
 
@@ -54,9 +53,7 @@ public class Twitter_tweet_detail extends Activity {
 			finish();
 		}
 		mTwitter = TwitterUtils.getTwitterInstance(this);
-		Intent intent = getIntent();
-		this.mTwitter = (Twitter) intent.getSerializableExtra("mTwitter");
-		this.TweetId = intent.getLongExtra("TweetId", 0);
+
 		showTweet();
 	}
 
@@ -66,8 +63,10 @@ public class Twitter_tweet_detail extends Activity {
 			@Override
 			protected twitter4j.Status doInBackground(Void... params) {
 				try {
-					item = mTwitter.showStatus(TweetId);
-				} catch (TwitterException e) {
+					Intent intent = getIntent();
+					mTwitter = (Twitter) intent.getSerializableExtra("mTwitter");
+					item = (twitter4j.Status) intent.getSerializableExtra("TweetId");
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				return item;
@@ -116,10 +115,6 @@ public class Twitter_tweet_detail extends Activity {
 					}
 				};
 
-
-
-
-				Log.d("tweet_detail","--------------------------------");
 				tweet_detail_tweet.setText(TextLinker.getLinkableText(tweet, links, listener));
 				tweet_detail_tweet.setMovementMethod(LinkMovementMethod.getInstance());
 			}

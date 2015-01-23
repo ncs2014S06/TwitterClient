@@ -28,13 +28,6 @@ import android.widget.Toast;
 
 public class Twitter_home extends Activity implements OnItemClickListener,OnClickListener, OnRefreshListener,OnScrollListener{
 
-	//メニューアイテム識別ID
-	/*
-	private static final int menu_tuito = 0;
-	private static final int menu_user = 1;
-	private static final int menu_dm = 2;
-	private static final int menu_update = 3;
-	*/
 
 	//変数
 	private TimeLine timeLine;
@@ -56,7 +49,6 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 
 	//intent
 	Intent intent = new Intent();
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -155,7 +147,10 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 
 
 		if(v == bt_user){
-			startActivity(new Intent(Twitter_home.this,Twitter_user.class));
+			intent.setClass(getApplicationContext(), Twitter_user.class);
+			intent.putExtra("mTwitter", mTwitter);
+			startActivity(intent);
+			//startActivity(new Intent(Twitter_home.this,Twitter_user.class));
 		}//if
 
 		if(v == bt_dm){
@@ -209,12 +204,10 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	@Override
 
 	public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
-		Log.d("tweet_detail","view:" + parent + "  position:" + position + "  id:" + id);
 		Status item = (Status) list.getItemAtPosition(position);
-
 		Intent intent = new Intent(getApplication(),Twitter_tweet_detail.class);
 		intent.putExtra("mTwitter", mTwitter);
-		intent.putExtra("TweetId", item.getId());
+		intent.putExtra("TweetId", item);
 		startActivity(intent);
 	}
 }

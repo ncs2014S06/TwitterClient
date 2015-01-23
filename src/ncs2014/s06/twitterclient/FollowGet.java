@@ -11,6 +11,7 @@ import twitter4j.TwitterException;
 import twitter4j.User;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -26,24 +29,31 @@ import android.widget.Toast;
 
 import com.loopj.android.image.SmartImageView;
 
-public class FollowGet extends Activity implements OnScrollListener{
+public class FollowGet extends Activity implements OnScrollListener, OnItemClickListener{
 
 	private Twitter mTwitter;
+	private User otherUserId;
 	private ListView list;
 	private ArrayAdapter<User> uAdapter;
 	private ArrayList<User> arrayList;
 	private PagableResponseList<User> user;
 	private AsyncTask<Void, Void, ArrayList<User>> task;
+	private Intent intent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.twitter_follow);
 		mTwitter = TwitterUtils.getTwitterInstance(this);
+		intent = getIntent();
+		this.mTwitter = (Twitter) intent.getSerializableExtra("TwitterUser");
+		this.otherUserId = (User) intent.getSerializableExtra("otherUserId");
 		uAdapter = new userAdapter(this);
+		intent = getIntent();
 		list = (ListView) findViewById(R.id.tllist);
 		followGet(0);
 		list.setAdapter(uAdapter);
+		list.setOnItemClickListener(this);
 		list.setOnScrollListener(this);
 
 
@@ -63,7 +73,11 @@ public class FollowGet extends Activity implements OnScrollListener{
 
 				try {
 					if(mode == 0){
-						user = mTwitter.getFriendsList(mTwitter.getId(), i);
+						if(otherUserId == null){
+							user = mTwitter.getFriendsList(mTwitter.getId(), i);
+						}else{
+							user = mTwitter.getFriendsList(otherUserId.getId(), i);
+						}
 					}
 
 				//	do{
@@ -71,7 +85,11 @@ public class FollowGet extends Activity implements OnScrollListener{
 							Log.d("Friends",u.getName());
 							arrayList.add(u);
 						}
-					user = mTwitter.getFriendsList(mTwitter.getId(), user.getNextCursor());
+						if(otherUserId == null){
+							user = mTwitter.getFriendsList(mTwitter.getId(), user.getNextCursor());
+						}else{
+							user = mTwitter.getFriendsList(otherUserId.getId(), user.getNextCursor());
+						}
 
 				} catch (IllegalStateException e) {
 					// TODO 自動生成された catch ブロック
@@ -181,5 +199,14 @@ public class FollowGet extends Activity implements OnScrollListener{
 				}
 			}
 		}
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		User otherUser = (User) list.getItemAtPosition(position);
+		intent = new Intent(getApplication(),Twitter_user.class);
+		intent.putExtra("otherUser",otherUser);
+		startActivity(intent);
 	}
 }

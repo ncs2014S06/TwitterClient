@@ -31,11 +31,13 @@ public class Twitter_user extends Activity implements OnClickListener {
 
 	private SmartImageView myImage;
 	private Twitter mTwitter;
+	private Twitter TwitterUser;
 	private ImageButton bt_update;
 	private ImageButton bt_tuito;
 	private ImageButton bt_user;
 	private ImageButton bt_dm;
 	private User user;
+	private User otherUser;
 
 	private Button myTweet;
 	private Button follow;
@@ -52,10 +54,11 @@ public class Twitter_user extends Activity implements OnClickListener {
 	private SmartImageView followerImg;
 	private SmartImageView backImage;
 	private AsyncTask<Void, Void, User> task;
+	private Long otherUserId;
+
 
 	//intent
 	Intent intent = new Intent();
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -96,19 +99,27 @@ public class Twitter_user extends Activity implements OnClickListener {
 		follow.setOnClickListener(this);
 		follower.setOnClickListener(this);
 		fav.setOnClickListener(this);
-
-
 		mTwitter = TwitterUtils.getTwitterInstance(this);
+		TwitterUser = (Twitter) intent.getSerializableExtra("testTwitter");
+		intent = getIntent();
+		otherUser = (User) intent.getSerializableExtra("otherUser");
+
 		tAdapter = new TweetAdapter(this);
 		final ImageGet ig = new ImageGet(mTwitter);
-
+		TwitterUser = mTwitter;
+		intent.putExtra("TwitterUser",TwitterUser);
+		intent.putExtra("otherUserId", otherUser);
 		task = new AsyncTask<Void, Void, User>() {
 
 			@Override
 			protected User doInBackground(Void... params) {
 
 				try {
-					user = mTwitter.verifyCredentials();
+					if(otherUser == null){
+						user = mTwitter.verifyCredentials();
+					}else{
+						user = otherUser;
+					}
 				} catch (TwitterException e) {
 					e.printStackTrace();
 				}//try
@@ -120,7 +131,7 @@ public class Twitter_user extends Activity implements OnClickListener {
 			protected void onPostExecute(User result) {
 				super.onPostExecute(result);
 
-				ig.setImage(myImage);
+				ig.setImage(myImage,user.getScreenName());
 
 				//ヘッダーの画像変更
 				backImageStr = user.getProfileBannerURL();

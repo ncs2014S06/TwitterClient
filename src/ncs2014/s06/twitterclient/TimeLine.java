@@ -65,8 +65,6 @@ public class TimeLine{
 					int i = 0;
 					for (twitter4j.Status status : result) {
 						tAdapter.add(status);
-						Log.d("count", i + "");
-						i++;
 					}
 					showToast("タイムラインの取得に成功しました");
 
