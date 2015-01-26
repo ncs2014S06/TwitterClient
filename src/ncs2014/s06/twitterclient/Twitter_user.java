@@ -28,17 +28,21 @@ public class Twitter_user extends Activity implements OnClickListener {
 	private String fav_c;
 	private String myList_c;
 	private String backImageStr;
-
-	private SmartImageView myImage;
 	private Twitter mTwitter;
 	private Twitter TwitterUser;
+	private User user;
+	private User otherUser;
+	private String followerName;
+	private AsyncTask<Void, Void, User> task;
+	private Long otherUserId;
+
+	private SmartImageView myImage;
+	private SmartImageView followerImg;
+	private SmartImageView backImage;
 	private ImageButton bt_update;
 	private ImageButton bt_tuito;
 	private ImageButton bt_user;
 	private ImageButton bt_dm;
-	private User user;
-	private User otherUser;
-
 	private Button myTweet;
 	private Button follow;
 	private Button follower;
@@ -50,11 +54,6 @@ public class Twitter_user extends Activity implements OnClickListener {
 	private TextView text_context;
 	private LinearLayout layout1;
 	private TweetAdapter tAdapter;
-	private String followerName;
-	private SmartImageView followerImg;
-	private SmartImageView backImage;
-	private AsyncTask<Void, Void, User> task;
-	private Long otherUserId;
 
 
 	//intent
@@ -136,7 +135,6 @@ public class Twitter_user extends Activity implements OnClickListener {
 				//ヘッダーの画像変更
 				backImageStr = user.getProfileBannerURL();
 				backImage.setImageUrl(backImageStr);
-				backImage.setScaleType(SmartImageView.ScaleType.FIT_XY);
 
 				//ボタンに各種値をセット
 				userStatusGet();
