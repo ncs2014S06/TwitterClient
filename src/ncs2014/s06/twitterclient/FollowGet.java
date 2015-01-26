@@ -23,6 +23,7 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +40,7 @@ public class FollowGet extends Activity implements OnScrollListener, OnItemClick
 	private PagableResponseList<User> user;
 	private AsyncTask<Void, Void, ArrayList<User>> task;
 	private Intent intent;
+	private Button follow;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public class FollowGet extends Activity implements OnScrollListener, OnItemClick
 		this.mTwitter = (Twitter) intent.getSerializableExtra("TwitterUser");
 		this.otherUserId = (User) intent.getSerializableExtra("otherUserId");
 		uAdapter = new userAdapter(this);
+		//follow = (Button) findViewById(R.id.followButton);
 		intent = getIntent();
 		list = (ListView) findViewById(R.id.tllist);
 		followGet(0);
