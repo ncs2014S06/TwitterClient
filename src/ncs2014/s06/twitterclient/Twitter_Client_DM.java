@@ -349,13 +349,15 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 		String msg3 = msg.getText();
 		String msg4 = msg.getSender().getProfileImageURL();
 
-			Log.d("test2", msg2 + "");
+		Log.d("test2", msg2 + "");
 
 		intent.putExtra("mTwitter", mTwitter);
+		intent.putExtra("msg", msg);
 		//intent.putExtra("TweetId", msg.getId());
 		intent.putExtra("id", msg2);
 		intent.putExtra("text", msg3);
-		intent.putExtra("img", msg4);
+		intent.putExtra("img",msg4);
+
 		startActivity(intent);
 		overridePendingTransition(R.anim.right_in, R.anim.left_out);
 

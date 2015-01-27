@@ -22,7 +22,7 @@
             android:layout_height="wrap_content" >
 
             <com.loopj.android.image.SmartImageView
-                android:id="@+id/DM_MyImage"
+                android:id="@+id/DM_MyImage25"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/ic_launcher" />

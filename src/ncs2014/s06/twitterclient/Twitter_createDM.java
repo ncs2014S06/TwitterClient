@@ -24,8 +24,10 @@ public class Twitter_createDM extends FragmentActivity {
 	private Twitter mTwitter;
 	private SmartImageView view;
 	private DirectMessage message;
+	private DirectMessage msg;
 	private String to;
 	private String text;
+	private String img;
 	private long id;
 	private Status item;
 
@@ -37,34 +39,46 @@ public class Twitter_createDM extends FragmentActivity {
 		mTwitter = TwitterUtils.getTwitterInstance(this);
 		setContentView(R.layout.twitter_createdm);
 		//ImageGet ig = new ImageGet(mTwitter);
+
+		msg = (DirectMessage) intent.getSerializableExtra("msg");
+
 		Log.d("test","test");
 		from2 = intent.getStringExtra("id");
 		Log.d("test222",from2);
 		text =  intent.getStringExtra("text");
-		//view = (SmartImageView) findViewById(R.id.DM_MyImage);
+		img = intent.getStringExtra("img");
 		from = (TextView) findViewById(R.id.from);
 		from.setText(from2);
 		text2 = (TextView)findViewById(R.id.honbun);
 		text2.setText(text);
-
-		//ig.setImage();
-
-
-/*
-		try {
-			item = mTwitter.showStatus(id);
-		} catch (TwitterException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-		}
-		if(to == null){
-			Log.d("test1","nullだよ");
-		}
-		*/
-
+		view = (SmartImageView)findViewById(R.id.DM_MyImage25);
 		mInputText = (EditText) findViewById(R.id.input_text);
 
-		//from.setText(to);
+
+
+
+
+		AsyncTask<Void, Void, String> task = new AsyncTask<Void, Void,String>(){
+
+			@Override
+			protected String doInBackground(Void... params) {
+				// TODO 自動生成されたメソッド・スタブ
+				Log.d("test222",msg.getSenderScreenName() + "sd");
+				String s = msg.getSender().getProfileImageURL();
+				return s;
+			}
+
+			@Override
+			protected void onPostExecute(String result) {
+				// TODO 自動生成されたメソッド・スタブ
+				super.onPostExecute(result);
+				view.setImageUrl(result);
+			}
+
+		};
+		task.execute();
+
+
 
 		findViewById(R.id.action_tweet).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -84,6 +98,7 @@ public class Twitter_createDM extends FragmentActivity {
 			@Override
 			protected Boolean doInBackground(Void... params) {
 				// TODO 自動生成されたメソッド・スタブ
+
 				try {
 					message = mTwitter.sendDirectMessage(from2,mInputText.getText().toString());
 					Log.d("test","Direct message successfully sent to " + message.getRecipientScreenName());
@@ -95,6 +110,7 @@ public class Twitter_createDM extends FragmentActivity {
 					return false;
 				}
 			}
+
             @Override
             protected void onPostExecute(Boolean result) {
                 if (result) {

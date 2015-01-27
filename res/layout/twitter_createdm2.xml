@@ -2,23 +2,24 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_weight="1"
-    android:fillViewport="true" >
+    android:fillViewport="true"
+    android:background="#87CEFA">
 
 <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/black"
-    android:padding="8dp" >
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+>
 
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:background="#87CEFA" >
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
 
             <com.loopj.android.image.SmartImageView
                 android:id="@+id/DM_MyImage"
