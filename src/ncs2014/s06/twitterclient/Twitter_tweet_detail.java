@@ -103,6 +103,7 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 		buttonColorChange();
 	}
 
+
 	private void showTweet(){
 
 		tweet_detail_userIcon.setImageUrl(tweetUser.getProfileImageURL());
@@ -110,7 +111,6 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 		tweet_detail_userId.setText("@"+ tweetUser.getScreenName());
 		tweet_detail_absoluteTime.setText(tweetStatus.getCreatedAt().toString());
 		String tweet = tweetStatus.getText();
-
 
 		ArrayList<String> LinkArray = new ArrayList<String>(); //リンク変更予定URL配列
 

@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import twitter4j.Friendship;
 import twitter4j.PagableResponseList;
 import twitter4j.RateLimitStatus;
+import twitter4j.ResponseList;
+import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
@@ -16,28 +19,36 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.image.SmartImageView;
 
-public class FollowerGet extends Activity implements OnScrollListener,OnItemClickListener{
+public class FollowerGet extends Activity implements OnScrollListener,OnItemClickListener, OnClickListener{
 
 	private Twitter mTwitter;
 	private User otherUserId;
 	private ListView list;
+	private Status followStatus;
 	private ArrayAdapter<User> uAdapter;
 	private ArrayList<User> arrayList;
 	private PagableResponseList<User> user;
-	private AsyncTask<Void, Void, ArrayList<User>> task;
+	private AsyncTask<Void, Void, ArrayList<User>> taskFollow;
+	private AsyncTask<Void, Void, Twitter> taskFollowButton;
+	private AsyncTask<Void, Void, ResponseList<Friendship>> lookTask;
 	private Intent intent;
+	private boolean followFlag;
+	private Button follow;
+	private ResponseList<Friendship> aa;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +59,9 @@ public class FollowerGet extends Activity implements OnScrollListener,OnItemClic
 		this.mTwitter = (Twitter) intent.getSerializableExtra("TwitterUser");
 		this.otherUserId = (User) intent.getSerializableExtra("otherUserId");
 		uAdapter = new userAdapter(this);
+		//follow = (Button) findViewById(R.id.followButton);
+		//follow.setOnClickListener(this);
+		buttonColorChange();
 		list = (ListView) findViewById(R.id.tllist);
 		intent = getIntent();
 		followGet(0);
@@ -62,7 +76,7 @@ public class FollowerGet extends Activity implements OnScrollListener,OnItemClic
 	 */
 	public void followGet(final int mode){
 		arrayList = new ArrayList<User>();
-		task = new AsyncTask<Void, Void, ArrayList<User>>(){
+		taskFollow = new AsyncTask<Void, Void, ArrayList<User>>(){
 
 			@Override
 			protected ArrayList<User> doInBackground(Void... params) {
@@ -128,11 +142,11 @@ public class FollowerGet extends Activity implements OnScrollListener,OnItemClic
 				showToast("残り読み込み回数" + TLlimit.getRemaining() + "回\nAPIリセットまで" + m + S);
 			}
 		};
-		task.execute();
+		taskFollow.execute();
 	}
 
 	public boolean taskRunning(){
-		if(task.getStatus().name().equals("RUNNING")){
+		if(taskFollow.getStatus().name().equals("RUNNING")){
 			return true;
 		}
 		return false;
@@ -203,4 +217,57 @@ public class FollowerGet extends Activity implements OnScrollListener,OnItemClic
 		intent.putExtra("otherUser",otherUser);
 		startActivity(intent);
 	}
+
+	//フォローボタン
+	@Override
+	public void onClick(View v) {
+		if(v == follow){
+
+			taskFollowButton = new AsyncTask<Void, Void, Twitter>(){
+
+
+
+
+				@Override
+				protected Twitter doInBackground(Void... params) {
+					// TODO 自動生成されたメソッド・スタブ
+					return null;
+				}
+			};
+
+		}
+	}
+
+	private void buttonColorChange(){
+			if(true){
+				try {
+					lookTask = new AsyncTask<Void, Void, ResponseList<Friendship>>(){
+
+						@Override
+						protected ResponseList<Friendship> doInBackground(Void... params) {
+
+							try {
+								long[] l={mTwitter.showUser("syuritanhaahaa").getId()};
+								aa = mTwitter.lookupFriendships(l);
+								return aa;
+							} catch (Exception e) {
+								// TODO: handle exception
+							}
+							return null;
+						}
+
+						@Override
+						protected void onPostExecute(ResponseList<Friendship> result) {
+							super.onPostExecute(result);
+						}
+					};
+
+					lookTask.execute();
+
+				} catch (IllegalStateException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+				}
+			}
+		}
 }
