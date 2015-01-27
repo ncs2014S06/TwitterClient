@@ -4,8 +4,11 @@ import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.util.Log;
@@ -15,7 +18,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
@@ -28,16 +30,21 @@ import android.widget.Toast;
 
 public class Twitter_home extends Activity implements OnItemClickListener,OnClickListener, OnRefreshListener,OnScrollListener{
 
-	//メニューアイテム識別ID
-	/*
-	private static final int menu_tuito = 0;
-	private static final int menu_user = 1;
-	private static final int menu_dm = 2;
-	private static final int menu_update = 3;
-	*/
-
 	//変数
+	private Intent intent = new Intent(); //intent
 	private TimeLine timeLine;
+	private TweetAdapter tAdapter;
+	private Twitter mTwitter;
+	private Menu me;
+	private Paging paging;
+	private int page;
+	private final static int TWEET_DETAIL = 0;
+	private Handler mHandler;
+	private Context mContext;
+
+
+
+	private SwipeRefreshLayout swipeRefreshLayout;
 	private ImageButton bt_update;
 	private ImageButton bt_tuito;
 	private ImageButton bt_user;
@@ -46,34 +53,27 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	private Button bt_menu_user;
 	private Button bt_menu_tweet;
 	private TextView title;
-	private TweetAdapter tAdapter;
-	private Twitter mTwitter;
-	private SwipeRefreshLayout swipeRefreshLayout;
 	private ListView list;
-	private Menu me;
-	private Paging paging;
-	private int page;
-	private final static int TWEET_DETAIL = 0;
 
-	//intent
-	Intent intent = new Intent();
 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//タイトルバーのカスタマイズ
-		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+//		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.twitter_home);
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);
+//		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);
+		mContext = getApplicationContext();
+		mHandler = new Handler();
 
 		//findview
 		bt_update = (ImageButton) findViewById(R.id.bt_reply);
 		bt_tuito = (ImageButton) findViewById(R.id.bt_retweet);
 		bt_user = (ImageButton) findViewById(R.id.bt_fav);
 		bt_dm = (ImageButton) findViewById(R.id.bt_more);
-		bt_menu_user = (Button) findViewById(R.id.bt_menu_user);
-		bt_menu_tweet = (Button) findViewById(R.id.bt_menu_tweet);
+//		bt_menu_user = (Button) findViewById(R.id.bt_menu_user);
+//		bt_menu_tweet = (Button) findViewById(R.id.bt_menu_tweet);
 		swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
 		list = (ListView) findViewById(R.id.tllist);
 
@@ -82,8 +82,8 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 		bt_tuito.setOnClickListener(this);
 		bt_user.setOnClickListener(this);
 		bt_dm.setOnClickListener(this);
-		bt_menu_user.setOnClickListener(this);
-		bt_menu_tweet.setOnClickListener(this);
+//		bt_menu_user.setOnClickListener(this);
+//		bt_menu_tweet.setOnClickListener(this);
 		list.setOnItemClickListener(this);
 
 		if (!TwitterUtils.hasAccessToken(this)) {
@@ -95,7 +95,14 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 			list.setAdapter(tAdapter);
 			paging = new Paging(1);
 			mTwitter = TwitterUtils.getTwitterInstance(this);
-			timeLine = new TimeLine(this, mTwitter, tAdapter, swipeRefreshLayout);
+			mHandler = new Handler(){
+				@Override
+				public void handleMessage(Message msg) {
+					Throwable e = (Throwable)msg.obj;
+					showToast("Twitterに接続できません\n接続を確認してください");
+				}
+			};
+			timeLine = new TimeLine(mContext,mHandler, tAdapter, swipeRefreshLayout);
 			createSwipeRefreshLayout();
 			timeLine.reloadTimeLine(paging,0);
 			list.setOnScrollListener(this);
@@ -106,7 +113,6 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 		swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
 		swipeRefreshLayout.setOnRefreshListener(this);
 	}
-
 
 	private void showToast(String text) {
 		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
@@ -123,13 +129,33 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if(item == bt_tuito){
-			startActivity(new Intent(Twitter_home.this,Twitter_user.class));
-			intent.setClass(getApplicationContext(), Twitter_tuito.class);
+
+		switch (item.getItemId()) {
+		case R.id.menu_tuito:
+
+			intent.setClass(mContext, Twitter_tuito.class);
 			startActivity(intent);
-			overridePendingTransition(R.anim.right_in, R.anim.left_out);
+			return true;
+
+		case R.id.menu_dm:
+
+			intent.setClass(mContext, Twitter_Client_DM.class);
+			startActivity(intent);
+			return true;
+
+		case R.id.menu_user:
+
+			intent.setClass(mContext, Twitter_user.class);
+			startActivity(intent);
+			return true;
+		case R.id.menu_update:
+
+			timeLine.reloadTimeLine(paging,0);
+			return true;
+
+		default:
+			return false;
 		}
-		return false;
 	}//select
 
 	/**
@@ -169,6 +195,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 			openOptionsMenu();
 		}//if
 
+		/**
 		if(v == bt_menu_user){
 			startActivity(new Intent(Twitter_home.this,Twitter_user.class));
 			Log.d("menu user", "menu_user");
@@ -179,6 +206,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 			startActivity(intent);
 			overridePendingTransition(R.anim.right_in, R.anim.left_out);
 		}//if
+		**/
 
 	}//on
 

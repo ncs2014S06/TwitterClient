@@ -34,12 +34,21 @@
 		android:text="\uFF20gabu" />
 
 	<TextView
-		android:id="@+id/text"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_alignLeft="@+id/name"
-		android:layout_below="@+id/name"
-		android:textColor="#1a1a1a"
-		android:text="本文本文本文本文本文本文本文本文本文本文" />
-
+	    android:id="@+id/text"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignLeft="@+id/name"
+	    android:layout_alignRight="@+id/screen_name"
+	    android:layout_below="@+id/name"
+	    android:text="本文本文本文本文本文本文本文本文"
+	    android:textColor="#1a1a1a" />
+<!--
+	<Button
+	    android:id="@+id/followButton"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+	    android:layout_centerVertical="true"
+	    android:text="follow" />
+-->
 </RelativeLayout>
