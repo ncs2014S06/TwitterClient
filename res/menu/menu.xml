@@ -21,6 +21,10 @@
         android:icon="@android:drawable/ic_menu_camera">
     </item>
 
+    <item
+        android:id="@+id/menu_search" android:title="検索"
+        android:icon="@android:drawable/ic_menu_search">
+    </item>
 
 
 </menu>

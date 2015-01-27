@@ -10,6 +10,7 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.URLEntity;
+import twitter4j.User;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -34,6 +35,7 @@ import com.loopj.android.image.SmartImageView;
 public class Twitter_tweet_detail extends Activity implements OnClickListener{
 	private Twitter mTwitter;
 	private Status tweetStatus;
+	private User tweetUser;
 	private long tweetId;
 	private int position;
 	private SparseArray<String> links;
@@ -42,6 +44,7 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 	private boolean retweetFlag;
 	private int favColor = Color.rgb(243, 213, 26);
 	private int retweetColor = Color.rgb(71, 234, 126);
+	private Intent intent;
 
 	private LinearLayout tweet_detail_lineLayout;
 	private SmartImageView tweet_detail_userIcon;
@@ -76,6 +79,7 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 		bt_more = (ImageButton) findViewById(R.id.bt_more);
 
 		//リスナー
+		tweet_detail_userIcon.setOnClickListener(this);
 		bt_reply.setOnClickListener(this);
 		bt_retweet.setOnClickListener(this);
 		bt_fav.setOnClickListener(this);
@@ -90,6 +94,7 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 		mTwitter = TwitterUtils.getTwitterInstance(this);
 		Intent intent = getIntent();
 		tweetStatus = (Status) intent.getSerializableExtra("TweetStatus");
+		tweetUser = tweetStatus.getUser();
 		position = intent.getIntExtra("position", 0);
 		tweetId = tweetStatus.getId();
 
@@ -100,9 +105,9 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 
 	private void showTweet(){
 
-		tweet_detail_userIcon.setImageUrl(tweetStatus.getUser().getProfileImageURL());
-		tweet_detail_userName.setText(tweetStatus.getUser().getName());
-		tweet_detail_userId.setText("@"+ tweetStatus.getUser().getScreenName());
+		tweet_detail_userIcon.setImageUrl(tweetUser.getProfileImageURL());
+		tweet_detail_userName.setText(tweetUser.getName());
+		tweet_detail_userId.setText("@"+ tweetUser.getScreenName());
 		tweet_detail_absoluteTime.setText(tweetStatus.getCreatedAt().toString());
 		String tweet = tweetStatus.getText();
 
@@ -187,9 +192,16 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 
 	@Override
 	public void onClick(View v) {
+		//ユーザーアイコン
+		if(v == tweet_detail_userIcon){
+			intent = new Intent(getApplication(),Twitter_user.class);
+			intent.putExtra("otherUser",tweetUser);
+			startActivity(intent);
+		}
+		//リプライ
 		if(v == bt_reply){
 			String screenName = tweetStatus.getUser().getScreenName();
-			Intent intent = new Intent(getApplication(),Twitter_tuito.class);
+			intent = new Intent(getApplication(),Twitter_tuito.class);
 			intent.putExtra("screenName", screenName);
 			startActivity(intent);
 		}
