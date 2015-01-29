@@ -10,6 +10,8 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.widget.Toast;
@@ -19,13 +21,15 @@ public class TimeLine{
 	private Twitter mTwitter;
 	private TweetAdapter tAdapter;
 	private SwipeRefreshLayout swipeRefreshLayout;
-	private Context context;
+	private Context mContext;
+	private Handler mHandler;
 	private Paging paging;
 	private AsyncTask<Void, Void, List<twitter4j.Status>> task;
 
-	public TimeLine(Context context,Twitter mTwitter,TweetAdapter tAdapter,SwipeRefreshLayout swipeRefreshLayout) {
-		this.context = context;
-		this.mTwitter = mTwitter;
+	public TimeLine(Context mContext,Handler mHandler, TweetAdapter tAdapter,SwipeRefreshLayout swipeRefreshLayout) {
+		this.mContext = mContext;
+		this.mHandler = mHandler;
+		this.mTwitter = TwitterUtils.getTwitterInstance(mContext);
 		this.tAdapter = tAdapter;
 		this.swipeRefreshLayout = swipeRefreshLayout;
 	}
@@ -34,14 +38,15 @@ public class TimeLine{
 	 * @param paging1
 	 * @param mode 新規 0 追加 1
 	 */
-	public synchronized void reloadTimeLine(Paging paging1,final int mode) {
+	public synchronized void reloadTimeLine(Paging paging1,final int mode){
 		this.paging = paging1;
 		if(mode == 1){
 			paging.setPage(paging.getPage() + 1);
 		}
 		task = new AsyncTask<Void, Void, List<twitter4j.Status>>() {
 			@Override
-			protected List<twitter4j.Status> doInBackground(Void... params) {
+			protected List<twitter4j.Status> doInBackground(Void... params){
+
 				try {
 					if(mode == 1){
 						Log.d("scroll","addTL呼び出し！");
@@ -49,9 +54,12 @@ public class TimeLine{
 					}
 					Log.d("scroll","TL呼び出し！");
 					return mTwitter.getHomeTimeline();
-
 				} catch (TwitterException e) {
 					e.printStackTrace();
+					final Message msg = new Message();
+					msg.obj = e;
+					mHandler.sendMessage(msg);
+					cancel(true);
 				}
 				return null;
 			}
@@ -95,7 +103,7 @@ public class TimeLine{
 	}
 
 	private void showToast(String text) {
-		Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+		Toast.makeText(mContext, text, Toast.LENGTH_SHORT).show();
 	}
 
 	public boolean taskRunning(){

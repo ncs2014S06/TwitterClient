@@ -36,7 +36,7 @@ public class Twitter_dm_detail extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.twitter_dm_detail);
 		//findview
-		tweet_detail_userIcon = (SmartImageView) findViewById(R.id.tweet_detail_usericon_dm);
+		tweet_detail_userIcon = (SmartImageView) findViewById(R.id.dm_detail_usericon);
 		tweet_detail_userName = (TextView) findViewById(R.id.tweet_detail_username_dm);
 		tweet_detail_userId = (TextView) findViewById(R.id.tweet_detail_userid_dm);
 		//tweet_detail_absoluteTime = (TextView) findViewById(R.id.tweet_detail_absolutetime_dm);
