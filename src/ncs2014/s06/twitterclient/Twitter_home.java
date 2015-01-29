@@ -122,7 +122,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 			protected Void doInBackground(Void... params) {
 				try {
 					myUser = mTwitter.verifyCredentials();
-					intent.putExtra("user", myUser);
+					intent.putExtra("myUser", myUser);
 					Log.d("Async", "Finish");
 				} catch (TwitterException e) {
 					// TODO 自動生成された catch ブロック
