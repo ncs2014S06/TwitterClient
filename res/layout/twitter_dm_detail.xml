@@ -11,7 +11,7 @@
         android:background="#696969" >
 
         <com.loopj.android.image.SmartImageView
-            android:id="@+id/tweet_detail_usericon_dm"
+            android:id="@+id/dm_detail_usericon"
             android:layout_width="76dp"
             android:layout_height="76dp"
             android:src="@drawable/ic_launcher" />

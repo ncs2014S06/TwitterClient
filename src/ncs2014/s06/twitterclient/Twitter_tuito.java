@@ -54,7 +54,7 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 
 		//findView
 		view = (SmartImageView) findViewById(R.id.icon);
-		mInputText = (EditText) findViewById(R.id.input_text);
+		mInputText = (EditText) findViewById(R.id.dm_sendmessage);
 		tweet = (Button) findViewById(R.id.action_tweet);
 		imageTweet = (Button) findViewById(R.id.image_plus);
 		tv_username = (TextView) findViewById(R.id.tv_usename);
@@ -153,7 +153,7 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 					c.moveToFirst();
 					File path = new File(c.getString(0));
 
-					EditText textTweet = (EditText) findViewById(R.id.input_text);
+					EditText textTweet = (EditText) findViewById(R.id.dm_sendmessage);
 					String tweet = textTweet.getText().toString();
 
 					try {

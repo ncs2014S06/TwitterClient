@@ -18,38 +18,33 @@
             android:layout_height="fill_parent" >
 
             <TextView
-                android:id="@+id/from"
+                android:id="@+id/dm_fromname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1.43"
                 android:text="メッセージ一覧"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/custom_theme_color" />
 
             <Button
-                android:id="@+id/bt_tweet"
+                android:id="@+id/dm_receive_button"
                 android:layout_width="44dp"
                 android:layout_height="wrap_content"
                 android:text="受" />
 
             <Button
-                android:id="@+id/send"
+                android:id="@+id/dm_send_button"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
                 android:text="送" />
 
             <Button
-                android:id="@+id/bt_follower"
+                android:id="@+id/dm_new_button"
                 android:layout_width="41dp"
                 android:layout_height="match_parent"
                 android:text="新" />
-
-            <ImageButton
-                android:id="@+id/sendget"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/btn_star" />
-
         </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout

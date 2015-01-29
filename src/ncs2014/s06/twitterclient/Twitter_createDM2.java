@@ -2,7 +2,6 @@ package ncs2014.s06.twitterclient;
 import twitter4j.DirectMessage;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -25,36 +24,25 @@ public class Twitter_createDM2 extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.twitter_dm_newmail);
 
-		Intent intent = getIntent();
 		mTwitter = TwitterUtils.getTwitterInstance(this);
 
 		ImageGet ig = new ImageGet(mTwitter);
-		Log.d("test","test");
-		setContentView(R.layout.twitter_createdm2);
-		view = (SmartImageView) findViewById(R.id.DM_MyImage);
+	//	view = (SmartImageView) findViewById(R.id.DM_MyImage);
 		ig.setImage(view);
-		to = intent.getStringExtra("id");
-		if(to == null){
-			Log.d("test1","nullだよ");
-		}
 
-		mInputText = (EditText) findViewById(R.id.input_text);
-		mInputText1 =   (EditText)findViewById(R.id.editText1);
+		mInputText = (EditText) findViewById(R.id.dm_sendmessage);
+		mInputText1 =   (EditText)findViewById(R.id.dm_toname);
 
-		mInputText1.setText(to);
 
-		findViewById(R.id.action_tweet).setOnClickListener(new View.OnClickListener() {
+		findViewById(R.id.dm_messagesendbutton).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
 				sendDM();
 			}
 		});
 	}
-
-
-
 
 	private void sendDM(){
 		AsyncTask<Void, Void, Boolean> task = new AsyncTask<Void, Void,Boolean>(){
