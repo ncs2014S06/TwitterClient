@@ -41,6 +41,16 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 
 	//変数
 	private TimeLine timeLine;
+	private TweetAdapter tAdapter;
+	private Twitter mTwitter;
+	private Menu me;
+	private Paging paging;
+	private int page;
+	private final static int TWEET_DETAIL = 0;
+	private AsyncTask<Void, Void, Void> mTask;
+	private User myUser;
+
+
 	private ImageButton bt_update;
 	private ImageButton bt_tuito;
 	private ImageButton bt_user;
@@ -49,16 +59,8 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	private Button bt_menu_user;
 	private Button bt_menu_tweet;
 	private TextView title;
-	private TweetAdapter tAdapter;
-	private Twitter mTwitter;
 	private SwipeRefreshLayout swipeRefreshLayout;
 	private ListView list;
-	private Menu me;
-	private Paging paging;
-	private int page;
-	private final static int TWEET_DETAIL = 0;
-	private AsyncTask<Void, Void, User> mTask;
-	private User user;
 
 	//intent
 	Intent intent = new Intent();
@@ -100,6 +102,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 			list.setAdapter(tAdapter);
 			paging = new Paging(1);
 			mTwitter = TwitterUtils.getTwitterInstance(this);
+			TwitterAsync();
 			timeLine = new TimeLine(this, mTwitter, tAdapter, swipeRefreshLayout);
 			createSwipeRefreshLayout();
 			timeLine.reloadTimeLine(paging,0);
@@ -108,27 +111,19 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	}//onCreate
 
 	//mTwitterを非同期処理化
-	private void TwitterAsync(final Twitter mt){
-		mTask = new AsyncTask<Void, Void, User>(){
+	private void TwitterAsync(){
+		mTask = new AsyncTask<Void, Void, Void>(){
 			@Override
-			protected User doInBackground(Void... params) {
+			protected Void doInBackground(Void... params) {
 				try {
-					user = mt.verifyCredentials();
+					myUser = mTwitter.verifyCredentials();
+					intent.putExtra("user", myUser);
+					Log.d("Async", "Finish");
 				} catch (TwitterException e) {
 					// TODO 自動生成された catch ブロック
 					e.printStackTrace();
 				}
-				return user;
-			}
-
-			@Override
-			protected void onPostExecute(User result) {
-				// TODO 自動生成されたメソッド・スタブ
-				super.onPostExecute(result);
-				intent.putExtra("user", result);
-				Log.d("user", result.toString());
-				intent.setClass(getApplicationContext(), Twitter_user.class);
-				startActivity(intent);
+				return null;
 			}
 		};
 		mTask.execute();
@@ -189,8 +184,8 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 
 
 		if(v == bt_user){
-			TwitterAsync(mTwitter);
-			//startActivity(new Intent(Twitter_home.this,Twitter_user.class));
+			TwitterAsync();
+			startActivity(new Intent(Twitter_home.this,Twitter_user.class));
 		}//if
 
 		if(v == bt_dm){
@@ -204,9 +199,8 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 		}//if
 
 		if(v == bt_menu_user){
-			TwitterAsync(mTwitter);
-			//startActivity(new Intent(Twitter_home.this,Twitter_user.class));
-			Log.d("menu user", "menu_user");
+			intent.setClass(getApplicationContext(), Twitter_user.class);
+			startActivity(intent);
 		}//if
 
 		if(v == bt_menu_tweet){
