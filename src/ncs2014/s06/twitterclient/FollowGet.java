@@ -85,7 +85,6 @@ public class FollowGet extends Activity implements OnScrollListener, OnItemClick
 
 				//	do{
 						for(User u :user){
-							Log.d("Friends",u.getName());
 							arrayList.add(u);
 						}
 						if(otherUserId == null){

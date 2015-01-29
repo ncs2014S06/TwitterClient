@@ -134,14 +134,15 @@
 								android:textColor="#1a1a1a"
 								android:textSize="14dp" />
 
-							<Button
-								android:id="@+id/space2"
-								android:layout_width="0dp"
-								android:layout_height="wrap_content"
-								android:layout_weight="1"
-								android:background="@null"
-								android:textColor="#1a1a1a"
-								android:textSize="14dp" />
+							<ImageButton
+							    android:id="@+id/doFollow"
+							    android:layout_width="0dp"
+							    android:layout_height="wrap_content"
+							    android:layout_weight="1"
+							    android:background="@drawable/ic_assignment_ind_grey600_48dp"
+							    android:textColor="#1a1a1a"
+							    android:textSize="14dp" />
+
 						</LinearLayout>
 					</LinearLayout>
 				</LinearLayout>

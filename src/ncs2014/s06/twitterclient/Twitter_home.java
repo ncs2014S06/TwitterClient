@@ -3,8 +3,11 @@ package ncs2014.s06.twitterclient;
 import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.User;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
@@ -54,6 +57,8 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	private Paging paging;
 	private int page;
 	private final static int TWEET_DETAIL = 0;
+	private AsyncTask<Void, Void, User> mTask;
+	private User user;
 
 	//intent
 	Intent intent = new Intent();
@@ -101,6 +106,34 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 			list.setOnScrollListener(this);
 		}
 	}//onCreate
+
+	//mTwitterを非同期処理化
+	private void TwitterAsync(final Twitter mt){
+		mTask = new AsyncTask<Void, Void, User>(){
+			@Override
+			protected User doInBackground(Void... params) {
+				try {
+					user = mt.verifyCredentials();
+				} catch (TwitterException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+				}
+				return user;
+			}
+
+			@Override
+			protected void onPostExecute(User result) {
+				// TODO 自動生成されたメソッド・スタブ
+				super.onPostExecute(result);
+				intent.putExtra("user", result);
+				Log.d("user", result.toString());
+				intent.setClass(getApplicationContext(), Twitter_user.class);
+				startActivity(intent);
+			}
+		};
+		mTask.execute();
+	}
+
 
 	public void createSwipeRefreshLayout(){
 		swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
@@ -156,7 +189,8 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 
 
 		if(v == bt_user){
-			startActivity(new Intent(Twitter_home.this,Twitter_user.class));
+			TwitterAsync(mTwitter);
+			//startActivity(new Intent(Twitter_home.this,Twitter_user.class));
 		}//if
 
 		if(v == bt_dm){
@@ -170,7 +204,8 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 		}//if
 
 		if(v == bt_menu_user){
-			startActivity(new Intent(Twitter_home.this,Twitter_user.class));
+			TwitterAsync(mTwitter);
+			//startActivity(new Intent(Twitter_home.this,Twitter_user.class));
 			Log.d("menu user", "menu_user");
 		}//if
 
