@@ -21,7 +21,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
@@ -210,8 +209,8 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 
 
 		if(v == bt_user){
-			TwitterAsync();
-			startActivity(new Intent(Twitter_home.this,Twitter_user.class));
+			intent.setClass(getApplicationContext(), Twitter_user.class);
+			startActivity(intent);
 		}//if
 
 		if(v == bt_dm){
