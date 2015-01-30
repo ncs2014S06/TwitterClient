@@ -42,7 +42,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/oauth_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="本文" />
