@@ -29,11 +29,14 @@ public class Twitter_user extends Activity implements OnClickListener {
 	private String follower_c;
 	private String fav_c;
 	private String backImageStr;
+	private long cursor = -1L;
+	private long[] idid;
 	private Twitter mTwitter;
 	private Twitter TwitterUser;
 	private User user;
 	private User otherUser;
-	private AsyncTask<Void, Void, User> task;
+	private AsyncTask<Void, Void, IDs> IDTask;
+	private AsyncTask<Void, Void, User> followTask;
 	private IDs getFriendsIDs;
 
 	private SmartImageView myImage;
@@ -54,6 +57,7 @@ public class Twitter_user extends Activity implements OnClickListener {
 	private LinearLayout layout1;
 	private TweetAdapter tAdapter;
 	private drawable followImage;
+	private boolean followFlag;
 
 	//intent
 	Intent intent = new Intent();
@@ -99,36 +103,20 @@ public class Twitter_user extends Activity implements OnClickListener {
 		doFollow.setOnClickListener(this);
 		intent = getIntent();
 		mTwitter = TwitterUtils.getTwitterInstance(this);
-		user = (User) intent.getSerializableExtra("user");
+		user = (User) intent.getSerializableExtra("myUser");
 		otherUser = (User) intent.getSerializableExtra("otherUser");
 		tAdapter = new TweetAdapter(this);
+		followFlag = true;
 		final ImageGet ig = new ImageGet(mTwitter);
 		TwitterUser = mTwitter;
 		intent.putExtra("TwitterUser",TwitterUser);
 		intent.putExtra("otherUserId", otherUser);
-				try {
-					if(otherUser != null){
-						user = otherUser;
-						long cursor = -1L;
-						long[] idid;
+		//フォローリスト取得
+		friendListGet();
 
-						//フォローしているユーザーID取得
-						getFriendsIDs = mTwitter.getFriendsIDs(cursor);
-
-						//ユーザーIDをリストに突っ込む
-						idid = getFriendsIDs.getIDs();
-
-						//フォローしてるかチェック
-						for(long a:idid){
-							if(user.getId() == a){
-								doFollow.setBackgroundResource(R.drawable.ic_assignment_ind_black_48dp);
-							}
-						}
-
-					}//else
-				} catch (TwitterException e) {
-					e.printStackTrace();
-				}//try
+				if(otherUser != null){
+					user = otherUser;
+				}
 
 				ig.setImage(myImage,user.getScreenName());
 
@@ -139,6 +127,46 @@ public class Twitter_user extends Activity implements OnClickListener {
 				//ボタンに各種値をセット
 				userStatusGet();
 			}
+
+
+	private void friendListGet(){
+		IDTask = new AsyncTask<Void, Void, IDs>(){
+			@Override
+			protected IDs doInBackground(Void... params) {
+				//フォローしているユーザーID取得
+				try {
+					getFriendsIDs = mTwitter.getFriendsIDs(cursor);
+				} catch (TwitterException e) {
+					e.printStackTrace();
+				}
+				return getFriendsIDs;
+			}
+
+			@Override
+			protected void onPostExecute(IDs result) {
+				super.onPostExecute(result);
+				//ユーザーIDをリストに突っ込む
+				idid = result.getIDs();
+
+				//フォローしてるかチェック
+				for(long a:idid){
+					if(user.getId() == a){
+						imageChange();
+						followFlag = false;
+					}
+				}
+			}
+		};
+		IDTask.execute();
+	}//friendListGet
+
+	private void imageChange(){
+		if(followFlag){
+			doFollow.setBackgroundResource(R.drawable.ic_assignment_ind_black_48dp);
+		}else{
+			doFollow.setBackgroundResource(R.drawable.ic_assignment_ind_grey600_48dp);
+		}
+	}
 
 	@Override
 	public void onClick(View v) {
@@ -163,7 +191,51 @@ public class Twitter_user extends Activity implements OnClickListener {
 		}//if
 
 		if(v == doFollow){
+			if(followFlag){
+				followTask = new AsyncTask<Void, Void, User>(){
 
+					@Override
+					protected User doInBackground(Void... params) {
+						try {
+							mTwitter.createFriendship(user.getId());
+						} catch (TwitterException e) {
+							// TODO 自動生成された catch ブロック
+							e.printStackTrace();
+						}
+						return null;
+					}
+
+					@Override
+					protected void onPostExecute(User result) {
+						// TODO 自動生成されたメソッド・スタブ
+						super.onPostExecute(result);
+						imageChange();
+
+					}
+				};
+				followTask.execute();
+			}else{
+				followTask = new AsyncTask<Void, Void, User>(){
+					@Override
+					protected User doInBackground(Void... params) {
+						try {
+							mTwitter.destroyFriendship(user.getId());
+						} catch (TwitterException e) {
+							// TODO 自動生成された catch ブロック
+							e.printStackTrace();
+						}
+						return null;
+					}
+
+					@Override
+					protected void onPostExecute(User result) {
+						// TODO 自動生成されたメソッド・スタブ
+						super.onPostExecute(result);
+						imageChange();
+					}
+				};
+				followTask.execute();
+			}
 		}
 
 		if(v == bt_update){
@@ -194,7 +266,6 @@ public class Twitter_user extends Activity implements OnClickListener {
 			startActivity(intent);
 			overridePendingTransition(R.anim.right_in, R.anim.left_out);
 		}//if
-
 	}
 
 	public void userStatusGet(){

@@ -52,7 +52,6 @@ public class FollowGet extends Activity implements OnScrollListener, OnItemClick
 		this.otherUserId = (User) intent.getSerializableExtra("otherUserId");
 		uAdapter = new userAdapter(this);
 		//follow = (Button) findViewById(R.id.followButton);
-		intent = getIntent();
 		list = (ListView) findViewById(R.id.tllist);
 		followGet(0);
 		list.setAdapter(uAdapter);

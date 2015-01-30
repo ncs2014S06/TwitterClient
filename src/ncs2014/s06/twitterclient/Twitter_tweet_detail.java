@@ -92,7 +92,7 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 		}
 
 		mTwitter = TwitterUtils.getTwitterInstance(this);
-		Intent intent = getIntent();
+		intent = getIntent();
 		tweetStatus = (Status) intent.getSerializableExtra("TweetStatus");
 		tweetUser = tweetStatus.getUser();
 		position = intent.getIntExtra("position", 0);
@@ -281,8 +281,6 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if(keyCode==KeyEvent.KEYCODE_BACK){
-			// intentの作成
-			Intent intent = new Intent();
 
 			// intentへ添え字付で値を保持させる
 			intent.putExtra( "position", position );

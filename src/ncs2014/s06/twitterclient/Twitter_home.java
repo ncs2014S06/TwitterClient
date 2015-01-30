@@ -122,7 +122,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 			protected Void doInBackground(Void... params) {
 				try {
 					myUser = mTwitter.verifyCredentials();
-					intent.putExtra("user", myUser);
+					intent.putExtra("myUser", myUser);
 					Log.d("Async", "Finish");
 				} catch (TwitterException e) {
 					// TODO 自動生成された catch ブロック
@@ -264,12 +264,10 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	}
 
 	@Override
-
 	public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
 		Log.d("tweet_detail","view:" + parent + "  position:" + position + "  id:" + id);
 		Status item = (Status) list.getItemAtPosition(position);
-
-		Intent intent = new Intent(getApplication(),Twitter_tweet_detail.class);
+		intent.setClass(getApplicationContext(), Twitter_tweet_detail.class);
 		intent.putExtra("TweetStatus", item);
 		intent.putExtra("position", position);
 		startActivityForResult(intent,TWEET_DETAIL);
@@ -291,6 +289,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 			if( resultCode == Activity.RESULT_OK ){
 				// 返却されてきたintentから値を取り出す
 				int position = intent.getIntExtra( "position", 0 );
+				myUser = (User) intent.getSerializableExtra("myUser");
 				Status tweetStatus = (Status) intent.getSerializableExtra("tweetStatus");
 				exchangeListItem(position, tweetStatus);
 			}
