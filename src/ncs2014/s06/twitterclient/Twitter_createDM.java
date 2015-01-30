@@ -38,6 +38,7 @@ public class Twitter_createDM extends FragmentActivity implements OnClickListene
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mTwitter = TwitterUtils.getTwitterInstance(this);
 		Intent intent = getIntent();
 		mode = intent.getIntExtra("mode", 0);
 		if(mode == reply){ //返信
@@ -57,15 +58,23 @@ public class Twitter_createDM extends FragmentActivity implements OnClickListene
 		//リスナー
 		messageSendButton.setOnClickListener(this);
 
-		mTwitter = TwitterUtils.getTwitterInstance(this);
-		selectDirectMessage = (DirectMessage) intent.getSerializableExtra("selectDirectMessage");
 
-		senderUser = selectDirectMessage.getSender();
-		senderScreenName = senderUser.getScreenName();
+		if(mode == reply){ //返信
+			selectDirectMessage = (DirectMessage) intent.getSerializableExtra("selectDirectMessage");
+			senderUser = selectDirectMessage.getSender();
+			senderScreenName = senderUser.getScreenName();
 
+			fromName.setText(senderUser.getName() + "(" + senderScreenName + ")");
+			receivMessage.setText(selectDirectMessage.getText());
+		}
+
+		if(mode == newMail){ //新規
+			senderUser = (User) intent.getSerializableExtra("myUser");
+			Log.d("test", "新規 " + senderUser.toString());
+		}
+
+		//共通部
 		userIcon.setImageUrl(senderUser.getProfileImageURL());
-		fromName.setText(senderUser.getName() + "(" + senderScreenName + ")");
-		receivMessage.setText(selectDirectMessage.getText());
 	}
 
 
@@ -100,14 +109,17 @@ public class Twitter_createDM extends FragmentActivity implements OnClickListene
 		task.execute();
 	}
 
-	private void showToast(String text) {
-		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
-	}
-
 	@Override
 	public void onClick(View v) {
-		// TODO 自動生成されたメソッド・スタブ
+		if(mode == newMail){
+			senderScreenName = toName.getText().toString();
+		}
 		sendDM();
+	}
+
+
+	private void showToast(String text) {
+		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
 	}
 }
 

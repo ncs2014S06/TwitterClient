@@ -33,10 +33,11 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 
 	private Twitter mTwitter;
 	private TweetAdapter tAdapter;
+	private User myUser;
 	private Paging paging;
 	private ResponseList<DirectMessage> messages;
 	private DirectMessage selectDirectMessage;
-	Intent intent = new Intent();
+	private Intent intent;
 	private int mode = 0;
 	public static final int get = 1;		//送信リスト
 	public static final int send = 2;		//受信リスト
@@ -50,6 +51,9 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		intent = getIntent();
+		myUser = (User) intent.getSerializableExtra("myUser");
+		Log.d("test",myUser.toString());
 		setContentView(R.layout.twitter_dmlist);
 		//findViewById
 		list = (ListView) findViewById(R.id.dmlist);
@@ -65,7 +69,7 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 
 		//認証確認
 		if (!TwitterUtils.hasAccessToken(this)) {
-			Intent intent = new Intent(this, TwitterOAuthActivity.class);
+			intent = new Intent(this, TwitterOAuthActivity.class);
 			startActivity(intent);
 			finish();
 		}else{
@@ -232,7 +236,7 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 		}
 		//新規作成
 		if(v == dm_new_button){
-			intent.setClass(getApplicationContext(), Twitter_createDM2.class);
+			intent.setClass(getApplicationContext(), Twitter_createDM.class);
 			intent.putExtra("mode", newMail);
 			startActivity(intent);
 			overridePendingTransition(R.anim.right_in, R.anim.left_out);
