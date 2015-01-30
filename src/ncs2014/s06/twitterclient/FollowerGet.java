@@ -59,9 +59,6 @@ public class FollowerGet extends Activity implements OnScrollListener,OnItemClic
 		this.mTwitter = (Twitter) intent.getSerializableExtra("TwitterUser");
 		this.otherUserId = (User) intent.getSerializableExtra("otherUserId");
 		uAdapter = new userAdapter(this);
-		//follow = (Button) findViewById(R.id.followButton);
-		//follow.setOnClickListener(this);
-		buttonColorChange();
 		list = (ListView) findViewById(R.id.tllist);
 		intent = getIntent();
 		followGet(0);
@@ -186,13 +183,11 @@ public class FollowerGet extends Activity implements OnScrollListener,OnItemClic
 			//text.setText(item.get());
 			return convertView;
 		}
-
 	}//TweetAdapter
 
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
 		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	@Override
@@ -222,52 +217,13 @@ public class FollowerGet extends Activity implements OnScrollListener,OnItemClic
 	@Override
 	public void onClick(View v) {
 		if(v == follow){
-
 			taskFollowButton = new AsyncTask<Void, Void, Twitter>(){
-
-
-
-
 				@Override
 				protected Twitter doInBackground(Void... params) {
 					// TODO 自動生成されたメソッド・スタブ
 					return null;
 				}
 			};
-
 		}
 	}
-
-	private void buttonColorChange(){
-			if(true){
-				try {
-					lookTask = new AsyncTask<Void, Void, ResponseList<Friendship>>(){
-
-						@Override
-						protected ResponseList<Friendship> doInBackground(Void... params) {
-
-							try {
-								long[] l={mTwitter.showUser("syuritanhaahaa").getId()};
-								aa = mTwitter.lookupFriendships(l);
-								return aa;
-							} catch (Exception e) {
-								// TODO: handle exception
-							}
-							return null;
-						}
-
-						@Override
-						protected void onPostExecute(ResponseList<Friendship> result) {
-							super.onPostExecute(result);
-						}
-					};
-
-					lookTask.execute();
-
-				} catch (IllegalStateException e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
-				}
-			}
-		}
 }

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:background="@android:color/white"
-	android:padding="8dp" >
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:descendantFocusability="blocksDescendants"
+    android:padding="8dp" >
 
 	<com.loopj.android.image.SmartImageView
 		android:id="@+id/icon"
@@ -42,13 +43,5 @@
 	    android:layout_below="@+id/name"
 	    android:text="本文本文本文本文本文本文本文本文"
 	    android:textColor="#1a1a1a" />
-<!--
-	<Button
-	    android:id="@+id/followButton"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_alignParentRight="true"
-	    android:layout_centerVertical="true"
-	    android:text="follow" />
--->
+
 </RelativeLayout>

@@ -1,8 +1,10 @@
 package ncs2014.s06.twitterclient;
 
+import twitter4j.IDs;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
+import android.R.drawable;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -26,18 +28,18 @@ public class Twitter_user extends Activity implements OnClickListener {
 	private String follow_c;
 	private String follower_c;
 	private String fav_c;
-	private String myList_c;
 	private String backImageStr;
+	private long cursor = -1L;
+	private long[] idid;
 	private Twitter mTwitter;
 	private Twitter TwitterUser;
 	private User user;
 	private User otherUser;
-	private String followerName;
-	private AsyncTask<Void, Void, User> task;
-	private Long otherUserId;
+	private AsyncTask<Void, Void, IDs> IDTask;
+	private AsyncTask<Void, Void, User> followTask;
+	private IDs getFriendsIDs;
 
 	private SmartImageView myImage;
-	private SmartImageView followerImg;
 	private SmartImageView backImage;
 	private ImageButton bt_update;
 	private ImageButton bt_tuito;
@@ -47,14 +49,15 @@ public class Twitter_user extends Activity implements OnClickListener {
 	private Button follow;
 	private Button follower;
 	private Button fav;
-	private Button myList;
 	private Button bt_menu_time;
+	private ImageButton doFollow;
 	private TextView text_username;
 	private TextView text_userfrom;
 	private TextView text_context;
 	private LinearLayout layout1;
 	private TweetAdapter tAdapter;
-
+	private drawable followImage;
+	private boolean followFlag;
 
 	//intent
 	Intent intent = new Intent();
@@ -76,14 +79,13 @@ public class Twitter_user extends Activity implements OnClickListener {
 		follow = (Button) findViewById(R.id.follow);
 		follower = (Button) findViewById(R.id.follower);
 		fav = (Button) findViewById(R.id.fav);
+		doFollow = (ImageButton) findViewById(R.id.doFollow);
 		bt_menu_time = (Button) findViewById(R.id.bt_menu_time);
 
 		text_username = (TextView) findViewById(R.id.text_username);
 		text_userfrom = (TextView) findViewById(R.id.text_userfrom);
 		text_context = (TextView) findViewById(R.id.text_context);
-
 		layout1 = (LinearLayout) findViewById(R.id.linearLayout3);
-
 		myImage = (SmartImageView) findViewById(R.id.tweet_detail_usericon);
 		backImage = (SmartImageView) findViewById(R.id.backimage);
 
@@ -98,37 +100,23 @@ public class Twitter_user extends Activity implements OnClickListener {
 		follow.setOnClickListener(this);
 		follower.setOnClickListener(this);
 		fav.setOnClickListener(this);
-		mTwitter = TwitterUtils.getTwitterInstance(this);
-		TwitterUser = (Twitter) intent.getSerializableExtra("testTwitter");
+		doFollow.setOnClickListener(this);
 		intent = getIntent();
+		mTwitter = TwitterUtils.getTwitterInstance(this);
+		user = (User) intent.getSerializableExtra("myUser");
 		otherUser = (User) intent.getSerializableExtra("otherUser");
-
 		tAdapter = new TweetAdapter(this);
+		followFlag = true;
 		final ImageGet ig = new ImageGet(mTwitter);
 		TwitterUser = mTwitter;
 		intent.putExtra("TwitterUser",TwitterUser);
 		intent.putExtra("otherUserId", otherUser);
-		task = new AsyncTask<Void, Void, User>() {
+		//フォローリスト取得
+		friendListGet();
 
-			@Override
-			protected User doInBackground(Void... params) {
-
-				try {
-					if(otherUser == null){
-						user = mTwitter.verifyCredentials();
-					}else{
-						user = otherUser;
-					}
-				} catch (TwitterException e) {
-					e.printStackTrace();
-				}//try
-
-				return user;
-			}
-
-			@Override
-			protected void onPostExecute(User result) {
-				super.onPostExecute(result);
+				if(otherUser != null){
+					user = otherUser;
+				}
 
 				ig.setImage(myImage,user.getScreenName());
 
@@ -139,11 +127,46 @@ public class Twitter_user extends Activity implements OnClickListener {
 				//ボタンに各種値をセット
 				userStatusGet();
 			}
+
+
+	private void friendListGet(){
+		IDTask = new AsyncTask<Void, Void, IDs>(){
+			@Override
+			protected IDs doInBackground(Void... params) {
+				//フォローしているユーザーID取得
+				try {
+					getFriendsIDs = mTwitter.getFriendsIDs(cursor);
+				} catch (TwitterException e) {
+					e.printStackTrace();
+				}
+				return getFriendsIDs;
+			}
+
+			@Override
+			protected void onPostExecute(IDs result) {
+				super.onPostExecute(result);
+				//ユーザーIDをリストに突っ込む
+				idid = result.getIDs();
+
+				//フォローしてるかチェック
+				for(long a:idid){
+					if(user.getId() == a){
+						imageChange();
+						followFlag = false;
+					}
+				}
+			}
 		};
-		task.execute();
+		IDTask.execute();
+	}//friendListGet
+
+	private void imageChange(){
+		if(followFlag){
+			doFollow.setBackgroundResource(R.drawable.ic_assignment_ind_black_48dp);
+		}else{
+			doFollow.setBackgroundResource(R.drawable.ic_assignment_ind_grey600_48dp);
+		}
 	}
-
-
 
 	@Override
 	public void onClick(View v) {
@@ -166,6 +189,54 @@ public class Twitter_user extends Activity implements OnClickListener {
 			intent.setClass(getApplicationContext(), FavoriteGet.class);
 			startActivity(intent);
 		}//if
+
+		if(v == doFollow){
+			if(followFlag){
+				followTask = new AsyncTask<Void, Void, User>(){
+
+					@Override
+					protected User doInBackground(Void... params) {
+						try {
+							mTwitter.createFriendship(user.getId());
+						} catch (TwitterException e) {
+							// TODO 自動生成された catch ブロック
+							e.printStackTrace();
+						}
+						return null;
+					}
+
+					@Override
+					protected void onPostExecute(User result) {
+						// TODO 自動生成されたメソッド・スタブ
+						super.onPostExecute(result);
+						imageChange();
+
+					}
+				};
+				followTask.execute();
+			}else{
+				followTask = new AsyncTask<Void, Void, User>(){
+					@Override
+					protected User doInBackground(Void... params) {
+						try {
+							mTwitter.destroyFriendship(user.getId());
+						} catch (TwitterException e) {
+							// TODO 自動生成された catch ブロック
+							e.printStackTrace();
+						}
+						return null;
+					}
+
+					@Override
+					protected void onPostExecute(User result) {
+						// TODO 自動生成されたメソッド・スタブ
+						super.onPostExecute(result);
+						imageChange();
+					}
+				};
+				followTask.execute();
+			}
+		}
 
 		if(v == bt_update){
 
@@ -195,7 +266,6 @@ public class Twitter_user extends Activity implements OnClickListener {
 			startActivity(intent);
 			overridePendingTransition(R.anim.right_in, R.anim.left_out);
 		}//if
-
 	}
 
 	public void userStatusGet(){

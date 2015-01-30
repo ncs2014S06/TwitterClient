@@ -22,19 +22,19 @@
             android:layout_height="fill_parent" >
 
             <com.loopj.android.image.SmartImageView
-                android:id="@+id/DM_MyImage"
+                android:id="@+id/DM_usericon"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/ic_launcher" />
 
             <TextView
-                android:id="@+id/oauth_title"
+                android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="To." />
 
             <EditText
-                android:id="@+id/editText1"
+                android:id="@+id/dm_toname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="29dp"
@@ -44,7 +44,7 @@
         </LinearLayout>
 
         <EditText
-            android:id="@+id/input_text"
+            android:id="@+id/dm_sendmessage"
             android:layout_width="fill_parent"
             android:layout_height="203dp"
             android:layout_marginBottom="8dp"
@@ -56,7 +56,7 @@
            </EditText>
 
         <Button
-            android:id="@+id/action_tweet"
+            android:id="@+id/dm_messagesendbutton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="18dp"

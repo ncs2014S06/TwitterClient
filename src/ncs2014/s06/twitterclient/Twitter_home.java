@@ -3,6 +3,7 @@ package ncs2014.s06.twitterclient;
 import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.Twitter;
+import twitter4j.User;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -39,6 +40,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	private Paging paging;
 	private int page;
 	private final static int TWEET_DETAIL = 0;
+	private User myUser;
 	private Handler mHandler;
 	private Context mContext;
 
@@ -98,6 +100,14 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 			mHandler = new Handler(){
 				@Override
 				public void handleMessage(Message msg) {
+					myUser = (User) msg.getData().getSerializable("myUser");
+					intent.putExtra("myUser", myUser);
+				}
+			};
+			new MyUser(mTwitter,mHandler).execute();
+			mHandler = new Handler(){
+				@Override
+				public void handleMessage(Message msg) {
 					Throwable e = (Throwable)msg.obj;
 					showToast("Twitterに接続できません\n接続を確認してください");
 				}
@@ -113,6 +123,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 		swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
 		swipeRefreshLayout.setOnRefreshListener(this);
 	}
+
 
 	private void showToast(String text) {
 		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
@@ -146,6 +157,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 		case R.id.menu_user:
 
 			intent.setClass(mContext, Twitter_user.class);
+			Log.d("test", intent.getSerializableExtra("myUser").toString());
 			startActivity(intent);
 			return true;
 		case R.id.menu_update:
@@ -182,7 +194,8 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 
 
 		if(v == bt_user){
-			startActivity(new Intent(Twitter_home.this,Twitter_user.class));
+			intent.setClass(getApplicationContext(), Twitter_user.class);
+			startActivity(intent);
 		}//if
 
 		if(v == bt_dm){
@@ -197,8 +210,8 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 
 		/**
 		if(v == bt_menu_user){
-			startActivity(new Intent(Twitter_home.this,Twitter_user.class));
-			Log.d("menu user", "menu_user");
+			intent.setClass(getApplicationContext(), Twitter_user.class);
+			startActivity(intent);
 		}//if
 
 		if(v == bt_menu_tweet){
@@ -236,12 +249,10 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	}
 
 	@Override
-
 	public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
 		Log.d("tweet_detail","view:" + parent + "  position:" + position + "  id:" + id);
 		Status item = (Status) list.getItemAtPosition(position);
-
-		Intent intent = new Intent(getApplication(),Twitter_tweet_detail.class);
+		intent.setClass(getApplicationContext(), Twitter_tweet_detail.class);
 		intent.putExtra("TweetStatus", item);
 		intent.putExtra("position", position);
 		startActivityForResult(intent,TWEET_DETAIL);
@@ -263,6 +274,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 			if( resultCode == Activity.RESULT_OK ){
 				// 返却されてきたintentから値を取り出す
 				int position = intent.getIntExtra( "position", 0 );
+				myUser = (User) intent.getSerializableExtra("myUser");
 				Status tweetStatus = (Status) intent.getSerializableExtra("tweetStatus");
 				exchangeListItem(position, tweetStatus);
 			}
