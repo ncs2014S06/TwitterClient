@@ -99,7 +99,7 @@ public class Twitter_user extends Activity implements OnClickListener {
 		doFollow.setOnClickListener(this);
 		intent = getIntent();
 		mTwitter = TwitterUtils.getTwitterInstance(this);
-		user = (User) intent.getSerializableExtra("user");
+		user = (User) intent.getSerializableExtra("myUser");
 		otherUser = (User) intent.getSerializableExtra("otherUser");
 		tAdapter = new TweetAdapter(this);
 		final ImageGet ig = new ImageGet(mTwitter);
