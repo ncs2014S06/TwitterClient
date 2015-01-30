@@ -45,6 +45,7 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 	private int favColor = Color.rgb(243, 213, 26);
 	private int retweetColor = Color.rgb(71, 234, 126);
 	private Intent intent;
+	private User myUser;
 
 	private LinearLayout tweet_detail_lineLayout;
 	private SmartImageView tweet_detail_userIcon;
@@ -94,6 +95,8 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 		mTwitter = TwitterUtils.getTwitterInstance(this);
 		intent = getIntent();
 		tweetStatus = (Status) intent.getSerializableExtra("TweetStatus");
+		myUser = (User) intent.getSerializableExtra("myUser");
+		intent.putExtra("myUser", myUser);
 		tweetUser = tweetStatus.getUser();
 		position = intent.getIntExtra("position", 0);
 		tweetId = tweetStatus.getId();
@@ -168,10 +171,6 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 				startActivity(InternetIntent);
 			}
 		};
-
-
-
-
 		tweet_detail_tweet.setText(TextLinker.getLinkableText(tweet, links, onLinkClickListener));
 		tweet_detail_tweet.setMovementMethod(LinkMovementMethod.getInstance());
 	}
@@ -194,14 +193,14 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 	public void onClick(View v) {
 		//ユーザーアイコン
 		if(v == tweet_detail_userIcon){
-			intent = new Intent(getApplication(),Twitter_user.class);
+			intent.setClass(getApplicationContext(), Twitter_user.class);
 			intent.putExtra("otherUser",tweetUser);
 			startActivity(intent);
 		}
 		//リプライ
 		if(v == bt_reply){
 			String screenName = tweetStatus.getUser().getScreenName();
-			intent = new Intent(getApplication(),Twitter_tuito.class);
+			intent.setClass(getApplicationContext(), Twitter_tuito.class);
 			intent.putExtra("screenName", screenName);
 			startActivity(intent);
 		}
@@ -282,10 +281,13 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if(keyCode==KeyEvent.KEYCODE_BACK){
 
+			tweetUser = null;
+
 			// intentへ添え字付で値を保持させる
 			intent.putExtra( "position", position );
 			intent.putExtra("tweetStatus", tweetStatus);
-
+			intent.putExtra("myUser", myUser);
+			intent.putExtra("otherUser", tweetUser);
 			// 返却したい結果ステータスをセットする
 			setResult( Activity.RESULT_OK, intent );
 
