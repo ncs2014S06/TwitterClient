@@ -63,7 +63,8 @@
 <activity android:name="FavoriteGet"></activity>
 <activity android:name="Twitter_tweet_detail"></activity>
 <activity android:name="Twitter_dm_detail"></activity>
-<activity android:name="Twitter_createDM2"></activity>
+<activity android:name="Twitter_lists"></activity>
+<activity android:name="Twitter_list"></activity>
 
 
 

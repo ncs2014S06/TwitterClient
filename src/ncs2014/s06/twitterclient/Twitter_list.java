@@ -18,43 +18,30 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-public class Twitter_home extends Activity implements OnItemClickListener,OnClickListener, OnRefreshListener,OnScrollListener{
+public class Twitter_list extends Activity implements OnItemClickListener,OnRefreshListener,OnScrollListener{
 
 	//変数
-	private Intent intent = new Intent(); //intent
-	private TimeLine timeLine;
+	private Intent intent; //intent
+	private UserListTimeLine userList;
 	private TweetAdapter tAdapter;
 	private Twitter mTwitter;
-	private Menu me;
-	private Paging paging;
-	private int page;
 	private final static int TWEET_DETAIL = 0;
 	private User myUser;
+	private Paging paging;
 	private Handler mHandler;
 	private Context mContext;
+	private Long listId;
 
 
 
 	private SwipeRefreshLayout swipeRefreshLayout;
-	private ImageButton bt_update;
-	private ImageButton bt_tuito;
-	private ImageButton bt_user;
-	private ImageButton bt_dm;
-	private ImageButton bt_menu;
-	private Button bt_menu_user;
-	private Button bt_menu_tweet;
-	private TextView title;
 	private ListView list;
 
 
@@ -63,29 +50,15 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//タイトルバーのカスタマイズ
-//		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.twitter_home);
-//		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);
 		mContext = getApplicationContext();
 		mHandler = new Handler();
 
 		//findview
-		bt_update = (ImageButton) findViewById(R.id.bt_reply);
-		bt_tuito = (ImageButton) findViewById(R.id.bt_retweet);
-		bt_user = (ImageButton) findViewById(R.id.bt_fav);
-		bt_dm = (ImageButton) findViewById(R.id.bt_more);
-//		bt_menu_user = (Button) findViewById(R.id.bt_menu_user);
-//		bt_menu_tweet = (Button) findViewById(R.id.bt_menu_tweet);
 		swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
 		list = (ListView) findViewById(R.id.tllist);
 
 		//リスナー
-		bt_update.setOnClickListener(this);
-		bt_tuito.setOnClickListener(this);
-		bt_user.setOnClickListener(this);
-		bt_dm.setOnClickListener(this);
-//		bt_menu_user.setOnClickListener(this);
-//		bt_menu_tweet.setOnClickListener(this);
 		list.setOnItemClickListener(this);
 
 		if (!TwitterUtils.hasAccessToken(this)) {
@@ -93,6 +66,8 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 			startActivity(intent);
 			finish();
 		}else{
+			intent = getIntent();
+			listId = intent.getLongExtra("ListId", 0);
 			tAdapter = new TweetAdapter(this);
 			list.setAdapter(tAdapter);
 			paging = new Paging(1);
@@ -112,9 +87,9 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 					showToast("Twitterに接続できません\n接続を確認してください");
 				}
 			};
-			timeLine = new TimeLine(mContext,mHandler, tAdapter, swipeRefreshLayout);
+			userList = new UserListTimeLine(mContext,mHandler, tAdapter, swipeRefreshLayout,listId);
 			createSwipeRefreshLayout();
-			timeLine.reloadTimeLine(paging,0);
+			userList.reloadUserList(paging,0);
 			list.setOnScrollListener(this);
 		}
 	}//onCreate
@@ -142,32 +117,10 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	public boolean onOptionsItemSelected(MenuItem item) {
 
 		switch (item.getItemId()) {
-		case R.id.menu_tuito:
 
-			intent.setClass(mContext, Twitter_tuito.class);
-			startActivity(intent);
-			return true;
-
-		case R.id.menu_dm:
-
-			intent.setClass(mContext, Twitter_Client_DM.class);
-			startActivity(intent);
-			return true;
-
-		case R.id.menu_user:
-
-			intent.setClass(mContext, Twitter_user.class);
-			Log.d("test", intent.getSerializableExtra("myUser").toString());
-			startActivity(intent);
-			return true;
 		case R.id.menu_update:
 
-			timeLine.reloadTimeLine(paging,0);
-			return true;
-
-		case R.id.menu_list:
-			intent.setClass(mContext, Twitter_lists.class);
-			startActivity(intent);
+			userList.reloadUserList(paging,0);
 			return true;
 
 		default:
@@ -184,59 +137,12 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	}
 
 	@Override
-	public void onClick(View v) {
-		if(v == bt_update){
-			timeLine.reloadTimeLine(paging,0);
-		}//if
-
-		//ツイート画面
-
-		if(v == bt_tuito){
-			intent.setClass(getApplicationContext(), Twitter_tuito.class);
-			startActivity(intent);
-			overridePendingTransition(R.anim.right_in, R.anim.left_out);
-		}//if
-
-
-		if(v == bt_user){
-			intent.setClass(getApplicationContext(), Twitter_user.class);
-			startActivity(intent);
-		}//if
-
-		if(v == bt_dm){
-			intent.setClass(getApplicationContext(), Twitter_Client_DM.class);
-			startActivity(intent);
-			overridePendingTransition(R.anim.right_in, R.anim.left_out);
-		}//if
-
-		if(v == bt_menu){
-			openOptionsMenu();
-		}//if
-
-		/**
-		if(v == bt_menu_user){
-			intent.setClass(getApplicationContext(), Twitter_user.class);
-			startActivity(intent);
-		}//if
-
-		if(v == bt_menu_tweet){
-			intent.setClass(getApplicationContext(), Twitter_tuito.class);
-			startActivity(intent);
-			overridePendingTransition(R.anim.right_in, R.anim.left_out);
-		}//if
-		**/
-
-	}//on
-
-	@Override
 	public void onRefresh() {
-		timeLine.reloadTimeLine(paging,0);
+		userList.reloadUserList(paging,0);
 	}
 
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	@Override
@@ -245,9 +151,9 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 		boolean bLast = iTotal == iTop + iVisible;
 		if(bLast){
 			if(list.getCount() != 0){
-				if(!timeLine.taskRunning()){
+				if(!userList.taskRunning()){
 					Log.d("scroll","最後尾だよ");
-					timeLine.reloadTimeLine(paging,1);
+					userList.reloadUserList(paging,1);
 				}
 			}
 		}
