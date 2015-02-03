@@ -65,6 +65,7 @@
 <activity android:name="Twitter_dm_detail"></activity>
 <activity android:name="Twitter_lists"></activity>
 <activity android:name="Twitter_list"></activity>
+<activity android:name="Twitter_AccountControl"></activity>
 
 
 
