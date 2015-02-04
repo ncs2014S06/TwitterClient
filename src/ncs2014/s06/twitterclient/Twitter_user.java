@@ -163,8 +163,10 @@ public class Twitter_user extends Activity implements OnClickListener {
 	private void imageChange(){
 		if(followFlag){
 			doFollow.setBackgroundResource(R.drawable.ic_assignment_ind_black_48dp);
+			followFlag = false;
 		}else{
 			doFollow.setBackgroundResource(R.drawable.ic_assignment_ind_grey600_48dp);
+			followFlag = true;
 		}
 	}
 
@@ -210,7 +212,6 @@ public class Twitter_user extends Activity implements OnClickListener {
 						// TODO 自動生成されたメソッド・スタブ
 						super.onPostExecute(result);
 						imageChange();
-
 					}
 				};
 				followTask.execute();
