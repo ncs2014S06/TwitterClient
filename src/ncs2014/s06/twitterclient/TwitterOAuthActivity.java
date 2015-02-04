@@ -5,6 +5,7 @@ import twitter4j.TwitterException;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -17,14 +18,13 @@ import android.widget.Toast;
 
 public class TwitterOAuthActivity extends Activity {
 
+	private Intent intent;
 	private String mCallbackURL;
 	private Twitter mTwitter;
 	private RequestToken mRequestToken;
 	private DBAdapter dbAdapter;
 	private Context mContext;
-
-
-
+	private ComponentName cName;
 
 
 
@@ -32,6 +32,18 @@ public class TwitterOAuthActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_twitter_oauth);
+		if(intent == null){
+			intent = new Intent();
+		}
+		cName = getCallingActivity();
+		if(cName != null){
+
+			Log.d("Component",Twitter_AccountControl.class.getName());
+			Log.d("Component",getCallingActivity().getClassName());
+		//	 ncs2014.s06.twitterclient.Twitter_AccountControl
+		}else{
+			Log.d("Component","Null!");
+		}
 		mContext = getApplicationContext();
 
 		//DB作成
@@ -39,7 +51,12 @@ public class TwitterOAuthActivity extends Activity {
 
 
 		mCallbackURL = getString(R.string.twitter_callback_url);
-		mTwitter = TwitterUtils.getTwitterInstance(this);
+		if(cName == null){
+			mTwitter = TwitterUtils.getTwitterInstance(this);
+		}else{
+			mTwitter = TwitterUtils.newTwitterInstance(this);
+		}
+
 
 		findViewById(R.id.action_start_oauth).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -90,10 +107,15 @@ public class TwitterOAuthActivity extends Activity {
 		}
 		String verifier = intent.getData().getQueryParameter("oauth_verifier");
 
+
+
+
+
 		AsyncTask<String, Void, AccessToken> task = new AsyncTask<String, Void, AccessToken>() {
 			@Override
 			protected AccessToken doInBackground(String... params) {
 				try {
+					Log.d("AccountControl","params[0]:" + params[0]);
 					return mTwitter.getOAuthAccessToken(mRequestToken, params[0]);
 				} catch (TwitterException e) {
 					e.printStackTrace();
@@ -117,8 +139,9 @@ public class TwitterOAuthActivity extends Activity {
 	}
 
 	private void successOAuth(AccessToken accessToken) {
-		TwitterUtils.storeAccessToken(this, accessToken);
-
+		if(cName == null){
+			TwitterUtils.storeAccessToken(this, accessToken);
+		}
 		Long id = accessToken.getUserId();
 		String strAccessToken = accessToken.getToken();
 		String strAccessTokenSecret = accessToken.getTokenSecret();
@@ -131,8 +154,12 @@ public class TwitterOAuthActivity extends Activity {
 		Log.d("test", c.getLong(0) + "");
 
 		dbAdapter.close();
-		Intent intent = new Intent(mContext, Twitter_home.class);
-		startActivity(intent);
+		if(cName == null){
+			intent.setClass(mContext, Twitter_home.class);
+			startActivity(intent);
+		}else{
+			setResult(Activity.RESULT_OK,intent);
+		}
 		finish();
 	}
 

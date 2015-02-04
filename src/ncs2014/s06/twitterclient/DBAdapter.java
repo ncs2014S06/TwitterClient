@@ -90,6 +90,10 @@ public class DBAdapter {
 		return db.query(TABLE_NAME, null, null, null, null, null, null);
 	}
 
+	public Cursor getAccount(Long id){
+		return db.query(TABLE_NAME, null, "ID = " + id, null, null, null, null);
+	}
+
 	public void saveAccount(Long id,String accessToken,String accessTokenSecret){
 		ContentValues values = new ContentValues();
 		values.put(ID, id);

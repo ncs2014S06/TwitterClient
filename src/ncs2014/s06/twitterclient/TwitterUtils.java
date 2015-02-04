@@ -34,6 +34,16 @@ public class TwitterUtils {
         }
         return twitter;
     }
+    public static Twitter newTwitterInstance(Context context) {
+        String consumerKey = context.getString(R.string.twitter_consumer_key);
+        String consumerSecret = context.getString(R.string.twitter_consumer_secret);
+
+        TwitterFactory factory = new TwitterFactory();
+        Twitter twitter = factory.getInstance();
+        twitter.setOAuthConsumer(consumerKey, consumerSecret);
+
+        return twitter;
+    }
 
     /**
      * アクセストークンをプリファレンスに保存します。

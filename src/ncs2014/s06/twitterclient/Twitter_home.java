@@ -39,7 +39,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	private Menu me;
 	private Paging paging;
 	private int page;
-	private final static int TWEET_DETAIL = 0;
+	private final static int TWEET_DETAIL = 1000;
 	private User myUser;
 	private Handler mHandler;
 	private Context mContext;
