@@ -40,6 +40,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	private Paging paging;
 	private int page;
 	private final static int TWEET_DETAIL = 1000;
+	private final static int ACCOUNT_CONTROL = 1010;
 	private User myUser;
 	private Handler mHandler;
 	private Context mContext;
@@ -172,7 +173,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 
 		case R.id.menu_account:
 			intent.setClass(mContext, Twitter_AccountControl.class);
-			startActivity(intent);
+			startActivityForResult(intent,ACCOUNT_CONTROL);
 			return true;
 
 		default:
@@ -288,6 +289,11 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 				Status tweetStatus = (Status) intent.getSerializableExtra("tweetStatus");
 				exchangeListItem(position, tweetStatus);
 			}
+		}if(requestCode == ACCOUNT_CONTROL){
+			Log.d("AccountControl","return AccountControl");
+			mTwitter = TwitterUtils.getTwitterInstance(mContext);
+			timeLine = new TimeLine(mContext,mHandler, tAdapter, swipeRefreshLayout);
+			timeLine.reloadTimeLine(paging,0);
 		}
 	}
 }

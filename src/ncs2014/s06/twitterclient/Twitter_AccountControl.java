@@ -3,8 +3,11 @@ package ncs2014.s06.twitterclient;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
+import twitter4j.auth.AccessToken;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -28,6 +31,7 @@ import com.loopj.android.image.SmartImageView;
 public class Twitter_AccountControl extends Activity implements OnItemClickListener, OnClickListener {
 
 	private Intent intent;
+	private Context mContext;
 	private Twitter mTwitter;
 	private DBAdapter dbAdapter;
 	private accountAdapter aAdapter;
@@ -40,6 +44,7 @@ public class Twitter_AccountControl extends Activity implements OnItemClickListe
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mContext = getApplicationContext();
 		intent = getIntent();
 		setContentView(R.layout.twitter_lists);
 		View view = this.getLayoutInflater().inflate(R.layout.twitter_account_control_botans, null);
@@ -155,12 +160,28 @@ public class Twitter_AccountControl extends Activity implements OnItemClickListe
 		dbAdapter.open();
 		Cursor c = dbAdapter.getAccount(userId);
 		if(c.moveToFirst()){
-			String accessToken = c.getString(1);
-			String accessTokenSecret =c.getString(2);
+			final String accessToken = c.getString(1);
+			final String accessTokenSecret =c.getString(2);
 			Log.d("AccountControl", accessToken);
 			Log.d("AccountControl", accessTokenSecret);
-			
 
+			//ダイアログ
+			AlertDialog.Builder adb = new AlertDialog.Builder(this);
+			adb.setTitle("アカウント変更");
+			adb.setMessage("アカウントを切り替えます。\nよろしいですか？");
+			adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO 自動生成されたメソッド・スタブ
+					AccessToken at = new AccessToken(accessToken, accessTokenSecret);
+					TwitterUtils.storeAccessToken(mContext, at);
+					mTwitter = TwitterUtils.getTwitterInstance(mContext);
+					setResult( Activity.RESULT_OK, intent );
+					finish();
+				}
+			});
+			adb.setNegativeButton("キャンセル", null);
+			adb.show();
 		}
 	}
 
