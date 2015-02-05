@@ -20,7 +20,12 @@ import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -45,6 +50,7 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 	private int favColor = Color.rgb(243, 213, 26);
 	private int retweetColor = Color.rgb(71, 234, 126);
 	private Intent intent;
+	private Menu menu;
 
 	private LinearLayout tweet_detail_lineLayout;
 	private SmartImageView tweet_detail_userIcon;
@@ -52,6 +58,9 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 	private TextView tweet_detail_userId;
 	private TextView tweet_detail_absoluteTime;
 	private TextView tweet_detail_tweet;
+	static final int CONTEXT_MENU1_ID = 0;
+	static final int CONTEXT_MENU2_ID = 1;
+
 	//button
 	private ImageButton bt_reply;
 	private ImageButton bt_retweet;
@@ -270,6 +279,7 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 
 		}
 		if(v == bt_more){
+			openContextMenu(tweet_detail_tweet);
 
 		}
 	}
@@ -295,5 +305,82 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 		}
 			return false;
 	}
+
+
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+
+	    super.onCreateContextMenu(menu, v, menuInfo);
+
+	    //コンテキストメニューの設定
+	    menu.setHeaderTitle("メニュータイトル");
+	    //Menu.add(int groupId, int itemId, int order, CharSequence title)
+	    menu.add(0, CONTEXT_MENU1_ID, 0, "メニュー1");
+	    menu.add(0, CONTEXT_MENU2_ID, 0, "メニュー2");
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	public boolean onCreateOptionsMenu(Menu menu){
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.tweet_menu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		switch (item.getItemId()) {
+		case R.id.tweet_delete:
+
+
+			return true;
+
+		case R.id.tweet_unrt:
+
+
+			return true;
+
+		case R.id.tweet_null1:
+
+		default:
+			return false;
+		}
+	}//select
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

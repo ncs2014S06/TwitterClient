@@ -154,6 +154,12 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 			startActivity(intent);
 			return true;
 
+		case R.id.menu_search:
+
+			intent.setClass(mContext, TwitterSearch.class);
+			startActivity(intent);
+			return true;
+
 		case R.id.menu_user:
 
 			intent.setClass(mContext, Twitter_user.class);
