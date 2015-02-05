@@ -25,7 +25,6 @@ public class TweetAdapter extends ArrayAdapter<twitter4j.Status> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO 自動生成されたメソッド・スタブ
 
 		if(convertView == null){
 			convertView = mInflater.inflate(R.layout.list_item_tweet, null);

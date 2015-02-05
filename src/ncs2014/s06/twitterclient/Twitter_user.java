@@ -7,6 +7,7 @@ import twitter4j.User;
 import android.R.drawable;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -50,7 +51,7 @@ public class Twitter_user extends Activity implements OnClickListener {
 	private Button follower;
 	private Button fav;
 	private Button bt_menu_time;
-	private ImageButton doFollow;
+	private Button createFollowBt;
 	private TextView text_username;
 	private TextView text_userfrom;
 	private TextView text_context;
@@ -70,16 +71,11 @@ public class Twitter_user extends Activity implements OnClickListener {
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_user);
 
 		//findview
-		bt_update = (ImageButton) findViewById(R.id.bt_reply);
-		bt_tuito = (ImageButton) findViewById(R.id.bt_retweet);
-		bt_user = (ImageButton) findViewById(R.id.bt_fav);
-		bt_dm = (ImageButton) findViewById(R.id.bt_more);
-
 		myTweet = (Button) findViewById(R.id.myTweet);
 		follow = (Button) findViewById(R.id.follow);
 		follower = (Button) findViewById(R.id.follower);
 		fav = (Button) findViewById(R.id.fav);
-		doFollow = (ImageButton) findViewById(R.id.doFollow);
+		createFollowBt = (Button) findViewById(R.id.create_follow_bt);
 		bt_menu_time = (Button) findViewById(R.id.bt_menu_time);
 
 		text_username = (TextView) findViewById(R.id.text_username);
@@ -90,17 +86,13 @@ public class Twitter_user extends Activity implements OnClickListener {
 		backImage = (SmartImageView) findViewById(R.id.backimage);
 
 		//リスナー
-		bt_update.setOnClickListener(this);
-		bt_tuito.setOnClickListener(this);
-		bt_user.setOnClickListener(this);
-		bt_dm.setOnClickListener(this);
 		bt_menu_time.setOnClickListener(this);
 
 		myTweet.setOnClickListener(this);
 		follow.setOnClickListener(this);
 		follower.setOnClickListener(this);
 		fav.setOnClickListener(this);
-		doFollow.setOnClickListener(this);
+		createFollowBt.setOnClickListener(this);
 		intent = getIntent();
 		mTwitter = TwitterUtils.getTwitterInstance(this);
 		user = (User) intent.getSerializableExtra("myUser");
@@ -162,9 +154,15 @@ public class Twitter_user extends Activity implements OnClickListener {
 
 	private void imageChange(){
 		if(followFlag){
-			doFollow.setBackgroundResource(R.drawable.ic_assignment_ind_black_48dp);
+			createFollowBt.setText("フォロー中");
+			createFollowBt.setBackgroundColor(Color.rgb(159, 217, 246));
+		//	doFollow.setBackgroundResource(R.drawable.ic_assignment_ind_black_48dp);
+			followFlag = false;
 		}else{
-			doFollow.setBackgroundResource(R.drawable.ic_assignment_ind_grey600_48dp);
+			createFollowBt.setText("フォローする");
+			createFollowBt.setBackgroundColor(Color.rgb(170, 170, 170));
+		//	doFollow.setBackgroundResource(R.drawable.ic_assignment_ind_grey600_48dp);
+			followFlag = true;
 		}
 	}
 
@@ -190,7 +188,7 @@ public class Twitter_user extends Activity implements OnClickListener {
 			startActivity(intent);
 		}//if
 
-		if(v == doFollow){
+		if(v == createFollowBt){
 			if(followFlag){
 				followTask = new AsyncTask<Void, Void, User>(){
 
@@ -210,7 +208,6 @@ public class Twitter_user extends Activity implements OnClickListener {
 						// TODO 自動生成されたメソッド・スタブ
 						super.onPostExecute(result);
 						imageChange();
-
 					}
 				};
 				followTask.execute();
