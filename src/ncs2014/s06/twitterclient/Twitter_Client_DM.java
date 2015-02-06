@@ -67,6 +67,7 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 		list.setOnItemClickListener(this);
 
 
+
 		//認証確認
 		if (!TwitterUtils.hasAccessToken(this)) {
 			intent = new Intent(this, TwitterOAuthActivity.class);
@@ -88,6 +89,7 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 			protected ResponseList<DirectMessage> doInBackground(Void... params) {
 				// TODO 自動生成されたメソッド・スタブ
 				try {
+
 					messages = mTwitter.getDirectMessages(paging);
 					Log.d("client_dm",messages.size() + " 受信");
 					paging.setPage(paging.getPage() + 1);
@@ -95,6 +97,7 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 				} catch (TwitterException te) {
 					te.printStackTrace();
 				}
+
 			return null;
 			}
 
@@ -167,14 +170,25 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 			DirectMessage item = getItem(position);
 			User senderUser = item.getSender();
 
+			/**
+			 * メール内容をテキストビューにセット
+			 */
+			//アイコン取得
 			SmartImageView icon = (SmartImageView) convertView.findViewById(R.id.icon);
+			//ユーザー名
 			TextView name = (TextView) convertView.findViewById(R.id.name);
+			//ユーザID
 			TextView screenName = (TextView) convertView.findViewById(R.id.screen_name);
+			//メール本文
 			TextView text = (TextView) convertView.findViewById(R.id.text);
 
+			//iconに取得した画像をセット
 			icon.setImageUrl(senderUser.getProfileImageURL());
+			//nameに取得したユーザ名をセット
 			name.setText(senderUser.getName());
+			//screennameに取得したユーザIDをセット
 			screenName.setText("@" + senderUser.getScreenName());
+			//textに取得したメール本文をセット
 			text.setText(item.getText());
 			return convertView;
 		}
