@@ -36,5 +36,10 @@
         android:icon="@android:drawable/ic_menu_search">
     </item>
 
+    <item
+        android:id="@+id/menu_streaming" android:title="ストリーミング"
+        android:icon="@android:drawable/ic_menu_search">
+    </item>
+
 
 </menu>

@@ -182,6 +182,11 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 			startActivityForResult(intent,ACCOUNT_CONTROL);
 			return true;
 
+		case R.id.menu_streaming:
+			intent.setClass(mContext, Twitter_Streaming.class);
+			startActivity(intent);
+			return true;
+
 		default:
 			return false;
 		}
