@@ -13,7 +13,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/puti"
         android:label="@string/app_name">
 
         <activity
@@ -66,6 +66,7 @@
 <activity android:name="Twitter_lists"></activity>
 <activity android:name="Twitter_list"></activity>
 <activity android:name="Twitter_AccountControl"></activity>
+<activity android:name="Twitter_dm_list"></activity>
 
 
 
