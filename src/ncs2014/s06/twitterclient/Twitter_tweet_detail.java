@@ -20,10 +20,15 @@ import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -46,6 +51,7 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 	private int retweetColor = Color.rgb(71, 234, 126);
 	private Intent intent;
 	private User myUser;
+	private Menu menu;
 
 	private LinearLayout tweet_detail_lineLayout;
 	private SmartImageView tweet_detail_userIcon;
@@ -53,6 +59,9 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 	private TextView tweet_detail_userId;
 	private TextView tweet_detail_absoluteTime;
 	private TextView tweet_detail_tweet;
+	static final int CONTEXT_MENU1_ID = 0;
+	static final int CONTEXT_MENU2_ID = 1;
+
 	//button
 	private ImageButton bt_reply;
 	private ImageButton bt_retweet;
@@ -85,6 +94,8 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 		bt_retweet.setOnClickListener(this);
 		bt_fav.setOnClickListener(this);
 		bt_more.setOnClickListener(this);
+
+		registerForContextMenu(bt_more);
 
 		if (!TwitterUtils.hasAccessToken(this)) {
 			Intent intent = new Intent(this, TwitterOAuthActivity.class);
@@ -171,6 +182,10 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 				startActivity(InternetIntent);
 			}
 		};
+
+
+
+
 		tweet_detail_tweet.setText(TextLinker.getLinkableText(tweet, links, onLinkClickListener));
 		tweet_detail_tweet.setMovementMethod(LinkMovementMethod.getInstance());
 	}
@@ -269,6 +284,7 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 
 		}
 		if(v == bt_more){
+			openContextMenu(v);
 
 		}
 	}
@@ -296,6 +312,35 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 			return true;
 		}
 			return false;
+	}
+
+
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+
+	    super.onCreateContextMenu(menu, v, menuInfo);
+
+	    //コンテキストメニューの設定
+	    menu.setHeaderTitle("メニュータイトル");
+	    //Menu.add(int groupId, int itemId, int order, CharSequence title)
+	    menu.add(0, CONTEXT_MENU1_ID, 0, "削除");
+	    menu.add(0, CONTEXT_MENU2_ID, 0, "非公式RT");
+
+	}
+
+	public boolean onContextItemSelected(MenuItem item) {
+
+	    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+
+	    switch (item.getItemId()) {
+	    case CONTEXT_MENU1_ID:
+	        //TODO:メニュー押下時の操作
+	        return true;
+	    case CONTEXT_MENU2_ID:
+	        //TODO:メニュー押下時の操作
+	        return true;
+	    default:
+	        return super.onContextItemSelected(item);
+	    }
 	}
 
 }

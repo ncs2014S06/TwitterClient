@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/tweet_delete" android:title="削除"
+		android:icon="@android:drawable/ic_menu_rotate">
+    </item>
+
+    <item
+        android:id="@+id/tweet_unrt" android:title="非公式RT"
+        android:icon="@android:drawable/ic_menu_edit">
+    </item>
+
+    <item
+        android:id="@+id/tweet_null1" android:title="null"
+        android:icon="@android:drawable/ic_menu_preferences">
+    </item>
+
+    <item
+        android:id="@+id/tweet_null2" android:title="null"
+        android:icon="@android:drawable/ic_menu_camera">
+    </item>
+
+</menu>
