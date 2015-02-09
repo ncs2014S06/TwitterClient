@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:background="@android:color/white"
+        android:orientation="vertical"
+	android:padding="8dp" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/ic_loop_white_24dp"
+            android:tint="#808080" />
+
+        <TextView
+            android:id="@+id/retweetname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textColor="#000000" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+	<com.loopj.android.image.SmartImageView
+		android:id="@+id/icon"
+		android:layout_width="40dp"
+		android:layout_height="40dp"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentTop="true"
+		android:src="@drawable/ic_launcher" />
+
+	<TextView
+		android:id="@+id/name"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignTop="@+id/icon"
+		android:layout_marginLeft="8dp"
+		android:layout_toRightOf="@+id/icon"
+		android:textColor="#1e90ff"
+		android:text="名前入ります" />
+
+	<TextView
+		android:id="@+id/screen_name"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignTop="@+id/name"
+		android:layout_marginLeft="8dp"
+		android:layout_toRightOf="@+id/name"
+		android:textColor="#00bfff"
+		android:text="\uFF20gabu" />
+
+	<TextView
+		android:id="@+id/text"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignLeft="@+id/name"
+		android:layout_below="@+id/name"
+		android:textColor="#1a1a1a"
+		android:text="本文本文本文本文本文本文本文本文本文本文" />
+
+	</RelativeLayout>
+</LinearLayout>

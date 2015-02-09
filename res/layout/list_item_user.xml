@@ -25,23 +25,12 @@
 		android:text="名前入ります" />
 
 	<TextView
-		android:id="@+id/screen_name"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignTop="@+id/name"
-		android:layout_marginLeft="8dp"
-		android:layout_toRightOf="@+id/name"
-		android:textColor="#00bfff"
-		android:text="\uFF20gabu" />
-
-	<TextView
-	    android:id="@+id/text"
+	    android:id="@+id/screen_name"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_alignLeft="@+id/name"
-	    android:layout_alignRight="@+id/screen_name"
 	    android:layout_below="@+id/name"
-	    android:text="本文本文本文本文本文本文本文本文"
-	    android:textColor="#1a1a1a" />
+	    android:text="\uFF20gabu"
+	    android:textColor="#00bfff" />
 
 </RelativeLayout>
