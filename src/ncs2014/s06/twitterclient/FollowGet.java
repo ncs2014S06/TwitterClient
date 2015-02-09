@@ -175,8 +175,6 @@ public class FollowGet extends Activity implements OnScrollListener, OnItemClick
 			name.setText(item.getName());
 			TextView screenName = (TextView) convertView.findViewById(R.id.screen_name);
 			screenName.setText("@"+ item.getScreenName());
-			TextView text = (TextView) convertView.findViewById(R.id.text);
-			text.setText("本文");
 			return convertView;
 		}
 

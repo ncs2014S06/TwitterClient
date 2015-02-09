@@ -1,5 +1,7 @@
 package ncs2014.s06.twitterclient;
 
+import java.util.ArrayList;
+
 import twitter4j.DirectMessage;
 import twitter4j.Paging;
 import twitter4j.ResponseList;
@@ -22,17 +24,16 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.image.SmartImageView;
 
-public class Twitter_Client_DM extends FragmentActivity implements OnScrollListener,OnItemClickListener, OnClickListener{
+public class Twitter_dm_list extends FragmentActivity implements OnScrollListener,OnItemClickListener, OnClickListener{
 
 	private Twitter mTwitter;
-	private TweetAdapter tAdapter;
+	private userAdapter uAdapter;
 	private User myUser;
 	private Paging paging;
 	private ResponseList<DirectMessage> messages;
@@ -43,27 +44,19 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 	public static final int send = 2;		//受信リスト
 	private final static int reply = 0; //返信
 	private final static int newMail = 1; //新規
+	private ArrayList<User> arrayUser;
 
 	private ListView list;
-	private Button dm_receive_button;
-	private Button dm_send_button;
-	private Button dm_new_button;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		intent = getIntent();
 		myUser = (User) intent.getSerializableExtra("myUser");
 		Log.d("test",myUser.toString());
-		setContentView(R.layout.twitter_dmlist);
+		setContentView(R.layout.twitter_lists);
 		//findViewById
-		list = (ListView) findViewById(R.id.dmlist);
-		dm_receive_button = (Button) findViewById(R.id.dm_receive_button);
-		dm_send_button = (Button) findViewById(R.id.dm_send_button);
-		dm_new_button = (Button) findViewById(R.id.dm_new_button);
+		list = (ListView) findViewById(R.id.twitter_lists_list);
 		//リスナー
-		dm_new_button.setOnClickListener(this);
-		dm_receive_button.setOnClickListener(this);
-		dm_send_button.setOnClickListener(this);
 		list.setOnItemClickListener(this);
 
 
@@ -75,10 +68,14 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 			finish();
 		}else{
 			paging = new Paging(1);
-			tAdapter = new TweetAdapter(this);
-			list.setAdapter(tAdapter);
+			uAdapter = new userAdapter(this);
 			mTwitter = TwitterUtils.getTwitterInstance(this);
 			list.setOnScrollListener(this);
+			reloadDM();
+			list.setAdapter(uAdapter);
+
+
+
 		}
 	}
 
@@ -89,7 +86,6 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 			protected ResponseList<DirectMessage> doInBackground(Void... params) {
 				// TODO 自動生成されたメソッド・スタブ
 				try {
-
 					messages = mTwitter.getDirectMessages(paging);
 					Log.d("client_dm",messages.size() + " 受信");
 					paging.setPage(paging.getPage() + 1);
@@ -97,16 +93,24 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 				} catch (TwitterException te) {
 					te.printStackTrace();
 				}
-
 			return null;
 			}
 
 			@Override
 			protected void onPostExecute(ResponseList<DirectMessage> result) {
 				// TODO 自動生成されたメソッド・スタブ
+				arrayUser = new ArrayList<User>();
 				if(result != null){
 					for(DirectMessage status:result){
-						tAdapter.add(status);
+						User sender = status.getSender();
+						Log.d("dmList","a " + sender.getName());
+						if(arrayUser.indexOf(sender) == -1){
+							arrayUser.add(sender);
+						}
+					}
+					for(User u:arrayUser){
+						Log.d("dmList",u.getName());
+						uAdapter.add(u);
 					}
 				}
 			}
@@ -114,86 +118,11 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 		task.execute();
 	}
 
-	//送信
-	private void sentDM(){
-		AsyncTask<Void, Void, ResponseList<DirectMessage>> task = new AsyncTask<Void, Void, ResponseList<DirectMessage>>(){
-			@Override
-			protected ResponseList<DirectMessage> doInBackground(Void... params) {
-					try {
-						messages = mTwitter.getSentDirectMessages(paging);
-						paging.setPage(paging.getPage() + 1);
-						Log.d("client_dm",list.getCount()+" 送信" );
-						return messages;
-					} catch (TwitterException te) {
-						te.printStackTrace();
-					}
-					return null;
-				}
-			@Override
-			protected void onPostExecute(ResponseList<DirectMessage> result) {
-				// TODO 自動生成されたメソッド・スタブ
-				if(result != null){
-					for(DirectMessage status:result){
-						tAdapter.add(status);
-					}
-				}else{
-					showToast("DMの取得に失敗しました");
-				}
-			}
-		};
-		task.execute();
-	}
 
 	private void showToast(String text){
 		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
 	}
 
-
-	//表示定義クラス
-	public class TweetAdapter extends ArrayAdapter<DirectMessage> {
-
-		private LayoutInflater mInflater;
-
-		public TweetAdapter(Context context) {
-			super(context, android.R.layout.simple_list_item_1);
-			mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-
-		}
-
-		public View getView(int position, View convertView, ViewGroup parent) {
-			// TODO 自動生成されたメソッド・スタブ
-
-			if(convertView == null){
-				convertView = mInflater.inflate(R.layout.list_item_tweet, null);
-			}
-
-			DirectMessage item = getItem(position);
-			User senderUser = item.getSender();
-
-			/**
-			 * メール内容をテキストビューにセット
-			 */
-			//アイコン取得
-			SmartImageView icon = (SmartImageView) convertView.findViewById(R.id.icon);
-			//ユーザー名
-			TextView name = (TextView) convertView.findViewById(R.id.name);
-			//ユーザID
-			TextView screenName = (TextView) convertView.findViewById(R.id.screen_name);
-			//メール本文
-			TextView text = (TextView) convertView.findViewById(R.id.text);
-
-			//iconに取得した画像をセット
-			icon.setImageUrl(senderUser.getProfileImageURL());
-			//nameに取得したユーザ名をセット
-			name.setText(senderUser.getName());
-			//screennameに取得したユーザIDをセット
-			screenName.setText("@" + senderUser.getScreenName());
-			//textに取得したメール本文をセット
-			text.setText(item.getText());
-			return convertView;
-		}
-
-	}//TweetAdapter
 
 	public void onScroll(AbsListView view, int iTop,int iVisible, int iTotal) {
 		boolean bLast = iTotal == iTop + iVisible;
@@ -204,7 +133,7 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 					reloadDM();
 				}else if(messages.size() != 0 && mode == 2){
 					Log.d("client_dm",list.getCount()+" "+messages.size() +" 送信" );
-					sentDM();
+					//sentDM();
 				}
 			}
 		}
@@ -230,30 +159,47 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 		return;
 	}
 
+
+
+	//表示定義クラス
+	public class userAdapter extends ArrayAdapter<User> {
+
+		private LayoutInflater mInflater;
+
+		public userAdapter(Context context) {
+			super(context, android.R.layout.simple_list_item_1);
+			mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			// TODO 自動生成されたメソッド・スタブ
+
+			if(convertView == null){
+				convertView = mInflater.inflate(R.layout.list_item_user, null);
+			}
+
+			User item = getItem(position);
+			SmartImageView icon = (SmartImageView) convertView.findViewById(R.id.icon);
+			icon.setImageUrl(item.getProfileImageURL());
+			TextView name = (TextView) convertView.findViewById(R.id.name);
+			name.setText(item.getName());
+			TextView screenName = (TextView) convertView.findViewById(R.id.screen_name);
+			screenName.setText("@"+ item.getScreenName());
+			TextView text = (TextView) convertView.findViewById(R.id.text);
+			text.setText("本文");
+			return convertView;
+		}
+
+	}//TweetAdapter
+
+
+
 	@Override
 	public void onClick(View v) {
-		//受信
-		if(v == dm_receive_button){
-			mode = get;
-			paging.setPage(1);
-			tAdapter.clear();
-			reloadDM();
-			list.setAdapter(tAdapter);
-		}
-		//送信
-		if(v == dm_send_button){
-			mode = send;
-			paging.setPage(1);
-			tAdapter.clear();
-			sentDM();
-			list.setAdapter(tAdapter);
-		}
-		//新規作成
-		if(v == dm_new_button){
-			intent.setClass(getApplicationContext(), Twitter_createDM.class);
-			intent.putExtra("mode", newMail);
-			startActivity(intent);
-			overridePendingTransition(R.anim.right_in, R.anim.left_out);
-		}
+		// TODO 自動生成されたメソッド・スタブ
+
 	}
+
 }

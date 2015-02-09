@@ -151,7 +151,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 
 		case R.id.menu_dm:
 
-			intent.setClass(mContext, Twitter_Client_DM.class);
+			intent.setClass(mContext, Twitter_dm_list.class);
 			startActivity(intent);
 			return true;
 
@@ -180,6 +180,11 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 		case R.id.menu_account:
 			intent.setClass(mContext, Twitter_AccountControl.class);
 			startActivityForResult(intent,ACCOUNT_CONTROL);
+			return true;
+
+		case R.id.menu_streaming:
+			intent.setClass(mContext, Twitter_Streaming.class);
+			startActivity(intent);
 			return true;
 
 		default:
