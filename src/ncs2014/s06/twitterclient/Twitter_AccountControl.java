@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -188,6 +189,7 @@ public class Twitter_AccountControl extends Activity implements OnItemClickListe
 	@Override
 	public void onClick(View v) {
 		intent.setClass(this, TwitterOAuthActivity.class);
+		intent.setData(Uri.parse(""));
 		startActivityForResult(intent,OAUTH_ACTIVITY);
 	}
 }

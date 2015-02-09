@@ -10,19 +10,23 @@ import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-public class Twitter_Streaming extends Activity implements OnClickListener {
+public class Twitter_Streaming extends Activity implements OnClickListener, OnItemClickListener {
 
+	private Intent intent;
 	private Context mContext;
 	private Handler mHandler;
 	private Twitter mTwitter;
@@ -31,6 +35,7 @@ public class Twitter_Streaming extends Activity implements OnClickListener {
 	private int streamBtFlag;
 	private final static int STREAMSTART = 0;
 	private final static int STREAMSTOP = 1;
+	private final static int TWEET_DETAIL = 1000;
 
 	private ListView list;
 	private Button streamingBt;
@@ -47,8 +52,10 @@ public class Twitter_Streaming extends Activity implements OnClickListener {
 		list = (ListView) findViewById(R.id.twitter_lists_list);
 		streamingBt = (Button) findViewById(R.id.streaming_streamingbt);
 
+		list.setOnItemClickListener(this);
 		streamingBt.setOnClickListener(this);
 
+		intent = getIntent();
 		mContext = getApplicationContext();
 		mHandler = new Handler();
 		AccessToken at = TwitterUtils.loadAccessToken(this);
@@ -103,5 +110,15 @@ public class Twitter_Streaming extends Activity implements OnClickListener {
 
 	private void showToast(String text) {
 		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
+		Log.d("tweet_detail","view:" + parent + "  position:" + position + "  id:" + id);
+		Status item = (Status) list.getItemAtPosition(position);
+		intent.setClass(getApplicationContext(), Twitter_tweet_detail.class);
+		intent.putExtra("TweetStatus", item);
+		intent.putExtra("position", position);
+		startActivityForResult(intent,TWEET_DETAIL);
 	}
 }

@@ -32,6 +32,15 @@ public class TwitterOAuthActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_twitter_oauth);
+
+		//test
+		if(getIntent().getData() == null){
+			Log.d("Component","Data Null!");
+		}else{
+			Log.d("Conponent","起動！");
+		}
+		//test
+
 		if(intent == null){
 			intent = new Intent();
 		}
@@ -39,11 +48,13 @@ public class TwitterOAuthActivity extends Activity {
 		if(cName != null){
 
 			Log.d("Component",Twitter_AccountControl.class.getName());
-			Log.d("Component",getCallingActivity().getClassName());
+			Log.d("Component",cName.getClassName());
 		//	 ncs2014.s06.twitterclient.Twitter_AccountControl
 		}else{
 			Log.d("Component","Null!");
 		}
+
+
 		mContext = getApplicationContext();
 
 		//DB作成
