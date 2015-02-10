@@ -12,6 +12,7 @@ import twitter4j.TwitterException;
 import twitter4j.URLEntity;
 import twitter4j.User;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -39,6 +40,7 @@ import com.loopj.android.image.SmartImageView;
 
 public class Twitter_tweet_detail extends Activity implements OnClickListener{
 	private Twitter mTwitter;
+	private Context mContext;
 	private Status tweetStatus;
 	private User tweetUser;
 	private long tweetId;
@@ -59,8 +61,8 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 	private TextView tweet_detail_userId;
 	private TextView tweet_detail_absoluteTime;
 	private TextView tweet_detail_tweet;
-	static final int CONTEXT_MENU1_ID = 0;
-	static final int CONTEXT_MENU2_ID = 1;
+	static final int TWEETDELETE = 0;
+	static final int INFORMALRETWEET = 1;
 
 	//button
 	private ImageButton bt_reply;
@@ -102,7 +104,7 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 			startActivity(intent);
 			finish();
 		}
-
+		mContext = getApplicationContext();
 		mTwitter = TwitterUtils.getTwitterInstance(this);
 		intent = getIntent();
 		tweetStatus = (Status) intent.getSerializableExtra("TweetStatus");
@@ -317,25 +319,25 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 
-	    super.onCreateContextMenu(menu, v, menuInfo);
+		super.onCreateContextMenu(menu, v, menuInfo);
 
-	    //コンテキストメニューの設定
-	    menu.setHeaderTitle("メニュータイトル");
-	    //Menu.add(int groupId, int itemId, int order, CharSequence title)
-	    if(tweetUser.getId() == myUser.getId()){
-	    	menu.add(0, CONTEXT_MENU1_ID, 0, "削除");
-	    }
-	    menu.add(0, CONTEXT_MENU2_ID, 0, "非公式RT");
+		//コンテキストメニューの設定
+		menu.setHeaderTitle("メニュータイトル");
+		//Menu.add(int groupId, int itemId, int order, CharSequence title)
+		if(tweetUser.getId() == myUser.getId()){
+			menu.add(0, TWEETDELETE, 0, "削除");
+		}
+		menu.add(0, INFORMALRETWEET, 0, "非公式RT");
 
 	}
 
 	public boolean onContextItemSelected(MenuItem item) {
 
-	    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 
-	    switch (item.getItemId()) {
-	    case CONTEXT_MENU1_ID:
-	        //TODO:メニュー押下時の操作
+		switch (item.getItemId()) {
+		case TWEETDELETE:
+			//TODO:メニュー押下時の操作
 				AsyncTask<Void, Void, Integer> task = new AsyncTask<Void, Void, Integer>(){
 						@Override
 						protected Integer doInBackground(Void... params) {
@@ -366,14 +368,17 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 					};
 				task.execute();
 
-	        return true;
+			return true;
 
-	    case CONTEXT_MENU2_ID:
-	        //TODO:メニュー押下時の操作
-	        return true;
-	    default:
-	        return super.onContextItemSelected(item);
-	    }
+		case INFORMALRETWEET:
+			//TODO:メニュー押下時の操作
+			intent.putExtra("rtStatus", tweetStatus);
+			intent.setClass(mContext, Twitter_tuito.class);
+			startActivity(intent);
+			return true;
+		default:
+			return super.onContextItemSelected(item);
+		}
 	}
 
 }

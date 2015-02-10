@@ -1,9 +1,9 @@
-<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
     android:layout_weight="1"
-    android:background="#f8f8ff">
+    android:background="#303030"
+    android:fillViewport="true" >
 
 <RelativeLayout
     android:layout_width="fill_parent"
@@ -16,10 +16,11 @@
         android:layout_above="@+id/action_tweet"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/linearLayout1"
-        android:background="@drawable/text_border"
+        android:background="#404040"
         android:ems="10"
         android:gravity="left|top"
-        android:inputType="textMultiLine" >
+        android:inputType="textMultiLine"
+        android:textColor="#EEEEEE" >
 
         <requestFocus />
     </EditText>

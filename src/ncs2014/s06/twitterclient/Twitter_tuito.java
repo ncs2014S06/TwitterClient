@@ -1,6 +1,7 @@
 package ncs2014.s06.twitterclient;
 import java.io.File;
 
+import twitter4j.Status;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -15,7 +16,6 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -27,6 +27,8 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 
 
 	private  static int REQUEST_PICK = 1;
+
+	private Status status;
 
 	private EditText mInputText;
 	private Twitter mTwitter;
@@ -45,9 +47,9 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+	//	requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.twitter_tweet);
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_tuito);
+	//	getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_tuito);
 
 		mTwitter = TwitterUtils.getTwitterInstance(this);
 		ImageGet ig = new ImageGet(mTwitter);
@@ -73,6 +75,7 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 		mTwitter = TwitterUtils.getTwitterInstance(this);
 
 		intent = getIntent();
+		status = (Status) intent.getSerializableExtra("rtStatus");
 		replyScreenName = intent.getStringExtra("screenName");
 		if(replyScreenName != null){
 			Log.d("test",replyScreenName);
@@ -106,8 +109,14 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 		};
 		task.execute();
 
-		bt_menu_time = (Button) findViewById(R.id.bt_menu_time);
-		bt_menu_time.setOnClickListener(this);
+	//	bt_menu_time = (Button) findViewById(R.id.bt_menu_time);
+	//	bt_menu_time.setOnClickListener(this);
+		if(status != null){
+			mInputText.setText("RT @" + status.getUser().getScreenName() + ": " + status.getText());
+			Log.d("null",status.getText());
+		}else{
+			Log.d("null", "status null");
+		}
 	}
 
 	private void tweet() {
