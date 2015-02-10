@@ -33,7 +33,7 @@ import android.widget.Toast;
 public class Twitter_home extends Activity implements OnItemClickListener,OnClickListener, OnRefreshListener,OnScrollListener{
 
 	//変数
-	private Intent intent = new Intent(); //intent
+	private Intent intent; //intent
 	private TimeLine timeLine;
 	private TweetAdapter tAdapter;
 	private Twitter mTwitter;
@@ -98,6 +98,9 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 			startActivity(intent);
 			finish();
 		}else{
+			if(intent == null){
+				intent = new Intent();
+			}
 			tAdapter = new TweetAdapter(this);
 			list.setAdapter(tAdapter);
 			paging = new Paging(1);

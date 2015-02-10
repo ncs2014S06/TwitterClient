@@ -199,6 +199,7 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 	public void onClick(View v) {
 		if(v == tweet){
 			tweet();
+			intent.removeExtra("rtStatus");
 		}else{
 			Intent intent = new Intent(Intent.ACTION_PICK);
 			intent.setType("image/*");
