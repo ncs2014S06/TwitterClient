@@ -67,7 +67,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 		//タイトルバーのカスタマイズ
 //		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.twitter_home);
-		setTitleColor(Color.GREEN);
+		setTitleColor(Color.WHITE);
 //		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);
 		mContext = getApplicationContext();
 		mHandler = new Handler();

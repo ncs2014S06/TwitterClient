@@ -6,12 +6,7 @@
 	</style>
 
 	<style name="color">
-		<item name="android:background">#00bfff</item>
+		<item name="android:background">#90EE90</item>
 	</style>
-
-	<style name="Theme.Light.iOS" parent="@android:style/Theme.Black">
-        <item name="android:windowTitleSize">60dp</item>
-    </style>
-
 
 </resources>
