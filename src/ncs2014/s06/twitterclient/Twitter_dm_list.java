@@ -147,15 +147,19 @@ public class Twitter_dm_list extends FragmentActivity implements OnScrollListene
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
 		Log.d("dm_detail","view:" + parent + "  position:" + position + "  id:" + id);
-		DirectMessage selectDirectMessage = (DirectMessage)list.getItemAtPosition(position);
 
+		String str = uAdapter.getContext().toString();
+		Log.d("test List",str);
+
+		//DirectMessage selectDirectMessage = (DirectMessage)list.getItemAtPosition(position);
+/*
 		intent.setClass(getApplicationContext(), Twitter_createDM.class);
 		intent.putExtra("selectDirectMessage", selectDirectMessage);
 		intent.putExtra("mode", reply);
 		Log.d("client_dm",selectDirectMessage.getId() + "");
 		startActivity(intent);
 		overridePendingTransition(R.anim.right_in, R.anim.left_out);
-
+*/
 		return;
 	}
 
