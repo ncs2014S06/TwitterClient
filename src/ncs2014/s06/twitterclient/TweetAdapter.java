@@ -26,13 +26,15 @@ public class TweetAdapter extends ArrayAdapter<twitter4j.Status> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 
-		if(convertView == null){
-			convertView = mInflater.inflate(R.layout.list_item_tweet, null);
-		}
-
-
+		convertView = mInflater.inflate(R.layout.list_item_tweet, null);
 
 		Status item = getItem(position);
+		if(item.isRetweet()){
+			convertView = mInflater.inflate(R.layout.list_item_retweet, null);
+			TextView retweetname = (TextView) convertView.findViewById(R.id.retweetname);
+			retweetname.setText(item.getUser().getName() + "さんがリツイートしました");
+			item = item.getRetweetedStatus();
+		}
 		SmartImageView icon = (SmartImageView) convertView.findViewById(R.id.icon);
 		icon.setImageUrl(item.getUser().getProfileImageURL());
 		TextView name = (TextView) convertView.findViewById(R.id.name);
