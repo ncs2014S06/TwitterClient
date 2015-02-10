@@ -7,6 +7,7 @@ import twitter4j.User;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -66,6 +67,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 		//タイトルバーのカスタマイズ
 //		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.twitter_home);
+		setTitleColor(Color.GREEN);
 //		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);
 		mContext = getApplicationContext();
 		mHandler = new Handler();
