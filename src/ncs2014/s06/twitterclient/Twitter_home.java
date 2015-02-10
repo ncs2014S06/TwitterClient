@@ -293,6 +293,9 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 		// TODO 自動生成されたメソッド・スタブ
 		super.onActivityResult(requestCode, resultCode, data);
 		this.intent = data;
+		if(data == null){
+			Log.d("null", "data null");
+		}
 		// startActivityForResult()の際に指定した識別コードとの比較
 		if( requestCode == TWEET_DETAIL ){
 			// 返却結果ステータスとの比較
@@ -317,6 +320,9 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 		}
 		if(requestCode == ACCOUNT_CONTROL){
 			Log.d("AccountControl","return AccountControl");
+			if(intent == null){
+				Log.d("null", "intent null");
+			}
 			if(intent.getIntExtra("changeFlag", 0) != 0){
 				mTwitter = TwitterUtils.getTwitterInstance(mContext);
 				timeLine = new TimeLine(mContext,mHandler, tAdapter, swipeRefreshLayout);

@@ -203,6 +203,11 @@ public class Twitter_AccountControl extends Activity implements OnItemClickListe
 	@Override
 	protected void onNewIntent(Intent intent) {
 		this.intent = intent;
+		if(this.intent == null){
+			Log.d("null", "intent null++");
+		}else{
+			Log.d("null", "intent++あり");
+		}
 		String returnFlag = this.intent.getStringExtra("return");
 		if(returnFlag == "return"){
 			aAdapter.clear();
@@ -214,6 +219,12 @@ public class Twitter_AccountControl extends Activity implements OnItemClickListe
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if(keyCode==KeyEvent.KEYCODE_BACK){
 			intent.putExtra("changeFlag", changeFlag);
+			if(intent == null){
+				Log.d("null", "intent null+");
+			}else{
+				Log.d("null", "intent+あり");
+			}
+
 			setResult( Activity.RESULT_OK, intent );
 			// アクティビティを終了させる
 			finish();

@@ -13,7 +13,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 public class TwitterOAuthActivity extends Activity {
@@ -31,7 +30,9 @@ public class TwitterOAuthActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_twitter_oauth);
+		//setContentView(R.layout.activity_twitter_oauth);
+
+
 
 		if(intent == null){
 			intent = new Intent();
@@ -72,14 +73,14 @@ public class TwitterOAuthActivity extends Activity {
 			mTwitter = TwitterUtils.newTwitterInstance(this);
 		}
 
-
-		findViewById(R.id.action_start_oauth).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Log.v("OnClick", "Button was clicked.");
-				startAuthorize();
-			}
-		});
+		startAuthorize();
+	//	findViewById(R.id.action_start_oauth).setOnClickListener(new View.OnClickListener() {
+	//		@Override
+	//		public void onClick(View v) {
+	//			Log.v("OnClick", "Button was clicked.");
+	//			startAuthorize();
+	//		}
+	//	});
 	}
 
 	/**
