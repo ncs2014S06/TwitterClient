@@ -334,6 +334,42 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 	    switch (item.getItemId()) {
 	    case CONTEXT_MENU1_ID:
 	        //TODO:メニュー押下時の操作
+				AsyncTask<Void, Void, Integer> task = new AsyncTask<Void, Void, Integer>(){
+						@Override
+						protected Integer doInBackground(Void... params) {
+							flag = 0;
+							try {
+								mTwitter.destroyStatus(tweetId);
+								tweetStatus = mTwitter.showStatus(tweetId);
+							} catch (TwitterException e) {
+								// TODO 自動生成された catch ブロック
+								e.printStackTrace();
+								flag = 1;
+							}
+							return flag;
+						}
+						@Override
+						protected void onPostExecute(Integer result) {
+							// TODO 自動生成されたメソッド・スタブ
+							super.onPostExecute(result);
+							if(flag != 1){
+								showToast("削除しました。");
+							}else{
+								showToast("削除できませんでした。");
+							}
+						}
+					};
+				task.execute();
+
+				// intentへ添え字付で値を保持させる
+				intent.putExtra( "position", position );
+				intent.putExtra("tweetStatus", tweetStatus);
+				intent.putExtra("myUser", myUser);
+				intent.putExtra("otherUser", tweetUser);
+				// 返却したい結果ステータスをセットする
+				setResult( Activity.RESULT_OK, intent );
+				// アクティビティを終了
+				finish();
 	        return true;
 	    case CONTEXT_MENU2_ID:
 	        //TODO:メニュー押下時の操作

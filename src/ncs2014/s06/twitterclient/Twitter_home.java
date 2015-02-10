@@ -278,11 +278,13 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 		intent.putExtra("TweetStatus", item);
 		intent.putExtra("position", position);
 		startActivityForResult(intent,TWEET_DETAIL);
+
 	}
 
 	public void exchangeListItem(int position,Status status){
 		tAdapter.remove(tAdapter.getItem(position));
 		tAdapter.insert(status, position);
+		
 	}
 
 	@Override
