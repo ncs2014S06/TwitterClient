@@ -279,11 +279,13 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 		intent.putExtra("TweetStatus", item);
 		intent.putExtra("position", position);
 		startActivityForResult(intent,TWEET_DETAIL);
+
 	}
 
 	public void exchangeListItem(int position,Status status){
 		tAdapter.remove(tAdapter.getItem(position));
-		tAdapter.insert(status, position);
+		//tAdapter.insert(status, position);
+		tAdapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -301,7 +303,19 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 				Status tweetStatus = (Status) intent.getSerializableExtra("tweetStatus");
 				exchangeListItem(position, tweetStatus);
 			}
-		}if(requestCode == ACCOUNT_CONTROL){
+			Log.d("test","いｋｋｋｋｋｋｋｋｋｋｋｋｋｋっこ");
+
+			if( resultCode == 3){
+				// 返却されてきたintentから値を取り出す
+				Log.d("test","adsasdasdasdgfythht");
+				int position = intent.getIntExtra( "position", 0 );
+				myUser = (User) intent.getSerializableExtra("myUser");
+				Status tweetStatus = (Status) intent.getSerializableExtra("tweetStatus");
+				exchangeListItem(position, tweetStatus);
+			}
+
+		}
+		if(requestCode == ACCOUNT_CONTROL){
 			Log.d("AccountControl","return AccountControl");
 			if(intent.getIntExtra("changeFlag", 0) != 0){
 				mTwitter = TwitterUtils.getTwitterInstance(mContext);

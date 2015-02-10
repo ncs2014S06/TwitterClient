@@ -322,7 +322,9 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 	    //コンテキストメニューの設定
 	    menu.setHeaderTitle("メニュータイトル");
 	    //Menu.add(int groupId, int itemId, int order, CharSequence title)
-	    menu.add(0, CONTEXT_MENU1_ID, 0, "削除");
+	    if(tweetUser.getId() == myUser.getId()){
+	    	menu.add(0, CONTEXT_MENU1_ID, 0, "削除");
+	    }
 	    menu.add(0, CONTEXT_MENU2_ID, 0, "非公式RT");
 
 	}
@@ -334,7 +336,38 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 	    switch (item.getItemId()) {
 	    case CONTEXT_MENU1_ID:
 	        //TODO:メニュー押下時の操作
+				AsyncTask<Void, Void, Integer> task = new AsyncTask<Void, Void, Integer>(){
+						@Override
+						protected Integer doInBackground(Void... params) {
+							flag = 0;
+							try {
+								mTwitter.destroyStatus(tweetId);
+								tweetStatus = mTwitter.showStatus(tweetId);
+							} catch (TwitterException e) {
+								// TODO 自動生成された catch ブロック
+								e.printStackTrace();
+								flag = 1;
+							}
+							return flag;
+						}
+						@Override
+						protected void onPostExecute(Integer result) {
+							// TODO 自動生成されたメソッド・スタブ
+							super.onPostExecute(result);
+							if(flag == 1){
+								showToast("削除しました。");
+							}else{
+								showToast("削除できませんでした。");
+							}
+							intent.putExtra( "position", position );
+							setResult( 3, intent );
+							finish();
+						}
+					};
+				task.execute();
+
 	        return true;
+
 	    case CONTEXT_MENU2_ID:
 	        //TODO:メニュー押下時の操作
 	        return true;
