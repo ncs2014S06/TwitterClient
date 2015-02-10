@@ -9,4 +9,9 @@
 		<item name="android:background">#90EE90</item>
 	</style>
 
+    <style name="CustomTheme" parent="android:Theme">
+        	<item name="android:windowTitleSize">45dp</item>
+        	<item name="android:windowTitleBackgroundStyle">@null</item>
+    </style>
+
 </resources>
