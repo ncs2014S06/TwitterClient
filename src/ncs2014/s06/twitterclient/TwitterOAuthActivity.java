@@ -33,18 +33,22 @@ public class TwitterOAuthActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_twitter_oauth);
 
-		//test
-		if(getIntent().getData() == null){
-			Log.d("Component","Data Null!");
-		}else{
-			Log.d("Conponent","起動！");
-		}
-		//test
-
 		if(intent == null){
 			intent = new Intent();
 		}
 		cName = getCallingActivity();
+
+		//test
+				if(getIntent().getData() == null){
+					Log.d("Component","Data Null!");
+				}else{
+					Log.d("Conponent","Data有り");
+					if(cName == null){
+						cName = new ComponentName("aaa", "aaa");
+					}
+				}
+				//test
+
 		if(cName != null){
 
 			Log.d("Component",Twitter_AccountControl.class.getName());
@@ -169,7 +173,10 @@ public class TwitterOAuthActivity extends Activity {
 			intent.setClass(mContext, Twitter_home.class);
 			startActivity(intent);
 		}else{
-			setResult(Activity.RESULT_OK,intent);
+			//setResult(Activity.RESULT_OK,intent);
+			intent.setClass(mContext, Twitter_AccountControl.class);
+			intent.putExtra("return", "return");
+			startActivity(intent);
 		}
 		finish();
 	}

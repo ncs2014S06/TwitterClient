@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,6 +38,8 @@ public class Twitter_AccountControl extends Activity implements OnItemClickListe
 	private DBAdapter dbAdapter;
 	private accountAdapter aAdapter;
 	private Cursor cursor;
+	private int changeFlag = 0;
+	private final static int CHANGE = 1;
 	private final static int OAUTH_ACTIVITY = 1001;
 
 	private ListView list;
@@ -141,7 +144,6 @@ public class Twitter_AccountControl extends Activity implements OnItemClickListe
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO 自動生成されたメソッド・スタブ
 		super.onActivityResult(requestCode, resultCode, data);
 		this.intent = data;
 		// startActivityForResult()の際に指定した識別コードとの比較
@@ -177,6 +179,8 @@ public class Twitter_AccountControl extends Activity implements OnItemClickListe
 					AccessToken at = new AccessToken(accessToken, accessTokenSecret);
 					TwitterUtils.storeAccessToken(mContext, at);
 					mTwitter = TwitterUtils.getTwitterInstance(mContext);
+					changeFlag = CHANGE;
+					intent.putExtra("changeFlag", changeFlag);
 					setResult( Activity.RESULT_OK, intent );
 					finish();
 				}
@@ -188,8 +192,34 @@ public class Twitter_AccountControl extends Activity implements OnItemClickListe
 
 	@Override
 	public void onClick(View v) {
-		intent.setClass(this, TwitterOAuthActivity.class);
-		intent.setData(Uri.parse(""));
-		startActivityForResult(intent,OAUTH_ACTIVITY);
+		if(v == addButon){
+			intent.setClass(this, TwitterOAuthActivity.class);
+			intent.setData(Uri.parse(""));
+			startActivityForResult(intent,OAUTH_ACTIVITY);
+			finish();
+		}
 	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		this.intent = intent;
+		String returnFlag = this.intent.getStringExtra("return");
+		if(returnFlag == "return"){
+			aAdapter.clear();
+			showAccount();
+		}
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if(keyCode==KeyEvent.KEYCODE_BACK){
+			intent.putExtra("changeFlag", changeFlag);
+			setResult( Activity.RESULT_OK, intent );
+			// アクティビティを終了させる
+			finish();
+			return true;
+		}
+			return false;
+	}
+
 }
