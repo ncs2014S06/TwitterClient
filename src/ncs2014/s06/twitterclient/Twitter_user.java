@@ -76,7 +76,7 @@ public class Twitter_user extends Activity implements OnClickListener {
 		follower = (Button) findViewById(R.id.follower);
 		fav = (Button) findViewById(R.id.fav);
 		createFollowBt = (Button) findViewById(R.id.create_follow_bt);
-		bt_menu_time = (Button) findViewById(R.id.bt_menu_time);
+		//bt_menu_time = (Button) findViewById(R.id.bt_menu_time);
 
 		text_username = (TextView) findViewById(R.id.text_username);
 		text_userfrom = (TextView) findViewById(R.id.text_userfrom);
@@ -86,7 +86,7 @@ public class Twitter_user extends Activity implements OnClickListener {
 		backImage = (SmartImageView) findViewById(R.id.backimage);
 
 		//リスナー
-		bt_menu_time.setOnClickListener(this);
+		//bt_menu_time.setOnClickListener(this);
 
 		myTweet.setOnClickListener(this);
 		follow.setOnClickListener(this);
@@ -257,12 +257,13 @@ public class Twitter_user extends Activity implements OnClickListener {
 			startActivity(intent);
 			overridePendingTransition(R.anim.right_in, R.anim.left_out);
 		}//if
-
+		/*
 		if(v == bt_menu_time){
 			intent.setClass(getApplicationContext(), Twitter_home.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.right_in, R.anim.left_out);
 		}//if
+		 */
 	}
 
 	public void userStatusGet(){

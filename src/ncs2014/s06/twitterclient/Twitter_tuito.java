@@ -33,7 +33,7 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 	private SmartImageView view;
 	private Button tweet;
 	private Button imageTweet;
-	private Button bt_menu_time;
+	//private Button bt_menu_time;
 	private TextView tv_username;
 	private String replyScreenName;
 
@@ -47,7 +47,7 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.twitter_tweet);
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_tuito);
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_tweet);
 
 		mTwitter = TwitterUtils.getTwitterInstance(this);
 		ImageGet ig = new ImageGet(mTwitter);
@@ -106,8 +106,8 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 		};
 		task.execute();
 
-		bt_menu_time = (Button) findViewById(R.id.bt_menu_time);
-		bt_menu_time.setOnClickListener(this);
+		//bt_menu_time = (Button) findViewById(R.id.bt_menu_time);
+		//bt_menu_time.setOnClickListener(this);
 	}
 
 	private void tweet() {
@@ -196,11 +196,13 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 			startActivityForResult(intent, REQUEST_PICK);
 		}
 
+		/*
 		if(v == bt_menu_time){
 			intent.setClass(getApplicationContext(), Twitter_home.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.left_in, R.anim.right_out);
 		}//if
+		*/
 
 	}
 }
