@@ -7,7 +7,6 @@ import twitter4j.User;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,6 +19,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
@@ -56,6 +56,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	private ImageButton bt_menu;
 	private Button bt_menu_user;
 	private Button bt_menu_tweet;
+	private Button bt_title_menu;
 	private TextView title;
 	private ListView list;
 
@@ -65,10 +66,9 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//タイトルバーのカスタマイズ
-//		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+	    requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.twitter_home);
-		setTitleColor(Color.WHITE);
-//		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);
 		mContext = getApplicationContext();
 		mHandler = new Handler();
 
@@ -77,6 +77,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 		bt_tuito = (ImageButton) findViewById(R.id.bt_retweet);
 		bt_user = (ImageButton) findViewById(R.id.bt_fav);
 		bt_dm = (ImageButton) findViewById(R.id.bt_more);
+		bt_title_menu = (Button)findViewById(R.id.bt_title);
 //		bt_menu_user = (Button) findViewById(R.id.bt_menu_user);
 //		bt_menu_tweet = (Button) findViewById(R.id.bt_menu_tweet);
 		swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
@@ -87,6 +88,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 		bt_tuito.setOnClickListener(this);
 		bt_user.setOnClickListener(this);
 		bt_dm.setOnClickListener(this);
+		bt_title_menu.setOnClickListener(this);
 //		bt_menu_user.setOnClickListener(this);
 //		bt_menu_tweet.setOnClickListener(this);
 		list.setOnItemClickListener(this);
@@ -228,6 +230,10 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 		}//if
 
 		if(v == bt_menu){
+			openOptionsMenu();
+		}//if
+
+		if(v == bt_title_menu){
 			openOptionsMenu();
 		}//if
 
