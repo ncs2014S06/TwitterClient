@@ -157,7 +157,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 
 		case R.id.menu_dm:
 
-			intent.setClass(mContext, Twitter_dm_list.class);
+			intent.setClass(mContext, Twitter_Client_DM.class);
 			startActivity(intent);
 			return true;
 
@@ -232,9 +232,10 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 			overridePendingTransition(R.anim.right_in, R.anim.left_out);
 		}//if
 
-		if(v == bt_menu){
+		/*if(v == bt_menu){
 			openOptionsMenu();
 		}//if
+		*/
 
 		if(v == bt_title_menu){
 			openOptionsMenu();

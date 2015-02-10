@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
@@ -51,10 +52,14 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+		setContentView(R.layout.twitter_dmlist);
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_dm);
+
+
 		intent = getIntent();
 		myUser = (User) intent.getSerializableExtra("myUser");
 		Log.d("test",myUser.toString());
-		setContentView(R.layout.twitter_dmlist);
 		//findViewById
 		list = (ListView) findViewById(R.id.dmlist);
 		dm_receive_button = (Button) findViewById(R.id.dm_receive_button);

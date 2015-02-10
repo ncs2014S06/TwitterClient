@@ -15,7 +15,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="30"
-                android:text="ユーザ設定"
+                android:text="DM画面"
                 android:textColor="@android:color/white"
                 android:textSize="28dp" />
 
