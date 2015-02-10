@@ -32,18 +32,33 @@ public class TwitterOAuthActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_twitter_oauth);
+
 		if(intent == null){
 			intent = new Intent();
 		}
 		cName = getCallingActivity();
+
+		//test
+				if(getIntent().getData() == null){
+					Log.d("Component","Data Null!");
+				}else{
+					Log.d("Conponent","Data有り");
+					if(cName == null){
+						cName = new ComponentName("aaa", "aaa");
+					}
+				}
+				//test
+
 		if(cName != null){
 
 			Log.d("Component",Twitter_AccountControl.class.getName());
-			Log.d("Component",getCallingActivity().getClassName());
+			Log.d("Component",cName.getClassName());
 		//	 ncs2014.s06.twitterclient.Twitter_AccountControl
 		}else{
 			Log.d("Component","Null!");
 		}
+
+
 		mContext = getApplicationContext();
 
 		//DB作成
@@ -158,7 +173,10 @@ public class TwitterOAuthActivity extends Activity {
 			intent.setClass(mContext, Twitter_home.class);
 			startActivity(intent);
 		}else{
-			setResult(Activity.RESULT_OK,intent);
+			//setResult(Activity.RESULT_OK,intent);
+			intent.setClass(mContext, Twitter_AccountControl.class);
+			intent.putExtra("return", "return");
+			startActivity(intent);
 		}
 		finish();
 	}

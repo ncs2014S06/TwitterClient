@@ -144,7 +144,6 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 
 		switch (item.getItemId()) {
 		case R.id.menu_tuito:
-
 			intent.setClass(mContext, Twitter_tuito.class);
 			startActivity(intent);
 			return true;
@@ -304,9 +303,11 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 			}
 		}if(requestCode == ACCOUNT_CONTROL){
 			Log.d("AccountControl","return AccountControl");
-			mTwitter = TwitterUtils.getTwitterInstance(mContext);
-			timeLine = new TimeLine(mContext,mHandler, tAdapter, swipeRefreshLayout);
-			timeLine.reloadTimeLine(paging,0);
+			if(intent.getIntExtra("changeFlag", 0) != 0){
+				mTwitter = TwitterUtils.getTwitterInstance(mContext);
+				timeLine = new TimeLine(mContext,mHandler, tAdapter, swipeRefreshLayout);
+				timeLine.reloadTimeLine(paging,0);
+			}
 		}
 	}
 }
