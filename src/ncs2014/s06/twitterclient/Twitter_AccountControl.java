@@ -146,6 +146,11 @@ public class Twitter_AccountControl extends Activity implements OnItemClickListe
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		this.intent = data;
+		if(this.intent == null){
+			Log.d("null", "intent null+++");
+		}else{
+			Log.d("null", "intent+++あり");
+		}
 		// startActivityForResult()の際に指定した識別コードとの比較
 		if( requestCode == OAUTH_ACTIVITY ){
 			// 返却結果ステータスとの比較
