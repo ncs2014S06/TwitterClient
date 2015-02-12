@@ -2,20 +2,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_weight="1"
+    android:background="#eeeeee"
     android:fillViewport="true" >
 
 <RelativeLayout
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-
-     >
+    android:background="#eeeeee" >
 
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical"
-         android:background="#87CEFA" >
+        android:background="#eeeeee"
+        android:orientation="vertical" >
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -31,13 +31,15 @@
                 android:id="@+id/tweet_detail_absolutetime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="From." />
+                android:text="From."
+                android:textColor="#202020" />
 
             <TextView
                 android:id="@+id/dm_fromname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="#202020" />
 
         </LinearLayout>
 
@@ -45,19 +47,22 @@
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="本文" />
+            android:text="本文"
+            android:textColor="#202020" />
 
         <TextView
             android:id="@+id/dm_receivemessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textColor="#202020" />
 
         <TextView
             android:id="@+id/thorixer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="------------" />
+            android:text="------------"
+            android:textColor="#202020" />
 
         <EditText
             android:id="@+id/dm_sendmessage"
@@ -66,7 +71,8 @@
             android:layout_marginBottom="8dp"
             android:layout_weight="1.82"
             android:gravity="left|top"
-            android:inputType="textMultiLine" >
+            android:inputType="textMultiLine"
+            android:textColorLink="#202020" >
 
             <requestFocus/>
            </EditText>
