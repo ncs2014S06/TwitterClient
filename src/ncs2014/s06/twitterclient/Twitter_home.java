@@ -154,7 +154,8 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 
 		case R.id.menu_dm:
 
-			intent.setClass(mContext, Twitter_dm_list.class);
+			intent.setClass(mContext, Twitter_Client_DM
+					.class);
 			startActivity(intent);
 			return true;
 
