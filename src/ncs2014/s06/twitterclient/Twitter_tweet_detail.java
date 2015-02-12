@@ -12,6 +12,7 @@ import twitter4j.TwitterException;
 import twitter4j.URLEntity;
 import twitter4j.User;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -39,6 +40,7 @@ import com.loopj.android.image.SmartImageView;
 
 public class Twitter_tweet_detail extends Activity implements OnClickListener{
 	private Twitter mTwitter;
+	private Context mContext;
 	private Status tweetStatus;
 	private User tweetUser;
 	private long tweetId;
@@ -59,8 +61,9 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 	private TextView tweet_detail_userId;
 	private TextView tweet_detail_absoluteTime;
 	private TextView tweet_detail_tweet;
-	static final int CONTEXT_MENU1_ID = 0;
-	static final int CONTEXT_MENU2_ID = 1;
+	private TextView retweetUserName;
+	static final int TWEETDELETE = 0;
+	static final int INFORMALRETWEET = 1;
 
 	//button
 	private ImageButton bt_reply;
@@ -72,7 +75,14 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO 自動生成されたメソッド・スタブ
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.twitter_tweet_detail);
+		intent = getIntent();
+		tweetStatus = (Status) intent.getSerializableExtra("TweetStatus");
+		if(!tweetStatus.isRetweet()){
+			setContentView(R.layout.twitter_tweet_detail);
+		}else{
+			setContentView(R.layout.twitter_retweet_detail);
+			retweetUserName = (TextView) findViewById(R.id.retweet_detail_retweetuser);
+		}
 		View view = this.getLayoutInflater().inflate(R.layout.twitter_twwet_detail_botans, null);
 		RelativeLayout.LayoutParams lllp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
 		addContentView(view, lllp);
@@ -102,10 +112,8 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 			startActivity(intent);
 			finish();
 		}
-
+		mContext = getApplicationContext();
 		mTwitter = TwitterUtils.getTwitterInstance(this);
-		intent = getIntent();
-		tweetStatus = (Status) intent.getSerializableExtra("TweetStatus");
 		myUser = (User) intent.getSerializableExtra("myUser");
 		intent.putExtra("myUser", myUser);
 		tweetUser = tweetStatus.getUser();
@@ -119,12 +127,23 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 
 
 	private void showTweet(){
-
-		tweet_detail_userIcon.setImageUrl(tweetUser.getProfileImageURL());
-		tweet_detail_userName.setText(tweetUser.getName());
-		tweet_detail_userId.setText("@"+ tweetUser.getScreenName());
-		tweet_detail_absoluteTime.setText(tweetStatus.getCreatedAt().toString());
-		String tweet = tweetStatus.getText();
+		String tweet;
+		if(tweetStatus.isRetweet()){
+			Status retweetStatus = tweetStatus.getRetweetedStatus();
+			User retweetUser = retweetStatus.getUser();
+			tweet_detail_userIcon.setImageUrl(retweetUser.getProfileImageURL());
+			tweet_detail_userName.setText(retweetUser.getName());
+			tweet_detail_userId.setText("@"+ retweetUser.getScreenName());
+			tweet_detail_absoluteTime.setText(retweetStatus.getCreatedAt().toString());
+			retweetUserName.setText(tweetUser.getName() + "さんがリツイートしました");
+			tweet = retweetStatus.getText();
+		}else{
+			tweet_detail_userIcon.setImageUrl(tweetUser.getProfileImageURL());
+			tweet_detail_userName.setText(tweetUser.getName());
+			tweet_detail_userId.setText("@"+ tweetUser.getScreenName());
+			tweet_detail_absoluteTime.setText(tweetStatus.getCreatedAt().toString());
+			tweet = tweetStatus.getText();
+		}
 
 		ArrayList<String> LinkArray = new ArrayList<String>(); //リンク変更予定URL配列
 
@@ -214,7 +233,12 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 		}
 		//リプライ
 		if(v == bt_reply){
-			String screenName = tweetStatus.getUser().getScreenName();
+			String screenName;
+			if(tweetStatus.isRetweet()){
+				screenName = tweetStatus.getRetweetedStatus().getUser().getScreenName();
+			}else{
+				screenName = tweetStatus.getUser().getScreenName();
+			}
 			intent.setClass(getApplicationContext(), Twitter_tuito.class);
 			intent.putExtra("screenName", screenName);
 			startActivity(intent);
@@ -317,25 +341,25 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 
-	    super.onCreateContextMenu(menu, v, menuInfo);
+		super.onCreateContextMenu(menu, v, menuInfo);
 
-	    //コンテキストメニューの設定
-	    menu.setHeaderTitle("メニュータイトル");
-	    //Menu.add(int groupId, int itemId, int order, CharSequence title)
-	    if(tweetUser.getId() == myUser.getId()){
-	    	menu.add(0, CONTEXT_MENU1_ID, 0, "削除");
-	    }
-	    menu.add(0, CONTEXT_MENU2_ID, 0, "非公式RT");
+		//コンテキストメニューの設定
+		menu.setHeaderTitle("メニュータイトル");
+		//Menu.add(int groupId, int itemId, int order, CharSequence title)
+		if(tweetUser.getId() == myUser.getId()){
+			menu.add(0, TWEETDELETE, 0, "削除");
+		}
+		menu.add(0, INFORMALRETWEET, 0, "非公式RT");
 
 	}
 
 	public boolean onContextItemSelected(MenuItem item) {
 
-	    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 
-	    switch (item.getItemId()) {
-	    case CONTEXT_MENU1_ID:
-	        //TODO:メニュー押下時の操作
+		switch (item.getItemId()) {
+		case TWEETDELETE:
+			//TODO:メニュー押下時の操作
 				AsyncTask<Void, Void, Integer> task = new AsyncTask<Void, Void, Integer>(){
 						@Override
 						protected Integer doInBackground(Void... params) {
@@ -366,14 +390,17 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 					};
 				task.execute();
 
-	        return true;
+			return true;
 
-	    case CONTEXT_MENU2_ID:
-	        //TODO:メニュー押下時の操作
-	        return true;
-	    default:
-	        return super.onContextItemSelected(item);
-	    }
+		case INFORMALRETWEET:
+			//TODO:メニュー押下時の操作
+			intent.putExtra("rtStatus", tweetStatus);
+			intent.setClass(mContext, Twitter_tuito.class);
+			startActivity(intent);
+			return true;
+		default:
+			return super.onContextItemSelected(item);
+		}
 	}
 
 }

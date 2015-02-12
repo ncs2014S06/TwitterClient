@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical" >
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#EEEEEE"
+    android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="#696969" >
+
+        android:background="#EEEEEE" >
 
         <com.loopj.android.image.SmartImageView
             android:id="@+id/dm_detail_usericon"
@@ -25,13 +26,15 @@
                 android:id="@+id/tweet_detail_username_dm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="#202020" />
 
             <TextView
                 android:id="@+id/tweet_detail_userid_dm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="#202020" />
 
         </LinearLayout>
 
@@ -39,7 +42,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:background="#EEEEEE" >
 
         <TextView
             android:id="@+id/tweet_detail_absolutetime_dm"
@@ -47,7 +51,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:gravity="end"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textColor="#202020" />
 
     </LinearLayout>
 
@@ -55,6 +60,7 @@
         android:id="@+id/tweet_detail_tweet_dm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="TextView"
+        android:textColor="#202020" />
 
 </LinearLayout>

@@ -7,7 +7,9 @@
         android:id="@+id/twitter_lists_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1" >
+        android:layout_weight="1"
+        android:background="#eeeeee" >
+
     </ListView>
 
 </LinearLayout>

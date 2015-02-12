@@ -1,6 +1,7 @@
 package ncs2014.s06.twitterclient;
 import java.io.File;
 
+import twitter4j.Status;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -28,12 +29,14 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 
 	private  static int REQUEST_PICK = 1;
 
+	private Status status;
+
 	private EditText mInputText;
 	private Twitter mTwitter;
 	private SmartImageView view;
 	private Button tweet;
 	private Button imageTweet;
-	//private Button bt_menu_time;
+	private Button bt_menu_time;
 	private TextView tv_username;
 	private String replyScreenName;
 
@@ -47,6 +50,7 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.twitter_tweet);
+	//	getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_tuito);
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_tweet);
 
 		mTwitter = TwitterUtils.getTwitterInstance(this);
@@ -73,6 +77,7 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 		mTwitter = TwitterUtils.getTwitterInstance(this);
 
 		intent = getIntent();
+		status = (Status) intent.getSerializableExtra("rtStatus");
 		replyScreenName = intent.getStringExtra("screenName");
 		if(replyScreenName != null){
 			Log.d("test",replyScreenName);
@@ -106,8 +111,14 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 		};
 		task.execute();
 
-		//bt_menu_time = (Button) findViewById(R.id.bt_menu_time);
-		//bt_menu_time.setOnClickListener(this);
+	//	bt_menu_time = (Button) findViewById(R.id.bt_menu_time);
+	//	bt_menu_time.setOnClickListener(this);
+		if(status != null){
+			mInputText.setText("RT @" + status.getUser().getScreenName() + ": " + status.getText());
+			Log.d("null",status.getText());
+		}else{
+			Log.d("null", "status null");
+		}
 	}
 
 	private void tweet() {
@@ -190,19 +201,18 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 	public void onClick(View v) {
 		if(v == tweet){
 			tweet();
+			intent.removeExtra("rtStatus");
 		}else{
 			Intent intent = new Intent(Intent.ACTION_PICK);
 			intent.setType("image/*");
 			startActivityForResult(intent, REQUEST_PICK);
 		}
 
-		/*
 		if(v == bt_menu_time){
 			intent.setClass(getApplicationContext(), Twitter_home.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.left_in, R.anim.right_out);
 		}//if
-		*/
 
 	}
 }
