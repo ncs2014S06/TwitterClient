@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:background="@android:color/white"
-	android:padding="8dp" >
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#EEEEEE"
+    android:padding="8dp" >
 
 	<com.loopj.android.image.SmartImageView
 		android:id="@+id/icon"
@@ -34,12 +34,12 @@
 		android:text="\uFF20gabu" />
 
 	<TextView
-		android:id="@+id/text"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_alignLeft="@+id/name"
-		android:layout_below="@+id/name"
-		android:textColor="#1a1a1a"
-		android:text="本文本文本文本文本文本文本文本文本文本文" />
+	    android:id="@+id/text"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignLeft="@+id/name"
+	    android:layout_below="@+id/name"
+	    android:text="本文本文本文本文本文本文本文本文本文本文"
+	    android:textColor="#202020" />
 
 </RelativeLayout>

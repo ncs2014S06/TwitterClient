@@ -61,6 +61,7 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 	private TextView tweet_detail_userId;
 	private TextView tweet_detail_absoluteTime;
 	private TextView tweet_detail_tweet;
+	private TextView retweetUserName;
 	static final int TWEETDELETE = 0;
 	static final int INFORMALRETWEET = 1;
 
@@ -74,7 +75,14 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO 自動生成されたメソッド・スタブ
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.twitter_tweet_detail);
+		intent = getIntent();
+		tweetStatus = (Status) intent.getSerializableExtra("TweetStatus");
+		if(!tweetStatus.isRetweet()){
+			setContentView(R.layout.twitter_tweet_detail);
+		}else{
+			setContentView(R.layout.twitter_retweet_detail);
+			retweetUserName = (TextView) findViewById(R.id.retweet_detail_retweetuser);
+		}
 		View view = this.getLayoutInflater().inflate(R.layout.twitter_twwet_detail_botans, null);
 		RelativeLayout.LayoutParams lllp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
 		addContentView(view, lllp);
@@ -106,8 +114,6 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 		}
 		mContext = getApplicationContext();
 		mTwitter = TwitterUtils.getTwitterInstance(this);
-		intent = getIntent();
-		tweetStatus = (Status) intent.getSerializableExtra("TweetStatus");
 		myUser = (User) intent.getSerializableExtra("myUser");
 		intent.putExtra("myUser", myUser);
 		tweetUser = tweetStatus.getUser();
@@ -121,12 +127,23 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 
 
 	private void showTweet(){
-
-		tweet_detail_userIcon.setImageUrl(tweetUser.getProfileImageURL());
-		tweet_detail_userName.setText(tweetUser.getName());
-		tweet_detail_userId.setText("@"+ tweetUser.getScreenName());
-		tweet_detail_absoluteTime.setText(tweetStatus.getCreatedAt().toString());
-		String tweet = tweetStatus.getText();
+		String tweet;
+		if(tweetStatus.isRetweet()){
+			Status retweetStatus = tweetStatus.getRetweetedStatus();
+			User retweetUser = retweetStatus.getUser();
+			tweet_detail_userIcon.setImageUrl(retweetUser.getProfileImageURL());
+			tweet_detail_userName.setText(retweetUser.getName());
+			tweet_detail_userId.setText("@"+ retweetUser.getScreenName());
+			tweet_detail_absoluteTime.setText(retweetStatus.getCreatedAt().toString());
+			retweetUserName.setText(tweetUser.getName() + "さんがリツイートしました");
+			tweet = retweetStatus.getText();
+		}else{
+			tweet_detail_userIcon.setImageUrl(tweetUser.getProfileImageURL());
+			tweet_detail_userName.setText(tweetUser.getName());
+			tweet_detail_userId.setText("@"+ tweetUser.getScreenName());
+			tweet_detail_absoluteTime.setText(tweetStatus.getCreatedAt().toString());
+			tweet = tweetStatus.getText();
+		}
 
 		ArrayList<String> LinkArray = new ArrayList<String>(); //リンク変更予定URL配列
 
@@ -216,7 +233,12 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 		}
 		//リプライ
 		if(v == bt_reply){
-			String screenName = tweetStatus.getUser().getScreenName();
+			String screenName;
+			if(tweetStatus.isRetweet()){
+				screenName = tweetStatus.getRetweetedStatus().getUser().getScreenName();
+			}else{
+				screenName = tweetStatus.getUser().getScreenName();
+			}
 			intent.setClass(getApplicationContext(), Twitter_tuito.class);
 			intent.putExtra("screenName", screenName);
 			startActivity(intent);
