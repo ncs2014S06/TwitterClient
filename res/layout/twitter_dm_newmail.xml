@@ -57,6 +57,7 @@
             android:ems="10"
             android:gravity="left|top"
             android:inputType="textMultiLine"
+            android:textColor="#202020"
             android:textColorHint="#202020" />
 
         <Button
