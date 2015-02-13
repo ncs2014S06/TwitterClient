@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:background="@android:color/white"
-	android:padding="8dp" >
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#eeeeee"
+    android:padding="8dp" >
 
 	<TextView
 	    android:id="@+id/list_name"
@@ -11,7 +11,7 @@
 	    android:layout_height="wrap_content"
 	    android:layout_marginLeft="8dp"
 	    android:text="リスト名"
-	    android:textColor="#000000" />
+	    android:textColor="#202020" />
 
 	<TextView
 	    android:id="@+id/list_text"
@@ -20,6 +20,6 @@
 	    android:layout_alignLeft="@+id/list_name"
 	    android:layout_below="@+id/list_name"
 	    android:text=""
-	    android:textColor="#000000" />
+	    android:textColor="#202020" />
 
 </RelativeLayout>

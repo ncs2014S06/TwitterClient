@@ -2,12 +2,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="1"
-    android:background="#303030"
+    android:background="#EEEEEE"
     android:fillViewport="true" >
 
 <RelativeLayout
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:background="#EEEEEE" >
 
     <EditText
         android:id="@+id/dm_sendmessage"
@@ -16,11 +17,11 @@
         android:layout_above="@+id/action_tweet"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/linearLayout1"
-        android:background="#404040"
+        android:background="#EEEEEE"
         android:ems="10"
         android:gravity="left|top"
         android:inputType="textMultiLine"
-        android:textColor="#EEEEEE" >
+        android:textColor="#202020" >
 
         <requestFocus />
     </EditText>
@@ -31,7 +32,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/image_plus" >
+        android:layout_toLeftOf="@+id/image_plus"
+        android:background="#EEEEEE" >
 
         <com.loopj.android.image.SmartImageView
             android:id="@+id/icon"

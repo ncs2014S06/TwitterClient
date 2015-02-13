@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+     xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
     android:orientation="vertical"
     android:scrollbars="vertical"
+    android:background="#EEEEEE"
         >
+
 <LinearLayout
     android:id="@+id/tweet_detail_LinearLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-	android:orientation="vertical"
-	 >
+    android:layout_width="fill_parent"
+    android:layout_height="420dp"
+    android:background="#EEEEEE"
+    android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="#696969" >
+        android:background="#EEEEEE" >
 
         <com.loopj.android.image.SmartImageView
             android:id="@+id/tweet_detail_usericon"
@@ -33,13 +36,15 @@
                 android:id="@+id/tweet_detail_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="#202020" />
 
             <TextView
                 android:id="@+id/tweet_detail_userid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="#202020" />
 
         </LinearLayout>
 
@@ -47,7 +52,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:background="#EEEEEE" >
 
         <TextView
             android:id="@+id/tweet_detail_absolutetime"
@@ -55,7 +61,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:gravity="end"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textColor="#202020"
+            android:textColorHint="#202020" />
 
     </LinearLayout>
 
@@ -63,7 +71,8 @@
         android:id="@+id/tweet_detail_tweet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="TextView"
+        android:textColor="#202020" />
 
 </LinearLayout>
 </ScrollView>

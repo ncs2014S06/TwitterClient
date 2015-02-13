@@ -162,7 +162,6 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 		public TweetAdapter(Context context) {
 			super(context, android.R.layout.simple_list_item_1);
 			mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-
 		}
 
 		public View getView(int position, View convertView, ViewGroup parent) {
@@ -197,7 +196,6 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 			text.setText(item.getText());
 			return convertView;
 		}
-
 	}//TweetAdapter
 
 	public void onScroll(AbsListView view, int iTop,int iVisible, int iTotal) {

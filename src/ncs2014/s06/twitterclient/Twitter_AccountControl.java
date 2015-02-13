@@ -146,6 +146,11 @@ public class Twitter_AccountControl extends Activity implements OnItemClickListe
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		this.intent = data;
+		if(this.intent == null){
+			Log.d("null", "intent null+++");
+		}else{
+			Log.d("null", "intent+++あり");
+		}
 		// startActivityForResult()の際に指定した識別コードとの比較
 		if( requestCode == OAUTH_ACTIVITY ){
 			// 返却結果ステータスとの比較
@@ -203,6 +208,11 @@ public class Twitter_AccountControl extends Activity implements OnItemClickListe
 	@Override
 	protected void onNewIntent(Intent intent) {
 		this.intent = intent;
+		if(this.intent == null){
+			Log.d("null", "intent null++");
+		}else{
+			Log.d("null", "intent++あり");
+		}
 		String returnFlag = this.intent.getStringExtra("return");
 		if(returnFlag == "return"){
 			aAdapter.clear();
@@ -214,6 +224,12 @@ public class Twitter_AccountControl extends Activity implements OnItemClickListe
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if(keyCode==KeyEvent.KEYCODE_BACK){
 			intent.putExtra("changeFlag", changeFlag);
+			if(intent == null){
+				Log.d("null", "intent null+");
+			}else{
+				Log.d("null", "intent+あり");
+			}
+
 			setResult( Activity.RESULT_OK, intent );
 			// アクティビティを終了させる
 			finish();
