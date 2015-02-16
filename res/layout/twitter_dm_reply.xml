@@ -72,6 +72,7 @@
             android:layout_weight="1.82"
             android:gravity="left|top"
             android:inputType="textMultiLine"
+            android:textColor="#202020"
             android:textColorLink="#202020" >
 
             <requestFocus/>

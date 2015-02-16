@@ -13,6 +13,8 @@ import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -45,6 +47,10 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	private User myUser;
 	private Handler mHandler;
 	private Context mContext;
+	private GestureDetector mGestureDetector;
+	private static final int SWIPE_MIN_DISTANCE = 120;
+	private static final int SWIPE_MAX_OFF_PATH = 250;
+	private static final int SWIPE_THRESHOLD_VELOCITY = 200;
 
 
 
@@ -66,11 +72,12 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//タイトルバーのカスタマイズ
-	    requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.twitter_home);
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);
 		mContext = getApplicationContext();
 		mHandler = new Handler();
+		mGestureDetector = new GestureDetector(mContext,mOnGestureListener);
 
 		//findview
 		bt_update = (ImageButton) findViewById(R.id.bt_reply);
@@ -136,6 +143,41 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	private void showToast(String text) {
 		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
 	}
+
+
+	//横スワイプ処理
+	private final SimpleOnGestureListener mOnGestureListener = new SimpleOnGestureListener() {
+		@Override
+		public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
+
+			try {
+
+				if (Math.abs(event1.getY() - event2.getY()) > SWIPE_MAX_OFF_PATH) {
+					// 縦の移動距離が大きすぎる場合は無視
+					return false;
+				}
+
+				if (event1.getX() - event2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+					// 開始位置から終了位置の移動距離が指定値より大きい
+					// X軸の移動速度が指定値より大きい
+					showToast("右から左");
+
+				} else if (event2.getX() - event1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+					// 終了位置から開始位置の移動距離が指定値より大きい
+					// X軸の移動速度が指定値より大きい
+					intent.setClass(mContext, Twitter_user.class);
+					Log.d("test", intent.getSerializableExtra("myUser").toString());
+					startActivity(intent);
+					overridePendingTransition(R.anim.left_in, R.anim.right_out);
+				}
+
+			} catch (Exception e) {
+				// nothing
+			}
+			return false;
+		}
+	};
+
 
 	/**
 	 *  メニュー
@@ -203,7 +245,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	 */
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		 return true;
+		return mGestureDetector.onTouchEvent(event);
 	}
 
 	@Override
@@ -340,4 +382,5 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 			}
 		}
 	}
+
 }
