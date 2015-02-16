@@ -1,3 +1,11 @@
 <resources>
-    	<color name="custom_theme_color">#FFFFFF00</color>
+	<color name="custom_theme_color">#FFFFFF00</color>
+	<color name="background_color">#EEEEEE</color>
+	<color name="default_text_color">#202020</color>
+	<color name="taitl_text_color">#EEEEEE</color>
+	<color name="taitl_background_color">#90EE90</color>
+	<color name="default_name_color">#1E90FF</color>
+	<color name="default_screen_name_color">#00BFFF</color>
+	<color name="filter_gray_color">#808080</color>
+
 </resources>

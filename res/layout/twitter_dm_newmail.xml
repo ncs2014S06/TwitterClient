@@ -2,8 +2,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_weight="1"
-    android:fillViewport="true"
-    android:background="#EEEEEE">
+    android:background="@color/background_color"
+    android:fillViewport="true" >
 
 <RelativeLayout
     android:layout_width="fill_parent"
@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="To."
-                android:textColor="#202020"
+                android:textColor="@color/default_text_color"
                 android:textColorHint="#202020" />
 
             <EditText
@@ -44,7 +44,7 @@
                 android:layout_marginLeft="40dp"
                 android:layout_weight="0.42"
                 android:ems="10"
-                android:textColor="#202020"
+                android:textColor="@color/default_text_color"
                 android:textColorHint="#202020" />
 
         </LinearLayout>
@@ -57,7 +57,7 @@
             android:ems="10"
             android:gravity="left|top"
             android:inputType="textMultiLine"
-            android:textColor="#202020"
+            android:textColor="@color/default_text_color"
             android:textColorHint="#202020" />
 
         <Button

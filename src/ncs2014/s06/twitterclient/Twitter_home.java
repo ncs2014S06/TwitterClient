@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
@@ -32,7 +33,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Twitter_home extends Activity implements OnItemClickListener,OnClickListener, OnRefreshListener,OnScrollListener{
+public class Twitter_home extends Activity implements OnItemClickListener,OnClickListener, OnRefreshListener,OnScrollListener, OnTouchListener{
 
 	//変数
 	private Intent intent; //intent
@@ -42,15 +43,18 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	private Menu me;
 	private Paging paging;
 	private int page;
-	private final static int TWEET_DETAIL = 1000;
-	private final static int ACCOUNT_CONTROL = 1010;
 	private User myUser;
 	private Handler mHandler;
 	private Context mContext;
 	private GestureDetector mGestureDetector;
+	private int flingFlag = 0;
+	private static final int FLAG_TRUE = 1;
+	private static final int FLAG_FALSE = 0;
 	private static final int SWIPE_MIN_DISTANCE = 120;
 	private static final int SWIPE_MAX_OFF_PATH = 250;
 	private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+	private final static int TWEET_DETAIL = 1000;
+	private final static int ACCOUNT_CONTROL = 1010;
 
 
 
@@ -98,6 +102,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 		bt_title_menu.setOnClickListener(this);
 //		bt_menu_user.setOnClickListener(this);
 //		bt_menu_tweet.setOnClickListener(this);
+		list.setOnTouchListener(this);
 		list.setOnItemClickListener(this);
 
 		if (!TwitterUtils.hasAccessToken(this)) {
@@ -149,7 +154,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 	private final SimpleOnGestureListener mOnGestureListener = new SimpleOnGestureListener() {
 		@Override
 		public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
-
+			flingFlag = FLAG_TRUE;
 			try {
 
 				if (Math.abs(event1.getY() - event2.getY()) > SWIPE_MAX_OFF_PATH) {
@@ -325,12 +330,15 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
-		Log.d("tweet_detail","view:" + parent + "  position:" + position + "  id:" + id);
-		Status item = (Status) list.getItemAtPosition(position);
-		intent.setClass(getApplicationContext(), Twitter_tweet_detail.class);
-		intent.putExtra("TweetStatus", item);
-		intent.putExtra("position", position);
-		startActivityForResult(intent,TWEET_DETAIL);
+		if(flingFlag == FLAG_FALSE){
+			Log.d("tweet_detail","view:" + parent + "  position:" + position + "  id:" + id);
+			Status item = (Status) list.getItemAtPosition(position);
+			intent.setClass(getApplicationContext(), Twitter_tweet_detail.class);
+			intent.putExtra("TweetStatus", item);
+			intent.putExtra("position", position);
+			startActivityForResult(intent,TWEET_DETAIL);
+		}
+		flingFlag = FLAG_FALSE;
 
 	}
 
@@ -381,6 +389,11 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 				timeLine.reloadTimeLine(paging,0);
 			}
 		}
+	}
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		return mGestureDetector.onTouchEvent(event);
 	}
 
 }

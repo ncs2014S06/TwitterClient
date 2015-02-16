@@ -1,17 +1,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-
-	android:background="@android:color/black"
-
-	tools:context="com.example.mytwitter.MainActivity" >
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    tools:context="com.example.mytwitter.MainActivity" >
 
 		<ListView
 		    android:id="@+id/tllist"
 		    android:layout_width="fill_parent"
-		    android:layout_height="fill_parent"
-		    android:background="#eeeeee" >
+		    android:layout_height="fill_parent" >
 
 		</ListView>
 

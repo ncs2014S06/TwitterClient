@@ -2,19 +2,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_weight="1"
-    android:background="#eeeeee"
+    android:background="@color/background_color"
     android:fillViewport="true" >
 
 <RelativeLayout
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#eeeeee" >
+    android:layout_height="fill_parent" >
 
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#eeeeee"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -32,14 +30,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="From."
-                android:textColor="#202020" />
+                android:textColor="@color/default_text_color" />
 
             <TextView
                 android:id="@+id/dm_fromname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                android:textColor="#202020" />
+                android:text="@string/user_name"
+                android:textColor="@color/default_name_color" />
 
         </LinearLayout>
 
@@ -48,14 +46,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="本文"
-            android:textColor="#202020" />
+            android:textColor="@color/default_text_color" />
 
         <TextView
             android:id="@+id/dm_receivemessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textColor="#202020" />
+            android:text="@string/user_text"
+            android:textColor="@color/default_text_color" />
 
         <TextView
             android:id="@+id/thorixer"
@@ -72,7 +70,7 @@
             android:layout_weight="1.82"
             android:gravity="left|top"
             android:inputType="textMultiLine"
-            android:textColor="#202020"
+            android:textColor="@color/default_text_color"
             android:textColorLink="#202020" >
 
             <requestFocus/>

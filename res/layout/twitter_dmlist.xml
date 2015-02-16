@@ -2,16 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-
-    tools:context="com.example.mytwitter.MainActivity"
-    android:background="#FFFFFF">
+    android:background="@color/background_color"
+    tools:context="com.example.mytwitter.MainActivity" >
 
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/linearLayout1"
-        android:background="#90EE90" >
+        android:background="@color/taitl_background_color" >
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -24,25 +23,29 @@
                 android:layout_weight="1.43"
                 android:text="メッセージ一覧"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/custom_theme_color" />
+                android:textColor="@color/taitl_text_color" />
 
             <Button
                 android:id="@+id/dm_receive_button"
                 android:layout_width="44dp"
                 android:layout_height="wrap_content"
-                android:text="受" />
+                android:text="受"
+                android:textColor="@color/taitl_text_color" />
 
             <Button
                 android:id="@+id/dm_send_button"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
-                android:text="送" />
+                android:text="送"
+                android:textColor="@color/taitl_text_color" />
 
             <Button
                 android:id="@+id/dm_new_button"
                 android:layout_width="41dp"
                 android:layout_height="match_parent"
-                android:text="新" />
+                android:text="新"
+                android:textColor="@color/taitl_text_color" />
+
         </LinearLayout>
 
     </LinearLayout>
@@ -52,13 +55,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
+        android:background="@color/background_color"
         android:orientation="vertical" >
 
         <ListView
             android:id="@+id/dmlist"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="#eeeeee" >
+            android:layout_height="fill_parent" >
 
         </ListView>
 

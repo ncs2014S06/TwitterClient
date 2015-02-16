@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@color/background_color"
     tools:context="com.example.mytwitter.MainActivity" >
 
     <FrameLayout
@@ -17,22 +17,21 @@
 
             <ListView
                 android:id="@+id/tllist"
-                android:background="@android:color/black"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:divider="#000000"
-            	android:dividerHeight="1dp">
+                android:dividerHeight="1dp" >
+
             </ListView>
-    </android.support.v4.widget.SwipeRefreshLayout>
-        <!-- </LinearLayout> -->
+            </android.support.v4.widget.SwipeRefreshLayout>
+    <!-- </LinearLayout> -->
 
         <LinearLayout
             android:id="@+id/linearLayout1"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:layout_gravity="bottom"
-            android:background="#00FF0000"
             android:gravity="center"
             android:orientation="horizontal" >
 
@@ -43,7 +42,9 @@
                 android:layout_weight="1"
                 android:background="#00000000"
                 android:contentDescription="a"
-                android:src="@android:drawable/ic_menu_rotate" />
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_refresh_white_24dp"
+            	android:tint="@color/filter_gray_color" />
 
             <ImageButton
                 android:id="@+id/bt_retweet"
@@ -52,7 +53,9 @@
                 android:layout_weight="1"
                 android:background="#00000000"
                 android:contentDescription="a"
-                android:src="@android:drawable/ic_menu_call" />
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_messenger_white_24dp"
+            	android:tint="@color/filter_gray_color" />
 
             <ImageButton
                 android:id="@+id/bt_fav"
@@ -61,7 +64,9 @@
                 android:layout_weight="1"
                 android:background="#00000000"
                 android:contentDescription="a"
-                android:src="@android:drawable/ic_menu_preferences" />
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_person_white_24dp"
+            	android:tint="@color/filter_gray_color" />
 
             <ImageButton
                 android:id="@+id/bt_more"
@@ -70,7 +75,10 @@
                 android:layout_weight="1"
                 android:background="#00000000"
                 android:contentDescription="a"
-                android:src="@android:drawable/ic_dialog_email" />
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_mail_white_24dp"
+            	android:tint="@color/filter_gray_color" />
+
         </LinearLayout>
 
     </FrameLayout>

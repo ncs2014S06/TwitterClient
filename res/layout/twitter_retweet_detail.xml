@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#eeeeee"
+    android:background="@color/background_color"
     android:orientation="vertical"
     android:scrollbars="vertical" >
 
@@ -33,15 +33,15 @@
                 android:id="@+id/tweet_detail_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                android:textColor="#202020" />
+                android:text="@string/user_name"
+                android:textColor="@color/default_name_color" />
 
             <TextView
                 android:id="@+id/tweet_detail_userid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                android:textColor="#202020" />
+                android:text="@string/user_screen_name"
+                android:textColor="@color/default_screen_name_color" />
 
         </LinearLayout>
 
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:gravity="end"
             android:text="TextView"
-            android:textColor="#202020" />
+            android:textColor="@color/default_text_color" />
 
     </LinearLayout>
 
@@ -66,14 +66,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:textColor="#202020" />
+        android:textColor="@color/default_text_color" />
 
     <TextView
         android:id="@+id/tweet_detail_tweet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textColor="#202020" />
+        android:text="@string/user_text"
+        android:textColor="@color/default_text_color" />
 
 </LinearLayout>
 </ScrollView>

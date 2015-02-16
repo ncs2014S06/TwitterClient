@@ -18,9 +18,10 @@
 	                android:radius="0dp" />
 	            <padding
 	                android:left="10dp"
-	                android:top="15dp"
 	                android:right="10dp"
+	                android:top="15dp"
 	                android:bottom="15dp" />
+            <!--  -->
 	            <size
 	                android:height="70dp"
 	                android:width="30dp" />
@@ -45,9 +46,10 @@
                 android:radius="0dp" />
             <padding
                 android:left="10dp"
-                android:top="15dp"
                 android:right="10dp"
+                android:top="15dp"
                 android:bottom="15dp" />
+            <!--  -->
             <size
                 android:height="70dp"
                 android:width="30dp" />

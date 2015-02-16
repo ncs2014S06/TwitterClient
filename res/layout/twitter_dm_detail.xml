@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#EEEEEE"
+    android:background="@color/background_color"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -26,15 +26,15 @@
                 android:id="@+id/tweet_detail_username_dm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                android:textColor="#202020" />
+                android:text="@string/user_name"
+                android:textColor="@color/default_name_color" />
 
             <TextView
                 android:id="@+id/tweet_detail_userid_dm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                android:textColor="#202020" />
+                android:text="@string/user_screen_name"
+                android:textColor="@color/default_screen_name_color" />
 
         </LinearLayout>
 
@@ -52,7 +52,7 @@
             android:layout_gravity="right"
             android:gravity="end"
             android:text="TextView"
-            android:textColor="#202020" />
+            android:textColor="@color/default_text_color" />
 
     </LinearLayout>
 
@@ -60,7 +60,7 @@
         android:id="@+id/tweet_detail_tweet_dm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textColor="#202020" />
+        android:text="@string/user_text"
+        android:textColor="@color/default_text_color" />
 
 </LinearLayout>

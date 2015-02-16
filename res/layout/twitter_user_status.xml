@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:background="#ffffffff" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color" >
 
 		<ScrollView
 			android:layout_width="match_parent"
@@ -30,10 +30,10 @@
 						    android:src="@drawable/ic_launcher" />
 
 						<LinearLayout
-							android:id="@+id/linearLayout3"
-							android:layout_width="match_parent"
-							android:layout_height="wrap_content"
-							android:orientation="vertical" >
+						    android:id="@+id/linearLayout3"
+						    android:layout_width="match_parent"
+						    android:layout_height="match_parent"
+						    android:orientation="vertical" >
 
 							<com.loopj.android.image.SmartImageView
 								android:id="@+id/tweet_detail_usericon"
@@ -44,33 +44,33 @@
 								android:src="@drawable/ic_launcher" />
 
 							<TextView
-								android:id="@+id/text_username"
-								android:layout_width="wrap_content"
-								android:layout_height="wrap_content"
-								android:layout_gravity="center"
-								android:background="#40000000"
-								android:text="username"
-								android:textColor="#ffffff"
-								android:textSize="18dp" />
+							    android:id="@+id/text_username"
+							    android:layout_width="wrap_content"
+							    android:layout_height="wrap_content"
+							    android:layout_gravity="center"
+							    android:background="#40000000"
+							    android:text="@string/user_name"
+							    android:textColor="@color/taitl_text_color"
+							    android:textSize="18dp" />
 
 							<TextView
-								android:id="@+id/text_userfrom"
-								android:layout_width="wrap_content"
-								android:layout_height="wrap_content"
-								android:layout_gravity="center"
-								android:background="#40000000"
-								android:text="userscreenname"
-								android:textColor="#ffffff"
-								android:textSize="18dp" />
+							    android:id="@+id/text_userfrom"
+							    android:layout_width="wrap_content"
+							    android:layout_height="wrap_content"
+							    android:layout_gravity="center"
+							    android:background="#40000000"
+							    android:text="@string/user_screen_name"
+							    android:textColor="@color/taitl_text_color"
+							    android:textSize="18dp" />
 
 							<TextView
-								android:id="@+id/text_context"
-								android:layout_width="match_parent"
-								android:layout_height="87dp"
-								android:background="#40000000"
-								android:text="context"
-								android:textColor="#ffffff"
-								android:textSize="18dp" />
+							    android:id="@+id/text_context"
+							    android:layout_width="match_parent"
+							    android:layout_height="109dp"
+							    android:background="#40000000"
+							    android:textColor="@color/taitl_text_color"
+							    android:textSize="18dp" />
+
 						</LinearLayout>
 
 					</RelativeLayout>
@@ -85,59 +85,66 @@
 							android:layout_height="wrap_content" >
 
 							<Button
-								android:id="@+id/myTweet"
-								android:layout_width="0dp"
-								android:layout_height="wrap_content"
-								android:layout_weight="1"
-								android:background="@drawable/tweet_button"
-								android:textColor="#1a1a1a"
-								android:textSize="15dp" />
+							    android:id="@+id/myTweet"
+							    android:layout_width="0dp"
+							    android:layout_height="wrap_content"
+							    android:layout_weight="1"
+							    android:background="@drawable/tweet_button"
+							    android:textColor="@color/default_text_color"
+							    android:textSize="15dp" />
 
 							<Button
-								android:id="@+id/follow"
-								android:layout_width="0dp"
-								android:layout_height="wrap_content"
-								android:layout_weight="1"
-								android:background="@drawable/tweet_button"
-								android:textColor="#1a1a1a"
-								android:textSize="15dp" />
+							    android:id="@+id/follow"
+							    android:layout_width="0dp"
+							    android:layout_height="wrap_content"
+							    android:layout_weight="1"
+							    android:background="@drawable/tweet_button"
+							    android:textColor="@color/default_text_color"
+							    android:textSize="15dp" />
 
 							<Button
-								android:id="@+id/follower"
-								android:layout_width="0dp"
-								android:layout_height="wrap_content"
-								android:layout_weight="1"
-								android:background="@drawable/tweet_button"
-								android:textColor="#1a1a1a"
-								android:textSize="14dp" />
+							    android:id="@+id/follower"
+							    android:layout_width="0dp"
+							    android:layout_height="wrap_content"
+							    android:layout_weight="1"
+							    android:background="@drawable/tweet_button"
+							    android:textColor="@color/default_text_color"
+							    android:textSize="15dp" />
+
 						</LinearLayout>
 
 						<LinearLayout
-							android:layout_width="match_parent"
-							android:layout_height="wrap_content" >
+						    android:layout_width="match_parent"
+						    android:layout_height="wrap_content"
+						    android:layout_gravity="top" >
 
 							<Button
-								android:id="@+id/fav"
-								android:layout_width="0dp"
-								android:layout_height="wrap_content"
-								android:layout_weight="1"
-								android:background="@drawable/tweet_button"
-								android:textColor="#1a1a1a"
-								android:textSize="14dp" />
+							    android:id="@+id/fav"
+							    android:layout_width="0dp"
+							    android:layout_height="70dp"
+							    android:layout_gravity="bottom"
+							    android:layout_weight="1"
+							    android:background="@drawable/tweet_button"
+							    android:textColor="@color/default_text_color"
+							    android:textSize="15dp" />
+
+							<!--  -->
 
 							<Button
-								android:id="@+id/list"
-								android:layout_width="0dp"
-								android:layout_height="wrap_content"
-								android:layout_weight="1"
-								android:background="@drawable/tweet_button"
-								android:textColor="#1a1a1a"
-								android:textSize="14dp" />
+							    android:id="@+id/list"
+							    android:layout_width="0dp"
+							    android:layout_height="70dp"
+							    android:layout_gravity="bottom"
+							    android:layout_weight="1"
+							    android:background="@drawable/tweet_button"
+							    android:textColor="@color/default_text_color"
+							    android:textSize="15dp" />
 
 							<Button
 							    android:id="@+id/create_follow_bt"
 							    android:layout_width="0dp"
 							    android:layout_height="match_parent"
+							    android:layout_gravity="bottom"
 							    android:layout_weight="1"
 							    android:background="#aaaaaa"
 							    android:text="フォローする"

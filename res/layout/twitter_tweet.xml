@@ -2,13 +2,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="1"
-    android:background="#EEEEEE"
+    android:background="#F9F9F9"
     android:fillViewport="true" >
 
 <RelativeLayout
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="#EEEEEE" >
+    android:layout_height="wrap_content" >
 
     <EditText
         android:id="@+id/dm_sendmessage"
@@ -17,7 +16,7 @@
         android:layout_above="@+id/action_tweet"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/linearLayout1"
-        android:background="#EEEEEE"
+        android:background="#FFFFFF"
         android:ems="10"
         android:gravity="left|top"
         android:inputType="textMultiLine"
@@ -31,9 +30,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/image_plus"
-        android:background="#EEEEEE" >
+        android:layout_alignParentTop="true" >
 
         <com.loopj.android.image.SmartImageView
             android:id="@+id/icon"
@@ -46,9 +43,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="userName"
-            android:textColor="@android:color/black"
+            android:text="@string/user_screen_name"
+            android:textColor="@color/default_screen_name_color"
             android:textSize="16dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <Button
+                android:id="@+id/image_plus"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:background="@android:drawable/ic_menu_camera"
+                android:gravity="end" />
+
+        </RelativeLayout>
+
     </LinearLayout>
 
     <Button
@@ -62,15 +75,6 @@
         android:background="@drawable/shape_button"
         android:text="ツイート"
         android:textColor="#ffffff" />
-
-    <Button
-        android:id="@+id/image_plus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/linearLayout1"
-        android:layout_alignParentRight="true"
-        android:layout_weight="1"
-        android:background="@android:drawable/ic_menu_camera" />
 </RelativeLayout>
 
 </ScrollView>

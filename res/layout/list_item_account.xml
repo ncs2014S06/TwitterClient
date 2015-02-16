@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#eeeeee"
+    android:background="@color/background_color"
     android:descendantFocusability="blocksDescendants"
     android:padding="8dp" >
 
@@ -16,22 +16,22 @@
 
 	<TextView
 	    android:id="@+id/list_item_account_name"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignTop="@+id/list_item_account_icon"
-		android:layout_marginLeft="8dp"
-		android:layout_toRightOf="@+id/list_item_account_icon"
-		android:textColor="#1e90ff"
-		android:text="名前入ります" />
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignTop="@+id/list_item_account_icon"
+	    android:layout_marginLeft="8dp"
+	    android:layout_toRightOf="@+id/list_item_account_icon"
+	    android:text="@string/user_name"
+	    android:textColor="@color/default_name_color" />
 
 	<TextView
 	    android:id="@+id/list_item_account_screen_name"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignTop="@+id/list_item_account_name"
-		android:layout_marginLeft="8dp"
-		android:layout_toRightOf="@+id/list_item_account_name"
-		android:textColor="#00bfff"
-		android:text="\uFF20gabu" />
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignTop="@+id/list_item_account_name"
+	    android:layout_marginLeft="8dp"
+	    android:layout_toRightOf="@+id/list_item_account_name"
+	    android:text="@string/user_screen_name"
+	    android:textColor="@color/default_screen_name_color" />
 
 </RelativeLayout>

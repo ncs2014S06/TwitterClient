@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EEEEEE"
+    android:background="@color/background_color"
     android:orientation="vertical"
     tools:context="com.example.mytwitter.MainActivity" >
 
@@ -16,7 +16,7 @@
 		        android:layout_height="wrap_content"
 		        android:layout_weight="1"
 		        android:ems="10"
-		        android:textColor="#202020"
+		        android:textColor="@color/default_text_color"
 		        android:textColorHint="#202020" >
 
 		        <requestFocus />
@@ -26,7 +26,8 @@
 		        android:id="@+id/searchbutton"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:text="検索" />
+		        android:text="検索"
+		        android:textColor="@color/taitl_text_color" />
 
 		</LinearLayout>
 
@@ -34,8 +35,7 @@
 		    android:id="@+id/search_list"
 		    android:layout_width="fill_parent"
 		    android:layout_height="fill_parent"
-		    android:layout_weight="1"
-		    android:background="#EEEEEE" >
+		    android:layout_weight="1" >
 
 		</ListView>
 

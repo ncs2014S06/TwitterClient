@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#EEEEEE"
+    android:background="@color/background_color"
     android:padding="8dp" >
 
 	<com.loopj.android.image.SmartImageView
@@ -14,24 +14,24 @@
 		android:src="@drawable/ic_launcher" />
 
 	<TextView
-		android:id="@+id/name"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignTop="@+id/icon"
-		android:layout_marginLeft="8dp"
-		android:layout_toRightOf="@+id/icon"
-		android:textColor="#1e90ff"
-		android:text="名前入ります" />
+	    android:id="@+id/name"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignTop="@+id/icon"
+	    android:layout_marginLeft="8dp"
+	    android:layout_toRightOf="@+id/icon"
+	    android:text="@string/user_name"
+	    android:textColor="@color/default_name_color" />
 
 	<TextView
-		android:id="@+id/screen_name"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignTop="@+id/name"
-		android:layout_marginLeft="8dp"
-		android:layout_toRightOf="@+id/name"
-		android:textColor="#00bfff"
-		android:text="\uFF20gabu" />
+	    android:id="@+id/screen_name"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignTop="@+id/name"
+	    android:layout_marginLeft="8dp"
+	    android:layout_toRightOf="@+id/name"
+	    android:text="@string/user_screen_name"
+	    android:textColor="@color/default_screen_name_color" />
 
 	<TextView
 	    android:id="@+id/text"
@@ -39,7 +39,7 @@
 	    android:layout_height="wrap_content"
 	    android:layout_alignLeft="@+id/name"
 	    android:layout_below="@+id/name"
-	    android:text="本文本文本文本文本文本文本文本文本文本文"
-	    android:textColor="#202020" />
+	    android:text="@string/user_text"
+	    android:textColor="@color/default_text_color" />
 
 </RelativeLayout>
