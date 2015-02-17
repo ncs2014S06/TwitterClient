@@ -197,6 +197,7 @@ public class Twitter_user extends Activity implements OnClickListener {
 
 		if(v == fav){
 			intent.setClass(getApplicationContext(), FavoriteGet.class);
+			intent.putExtra("otherUser", otherUser);
 			startActivity(intent);
 		}//if
 

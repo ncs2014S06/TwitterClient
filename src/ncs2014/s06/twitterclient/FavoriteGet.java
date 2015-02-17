@@ -8,7 +8,9 @@ import twitter4j.Paging;
 import twitter4j.RateLimitStatus;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
+import twitter4j.User;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,19 +26,28 @@ public class FavoriteGet extends Activity implements OnScrollListener{
 	private ListView list;
 	private AsyncTask<Void, Void, List<twitter4j.Status>> task;
 	private Paging paging;
+	private User user;
+	private String userScrean;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO 自動生成されたメソッド・スタブ
 		super.onCreate(savedInstanceState);
+		Intent intent = new Intent();
 		setContentView(R.layout.twitter_home);
-		mTwitter = TwitterUtils.getTwitterInstance(this);
+		user = (User) intent.getSerializableExtra("otherUser");
+
+		userScrean = user.getScreenName();
+
+
+
 		paging = new Paging(1);
 		tAdapter = new TweetAdapter(this);
 		list = (ListView) findViewById(R.id.tllist);
 		favoriteGet(paging,0);
 		list.setAdapter(tAdapter);
 		list.setOnScrollListener(this);
+
 	}
 
 	public void favoriteGet(final Paging paging,final int mode) {
@@ -49,7 +60,7 @@ public class FavoriteGet extends Activity implements OnScrollListener{
 					paging.setPage(paging.getPage() + 1);
 				}
 
-				return mTwitter.getFavorites();
+				return mTwitter.getFavorites(userScrean);
 
 			} catch (TwitterException e) {
 				e.printStackTrace();

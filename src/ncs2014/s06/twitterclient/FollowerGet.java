@@ -179,6 +179,8 @@ public class FollowerGet extends Activity implements OnScrollListener,OnItemClic
 			name.setText(item.getName());
 			TextView screenName = (TextView) convertView.findViewById(R.id.screen_name);
 			screenName.setText("@"+ item.getScreenName());
+			TextView text = (TextView) convertView.findViewById(R.id.text);
+			//text.setText(item.get());
 			return convertView;
 		}
 	}//TweetAdapter
@@ -225,3 +227,4 @@ public class FollowerGet extends Activity implements OnScrollListener,OnItemClic
 		}
 	}
 }
+
