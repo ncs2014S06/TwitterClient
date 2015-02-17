@@ -10,10 +10,19 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true" >
 
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.53"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon" />
+
             <TextView
                 android:id="@+id/tv1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="30"
                 android:text="ぷちッター"
                 android:textColor="@android:color/white"
@@ -24,7 +33,7 @@
                 android:layout_width="52dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|top"
-                android:background="@drawable/action2"
+                android:background="@drawable/title_bt_menu"
                 android:text="" />
 
         </LinearLayout>

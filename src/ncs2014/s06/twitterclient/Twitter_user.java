@@ -166,12 +166,13 @@ public class Twitter_user extends Activity implements OnClickListener {
 
 	private void imageChange(){
 		if(followFlag){
-			createFollowBt.setText("フォロー中");
+			createFollowBt.setText("フォロー中\n");
+
 			createFollowBt.setBackgroundColor(Color.rgb(159, 217, 246));
 		//	doFollow.setBackgroundResource(R.drawable.ic_assignment_ind_black_48dp);
 			followFlag = false;
 		}else{
-			createFollowBt.setText("フォローする");
+			createFollowBt.setText("フォローする\n");
 			createFollowBt.setBackgroundColor(Color.rgb(170, 170, 170));
 		//	doFollow.setBackgroundResource(R.drawable.ic_assignment_ind_grey600_48dp);
 			followFlag = true;

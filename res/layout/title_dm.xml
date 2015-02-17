@@ -25,7 +25,6 @@
                 android:layout_height="50dp"
                 android:background="@drawable/ic_file_download_white_24dp"
                 android:textColor="@color/taitl_text_color" />
-
             <Button
                 android:id="@+id/dm_send_button"
                 android:layout_width="50dp"
