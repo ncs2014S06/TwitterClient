@@ -6,11 +6,15 @@ import twitter4j.TwitterException;
 import twitter4j.User;
 import android.R.drawable;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -32,6 +36,7 @@ public class Twitter_user extends Activity implements OnClickListener {
 	private String backImageStr;
 	private long cursor = -1L;
 	private long[] idid;
+	private Context mContext;
 	private Twitter mTwitter;
 	private Twitter TwitterUser;
 	private User user;
@@ -39,6 +44,13 @@ public class Twitter_user extends Activity implements OnClickListener {
 	private AsyncTask<Void, Void, IDs> IDTask;
 	private AsyncTask<Void, Void, User> followTask;
 	private IDs getFriendsIDs;
+	private GestureDetector mGestureDetector;
+	private int flingFlag = 0;
+	private static final int FLAG_TRUE = 1;
+	private static final int FLAG_FALSE = 0;
+	private static final int SWIPE_MIN_DISTANCE = 120;
+	private static final int SWIPE_MAX_OFF_PATH = 250;
+	private static final int SWIPE_THRESHOLD_VELOCITY = 200;
 
 	private SmartImageView myImage;
 	private SmartImageView backImage;
@@ -296,5 +308,44 @@ public class Twitter_user extends Activity implements OnClickListener {
 		}//catch
 
 	}//userStatus
+
+
+	//横スワイプ処理
+	private final SimpleOnGestureListener mOnGestureListener = new SimpleOnGestureListener() {
+		@Override
+		public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
+			flingFlag = FLAG_TRUE;
+			try {
+
+				if (Math.abs(event1.getY() - event2.getY()) > SWIPE_MAX_OFF_PATH) {
+					// 縦の移動距離が大きすぎる場合は無視
+					return false;
+				}
+
+				if (event1.getX() - event2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+					// 開始位置から終了位置の移動距離が指定値より大きい
+					// X軸の移動速度が指定値より大きい
+			//		intent.setClass(mContext, Twitter_Streaming.class);
+			//		startActivity(intent);
+			//		overridePendingTransition(R.anim.right_in, R.anim.left_out);
+
+				} else if (event2.getX() - event1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+					// 終了位置から開始位置の移動距離が指定値より大きい
+					// X軸の移動速度が指定値より大きい
+			//		intent.setClass(mContext, TwitterSearch.class);
+			//		startActivity(intent);
+			//		overridePendingTransition(R.anim.left_in, R.anim.right_out);
+				}
+
+			} catch (Exception e) {
+				// nothing
+			}
+			return false;
+		}
+	};
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		return mGestureDetector.onTouchEvent(event);
+	}
 
 }

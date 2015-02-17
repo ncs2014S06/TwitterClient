@@ -165,13 +165,14 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 				if (event1.getX() - event2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 					// 開始位置から終了位置の移動距離が指定値より大きい
 					// X軸の移動速度が指定値より大きい
-					showToast("右から左");
+					intent.setClass(mContext, Twitter_Streaming.class);
+					startActivity(intent);
+					overridePendingTransition(R.anim.right_in, R.anim.left_out);
 
 				} else if (event2.getX() - event1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 					// 終了位置から開始位置の移動距離が指定値より大きい
 					// X軸の移動速度が指定値より大きい
-					intent.setClass(mContext, Twitter_user.class);
-					Log.d("test", intent.getSerializableExtra("myUser").toString());
+					intent.setClass(mContext, TwitterSearch.class);
 					startActivity(intent);
 					overridePendingTransition(R.anim.left_in, R.anim.right_out);
 				}

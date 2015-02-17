@@ -60,7 +60,7 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 		view = (SmartImageView) findViewById(R.id.icon);
 		mInputText = (EditText) findViewById(R.id.dm_sendmessage);
 		tweet = (Button) findViewById(R.id.action_tweet);
-		imageTweet = (Button) findViewById(R.id.image_plus);
+		imageTweet = (Button) findViewById(R.id.add_image);
 		tv_username = (TextView) findViewById(R.id.tv_usename);
 
 
