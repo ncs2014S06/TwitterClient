@@ -27,6 +27,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Twitter_Streaming extends Activity implements OnClickListener, OnItemClickListener, OnTouchListener {
@@ -58,7 +59,9 @@ public class Twitter_Streaming extends Activity implements OnClickListener, OnIt
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.twitter_lists);
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_streaming);
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_default);
+		TextView titleName = (TextView) findViewById(R.id.title_default_title);
+		titleName.setText("ストリーミング");
 		View view = this.getLayoutInflater().inflate(R.layout.twitter_streaming_botans, null);
 		RelativeLayout.LayoutParams lllp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
 		addContentView(view, lllp);

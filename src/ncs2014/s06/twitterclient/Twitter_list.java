@@ -18,11 +18,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Twitter_list extends Activity implements OnItemClickListener,OnRefreshListener,OnScrollListener{
@@ -48,9 +50,15 @@ public class Twitter_list extends Activity implements OnItemClickListener,OnRefr
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		
 		super.onCreate(savedInstanceState);
-		//タイトルバーのカスタマイズ
+		
+		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.twitter_home);
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_default);
+		TextView titleName = (TextView) findViewById(R.id.title_default_title);
+		titleName.setText("リスト");
+		
 		mContext = getApplicationContext();
 		mHandler = new Handler();
 

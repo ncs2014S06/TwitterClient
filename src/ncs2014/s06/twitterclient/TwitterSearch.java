@@ -29,6 +29,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class TwitterSearch extends Activity implements OnClickListener,OnScrollListener,OnItemClickListener, OnTouchListener{
 
@@ -59,14 +60,14 @@ public class TwitterSearch extends Activity implements OnClickListener,OnScrollL
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-
-		// TODO 自動生成されたメソッド・スタブ
 		super.onCreate(savedInstanceState);
 		mTwitter = TwitterUtils.getTwitterInstance(this);
 
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.twitter_search);
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_search);
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_default);
+		TextView titleName = (TextView) findViewById(R.id.title_default_title);
+		titleName.setText("検索");
 		searchText = (EditText)findViewById(R.id.searchtext);
 		searchButton = (Button)findViewById(R.id.searchbutton);
 		searchList = (ListView)findViewById(R.id.search_list);

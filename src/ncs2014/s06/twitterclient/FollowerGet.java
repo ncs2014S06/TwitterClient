@@ -19,6 +19,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -53,7 +54,11 @@ public class FollowerGet extends Activity implements OnScrollListener,OnItemClic
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.twitter_follow);
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_default);
+		TextView titleName = (TextView) findViewById(R.id.title_default_title);
+		titleName.setText("フォロワー");
 		mTwitter = TwitterUtils.getTwitterInstance(this);
 		intent = getIntent();
 		this.mTwitter = (Twitter) intent.getSerializableExtra("TwitterUser");

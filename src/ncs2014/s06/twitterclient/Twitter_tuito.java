@@ -5,6 +5,7 @@ import twitter4j.Status;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
+import twitter4j.User;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
@@ -30,10 +31,11 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 	private  static int REQUEST_PICK = 1;
 
 	private Status status;
+	private User myUser;
 
-	private EditText mInputText;
+	private EditText tweetText;
 	private Twitter mTwitter;
-	private SmartImageView view;
+	private SmartImageView userIcon;
 	private Button tweet;
 	private Button imageTweet;
 	private Button bt_menu_time;
@@ -41,7 +43,7 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 	private String replyScreenName;
 
 	//intent
-	Intent intent = new Intent();
+	private Intent intent;
 
 
 
@@ -50,22 +52,19 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.twitter_tweet);
-	//	getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_tuito);
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_tweet);
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_default);
+		TextView titleName = (TextView) findViewById(R.id.title_default_title);
+		titleName.setText("ツイート");
 
-		mTwitter = TwitterUtils.getTwitterInstance(this);
-		ImageGet ig = new ImageGet(mTwitter);
 
 		//findView
-		view = (SmartImageView) findViewById(R.id.icon);
-		mInputText = (EditText) findViewById(R.id.dm_sendmessage);
+		userIcon = (SmartImageView) findViewById(R.id.icon);
+		tweetText = (EditText) findViewById(R.id.tweet_tweet_text);
 		tweet = (Button) findViewById(R.id.action_tweet);
 		imageTweet = (Button) findViewById(R.id.add_image);
 		tv_username = (TextView) findViewById(R.id.tv_usename);
 
-
 		//リスナーセット
-		ig.setImage(view);
 		tweet.setOnClickListener(this);
 		imageTweet.setOnClickListener(this);
 
@@ -74,47 +73,28 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 			startActivity(intent);
 			finish();
 		}
-		mTwitter = TwitterUtils.getTwitterInstance(this);
 
+		mTwitter = TwitterUtils.getTwitterInstance(this);
 		intent = getIntent();
+		myUser = (User) intent.getSerializableExtra("myUser");
+		
 		status = (Status) intent.getSerializableExtra("rtStatus");
 		replyScreenName = intent.getStringExtra("screenName");
+		
+		userIcon.setImageUrl(myUser.getProfileImageURL());
+		tv_username.setText("@" + myUser.getScreenName());
+		//リプライ
 		if(replyScreenName != null){
 			Log.d("test",replyScreenName);
 			replyScreenName = "@" + replyScreenName + " ";
-			mInputText.setText(replyScreenName);
-			mInputText.setSelection(mInputText.length());
+			tweetText.setText(replyScreenName);
+			tweetText.setSelection(tweetText.length());
 		}else{
 			Log.d("test","replyScreenName = null");
 		}
-
-
-
-		AsyncTask<Void, Void, twitter4j.User> task = new AsyncTask<Void, Void, twitter4j.User>() {
-
-			@Override
-			protected twitter4j.User doInBackground(Void... params) {
-				 try {
-						twitter4j.User user = mTwitter.verifyCredentials();
-						return user;
-					} catch (TwitterException e) {
-						e.printStackTrace();
-					}
-				 return null;
-			}
-
-			protected void onPostExecute(twitter4j.User result) {
-				// TODO 自動生成されたメソッド・スタブ
-				super.onPostExecute(result);
-				tv_username.setText("@" + result.getScreenName());
-			}
-		};
-		task.execute();
-
-	//	bt_menu_time = (Button) findViewById(R.id.bt_menu_time);
-	//	bt_menu_time.setOnClickListener(this);
+		//非公式RT
 		if(status != null){
-			mInputText.setText("RT @" + status.getUser().getScreenName() + ": " + status.getText());
+			tweetText.setText("RT @" + status.getUser().getScreenName() + ": " + status.getText());
 			Log.d("null",status.getText());
 		}else{
 			Log.d("null", "status null");
@@ -144,7 +124,7 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 				}
 			}
 		};
-		task.execute(mInputText.getText().toString());
+		task.execute(tweetText.getText().toString());
 	}
 
 	@Override
@@ -164,7 +144,7 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 					c.moveToFirst();
 					File path = new File(c.getString(0));
 
-					EditText textTweet = (EditText) findViewById(R.id.dm_sendmessage);
+					EditText textTweet = (EditText) findViewById(R.id.tweet_tweet_text);
 					String tweet = textTweet.getText().toString();
 
 					try {
@@ -190,7 +170,7 @@ public class Twitter_tuito extends FragmentActivity implements OnClickListener{
 			}
 	}
 		};
-	task.execute(mInputText.getText().toString());
+	task.execute(tweetText.getText().toString());
 	}
 
 	private void showToast(String text) {

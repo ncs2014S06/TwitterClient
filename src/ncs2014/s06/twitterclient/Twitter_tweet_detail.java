@@ -27,6 +27,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
@@ -77,12 +78,16 @@ public class Twitter_tweet_detail extends Activity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		intent = getIntent();
 		tweetStatus = (Status) intent.getSerializableExtra("TweetStatus");
+		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		if(!tweetStatus.isRetweet()){
 			setContentView(R.layout.twitter_tweet_detail);
 		}else{
 			setContentView(R.layout.twitter_retweet_detail);
 			retweetUserName = (TextView) findViewById(R.id.retweet_detail_retweetuser);
 		}
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_default);
+		TextView titleName = (TextView) findViewById(R.id.title_default_title);
+		
 		View view = this.getLayoutInflater().inflate(R.layout.twitter_twwet_detail_botans, null);
 		RelativeLayout.LayoutParams lllp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
 		addContentView(view, lllp);

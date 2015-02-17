@@ -78,9 +78,10 @@ public class Twitter_user extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-
 		setContentView(R.layout.twitter_user_status);
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_user);
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_default);
+		TextView titleName = (TextView) findViewById(R.id.title_default_title);
+		titleName.setText("ユーザー");
 
 		//findview
 		myTweet = (Button) findViewById(R.id.myTweet);
@@ -111,7 +112,6 @@ public class Twitter_user extends Activity implements OnClickListener {
 		otherUser = (User) intent.getSerializableExtra("otherUser");
 		tAdapter = new TweetAdapter(this);
 		followFlag = true;
-		final ImageGet ig = new ImageGet(mTwitter);
 		TwitterUser = mTwitter;
 		intent.putExtra("TwitterUser",TwitterUser);
 		intent.putExtra("otherUserId", otherUser);
@@ -122,7 +122,7 @@ public class Twitter_user extends Activity implements OnClickListener {
 					user = otherUser;
 				}
 
-				ig.setImage(myImage,user.getScreenName());
+				myImage.setImageUrl(user.getProfileImageURL());
 
 				//ヘッダーの画像変更
 				backImageStr = user.getProfileBannerURL();

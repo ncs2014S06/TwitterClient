@@ -14,9 +14,11 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class FavoriteGet extends Activity implements OnScrollListener{
@@ -34,7 +36,11 @@ public class FavoriteGet extends Activity implements OnScrollListener{
 		// TODO 自動生成されたメソッド・スタブ
 		super.onCreate(savedInstanceState);
 		Intent intent = new Intent();
+		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.twitter_home);
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_default);
+		TextView titleName = (TextView) findViewById(R.id.title_default_title);
+		titleName.setText("お気に入り");
 		user = (User) intent.getSerializableExtra("otherUser");
 
 		userScrean = user.getScreenName();

@@ -345,6 +345,11 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 
 	public void exchangeListItem(int position,Status status){
 		tAdapter.remove(tAdapter.getItem(position));
+		tAdapter.insert(status, position);
+		tAdapter.notifyDataSetChanged();
+	}
+	public void deleteListItem(int position,Status status){
+		tAdapter.remove(tAdapter.getItem(position));
 		//tAdapter.insert(status, position);
 		tAdapter.notifyDataSetChanged();
 	}
@@ -367,7 +372,6 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 				Status tweetStatus = (Status) intent.getSerializableExtra("tweetStatus");
 				exchangeListItem(position, tweetStatus);
 			}
-			Log.d("test","いｋｋｋｋｋｋｋｋｋｋｋｋｋｋっこ");
 
 			if( resultCode == 3){
 				// 返却されてきたintentから値を取り出す
@@ -375,7 +379,7 @@ public class Twitter_home extends Activity implements OnItemClickListener,OnClic
 				int position = intent.getIntExtra( "position", 0 );
 				myUser = (User) intent.getSerializableExtra("myUser");
 				Status tweetStatus = (Status) intent.getSerializableExtra("tweetStatus");
-				exchangeListItem(position, tweetStatus);
+				deleteListItem(position, tweetStatus);
 			}
 
 		}

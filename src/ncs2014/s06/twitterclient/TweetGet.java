@@ -16,11 +16,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class TweetGet extends Activity implements OnScrollListener, OnItemClickListener{
@@ -37,7 +39,9 @@ public class TweetGet extends Activity implements OnScrollListener, OnItemClickL
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO 自動生成されたメソッド・スタブ
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.twitter_home);
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_default);
 		mTwitter = TwitterUtils.getTwitterInstance(this);
 		intent = getIntent();
 		this.mTwitter = (Twitter) intent.getSerializableExtra("TwitterUser");
