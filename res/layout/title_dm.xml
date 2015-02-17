@@ -19,6 +19,26 @@
                 android:textColor="@android:color/white"
                 android:textSize="28dp" />
 
+            <Button
+                android:id="@+id/dm_receive_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/ic_file_download_white_24dp"
+                android:textColor="@color/taitl_text_color" />
+            <Button
+                android:id="@+id/dm_send_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/ic_file_upload_white_24dp"
+                android:textColor="@color/taitl_text_color" />
+
+            <Button
+                android:id="@+id/dm_new_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/ic_mail_white_24dp"
+                android:textColor="@color/taitl_text_color" />
+
         </LinearLayout>
 
 </RelativeLayout>
