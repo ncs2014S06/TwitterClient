@@ -85,6 +85,9 @@ public class Twitter_Client_DM extends FragmentActivity implements OnScrollListe
 			mTwitter = TwitterUtils.getTwitterInstance(this);
 			list.setOnScrollListener(this);
 		}
+
+		reloadDM();
+		mode = get;
 	}
 
 	//受信
