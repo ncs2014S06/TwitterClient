@@ -89,6 +89,7 @@
 							    android:layout_height="wrap_content"
 							    android:layout_weight="1"
 							    android:background="@drawable/tweet_button"
+							    android:text="ツイート\n "
 							    android:textColor="@color/default_text_color"
 							    android:textSize="15dp" />
 
@@ -98,6 +99,7 @@
 							    android:layout_height="wrap_content"
 							    android:layout_weight="1"
 							    android:background="@drawable/tweet_button"
+							    android:text="フォロー\n "
 							    android:textColor="@color/default_text_color"
 							    android:textSize="15dp" />
 
@@ -107,6 +109,7 @@
 							    android:layout_height="wrap_content"
 							    android:layout_weight="1"
 							    android:background="@drawable/tweet_button"
+							    android:text="フォロワー\n "
 							    android:textColor="@color/default_text_color"
 							    android:textSize="15dp" />
 
@@ -124,6 +127,7 @@
 							    android:layout_gravity="bottom"
 							    android:layout_weight="1"
 							    android:background="@drawable/tweet_button"
+							    android:text="お気に入り\  "
 							    android:textColor="@color/default_text_color"
 							    android:textSize="15dp" />
 
@@ -136,7 +140,7 @@
 							    android:layout_gravity="bottom"
 							    android:layout_weight="1"
 							    android:background="@drawable/tweet_button"
-							    android:text="リスト\n0"
+							    android:text=" \n "
 							    android:textColor="@color/default_text_color"
 							    android:textSize="15dp" />
 

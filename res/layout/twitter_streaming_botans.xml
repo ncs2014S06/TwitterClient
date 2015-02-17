@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="ストリーミング開始"
-            android:textColor="@color/taitl_text_color" />
+            android:textColor="@color/default_text_color" />
 
     </LinearLayout>
 
